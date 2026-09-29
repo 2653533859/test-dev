@@ -156,4 +156,4 @@ def pytest_runtest_makereport(item, call):
 - Playwright Trace Viewer 官方文档：`https://playwright.dev/python/docs/trace-viewer`
 - Allure 官方报告集成：`https://allurereport.org/docs/`
 - 相关笔记：[[07-Web自动化测试]]、[[测试报告：pytest-html 与 Allure]]、[[Jenkinsfile 多阶段流水线设计]]
-- 所属项目：[[Web UI 自动化工程落地/Web UI 自动化工程落地]]
+- 所属项目：[[Web UI 自动化工程落地]]

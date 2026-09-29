@@ -190,4 +190,4 @@ A：不写。这是我们定的硬规则——YAML 里出现任何条件表达�
 
 - PyYAML 文档：`https://pyyaml.org/wiki/PyYAMLDocumentation`
 - 相关笔记：[[数据驱动测试：YAML 与 Excel 驱动]]、[[YAML 数据驱动接口用例]]、[[pytest 参数化 parametrize]]、[[JSONPath 与正则提取响应字段]]
-- 所属项目：[[接口自动化框架落地/接口自动化框架落地]]
+- 所属项目：[[接口自动化框架落地]]

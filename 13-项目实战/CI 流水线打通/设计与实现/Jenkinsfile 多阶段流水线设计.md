@@ -183,4 +183,4 @@ A：Jenkinsfile 进仓库跟着 code review 走；公共逻辑抽到 Shared Libr
 - Shared Library：`https://www.jenkins.io/doc/book/pipeline/shared-libraries/`
 - 相关笔记：[[11-持续集成]]、[[pytest-xdist 并行执行]]、[[pytest 标记与用例筛选]]
 - 同项目：[[质量门禁与失败通知策略]]、[[Docker 化测试执行环境]]
-- 所属项目：[[CI 流水线打通/CI 流水线打通]]
+- 所属项目：[[CI 流水线打通]]

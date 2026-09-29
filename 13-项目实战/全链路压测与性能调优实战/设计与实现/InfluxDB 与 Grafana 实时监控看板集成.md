@@ -125,4 +125,4 @@ Grafana 提供了高度成熟的 JMeter 官方大屏看板：
 - Grafana JMeter Dashboard (ID: 5496)：`https://grafana.com/grafana/dashboards/5496-apache-jmeter-dashboard-using-core-components/`
 - JMeter Backend Listener 文档：`https://jmeter.apache.org/usermanual/component_reference.html#Backend_Listener`
 - 相关笔记：[[09-性能测试-JMeter]]、[[Linux 内存与 CPU 排查：free、vmstat 与 iostat]]、[[11-持续集成]]
-- 所属项目：[[全链路压测与性能调优实战/全链路压测与性能调优实战]]
+- 所属项目：[[全链路压测与性能调优实战]]

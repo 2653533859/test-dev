@@ -176,4 +176,4 @@ A：印象最深的是时区。容器默认 UTC，报告时间差 8 小时还算
 - Compose healthcheck：`https://docs.docker.com/reference/compose-file/services/#healthcheck`
 - 相关笔记：[[11-持续集成]]、[[多环境配置与环境隔离]]
 - 同项目：[[Jenkinsfile 多阶段流水线设计]]、[[质量门禁与失败通知策略]]
-- 所属项目：[[CI 流水线打通/CI 流水线打通]]
+- 所属项目：[[CI 流水线打通]]

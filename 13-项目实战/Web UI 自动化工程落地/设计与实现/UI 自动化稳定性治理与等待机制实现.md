@@ -135,4 +135,4 @@ def pytest_runtest_makereport(item, call):
 
 - Playwright Auto-waiting 官方文档：`https://playwright.dev/python/docs/actionability`
 - 相关笔记：[[07-Web自动化测试]]、[[Selenium 显式等待]]、[[元素定位稳定性策略与 data-testid]]
-- 所属项目：[[Web UI 自动化工程落地/Web UI 自动化工程落地]]
+- 所属项目：[[Web UI 自动化工程落地]]

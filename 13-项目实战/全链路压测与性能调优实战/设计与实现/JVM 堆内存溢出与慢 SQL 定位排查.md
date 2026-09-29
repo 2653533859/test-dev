@@ -129,4 +129,4 @@ EXPLAIN SELECT id, order_sn, amount FROM t_order WHERE user_id = 10024 AND statu
 - MySQL 8.0 Reference Manual - EXPLAIN Output Format：`https://dev.mysql.com/doc/refman/8.0/en/explain-output.html`
 - 相关笔记：[[09-性能测试-JMeter]]、[[04-数据库]]、[[02-Linux基础]]
 - 知识点详解：[[服务端资源监控与 JVM、GC、慢 SQL 定位]]、[[MySQL 索引失效的常见场景]]、[[Linux 内存与 CPU 排查：free、vmstat 与 iostat]]
-- 所属项目：[[全链路压测与性能调优实战/全链路压测与性能调优实战]]
+- 所属项目：[[全链路压测与性能调优实战]]

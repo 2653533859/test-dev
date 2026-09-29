@@ -9,20 +9,17 @@ import os
 import re
 import sys
 import xml.etree.ElementTree as ET
-from pathlib import Path
 from collections import defaultdict
+from contextlib import suppress
+from pathlib import Path
 
 # 保证在 Windows 环境或默认非 UTF-8 控制台下正常输出 emoji 和中文字符
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
-    try:
+    with suppress(Exception):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    except Exception:
-        pass
 if sys.stderr and hasattr(sys.stderr, "reconfigure"):
-    try:
+    with suppress(Exception):
         sys.stderr.reconfigure(encoding="utf-8", errors="replace")
-    except Exception:
-        pass
 
 
 
@@ -61,9 +58,9 @@ def main():
     vault_root = Path(__file__).resolve().parent.parent
     os.chdir(vault_root)
 
-    print(f"==================================================")
+    print("==================================================")
     print(f"  SDET 知识库健康体检: {vault_root.resolve()}")
-    print(f"==================================================\n")
+    print("==================================================\n")
 
     all_md_files = []
     for p in vault_root.rglob("*.md"):
@@ -142,12 +139,11 @@ def main():
             # 排除已知特殊排除项（正则 POSIX 类与占位符示例）
             if target in [":digit:", ":space:", ":alpha:", ":alnum:", "笔记名", ""]:
                 continue
-            
+
             total_links += 1
             # 处理形如 路径/笔记名 或 纯笔记名
             target_name = Path(target).name
-            if target_name.endswith(".md"):
-                target_name = target_name[:-3]
+            target_name = target_name.removesuffix(".md")
 
             if target_name.endswith((".svg", ".png", ".jpg", ".jpeg", ".gif")):
                 # 检查嵌入资源是否存在
@@ -159,12 +155,16 @@ def main():
                     errors["双链死链 (目标笔记不存在)"].append(f"{rel_path} -> [[{target}]]")
 
         # 4. 检查正文骨架完整性 (仅抽检标准技术知识点笔记)
-        if not is_special_file and not rel_path.startswith("12-面试题/") and not rel_path.startswith("13-项目实战/"):
-            if p.name != f"{p.parent.name}.md":
-                # 检查四段骨架
-                for section in ["概念", "用法", "踩坑", "面试怎么答"]:
-                    if f"## {section}" not in body:
-                        warnings[f"知识点笔记骨架缺失 [## {section}]"].append(rel_path)
+        if (
+            not is_special_file
+            and not rel_path.startswith("12-面试题/")
+            and not rel_path.startswith("13-项目实战/")
+            and p.name != f"{p.parent.name}.md"
+        ):
+            # 检查四段骨架
+            for section in ["概念", "用法", "踩坑", "面试怎么答"]:
+                if f"## {section}" not in body:
+                    warnings[f"知识点笔记骨架缺失 [## {section}]"].append(rel_path)
 
     # 5. 检查孤立笔记 (Orphaned Notes)
     for name, p in note_name_to_path.items():
@@ -186,12 +186,14 @@ def main():
             continue
         svg_count += 1
         try:
-            ET.parse(p)
+            # 校验 SVG 语法是否合规
+            svg_text = p.read_text(encoding="utf-8")
+            ET.fromstring(svg_text)  # noqa: S314
         except Exception as e:
             errors["SVG XML 解析异常"].append(f"{p.relative_to(vault_root).as_posix()}: {e}")
 
     # 输出统计报告
-    print(f"📊 基础统计：")
+    print("📊 基础统计：")
     print(f"  - Markdown 文件总数 : {len(all_md_files)} 篇")
     print(f"  - 校验双链数量      : {total_links} 处")
     print(f"  - SVG 流程图总数    : {svg_count} 张\n")

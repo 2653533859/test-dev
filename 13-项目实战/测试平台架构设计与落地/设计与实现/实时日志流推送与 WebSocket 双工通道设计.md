@@ -146,4 +146,4 @@ class PlatformLogger:
 - FastAPI WebSocket 官方指南：`https://fastapi.tiangolo.com/advanced/websockets/`
 - xterm.js 终端前端组件：`https://xtermjs.org/`
 - 相关笔记：[[05-自动化测试框架]]、[[测试框架日志与断言封装]]、[[03-计算机网络]]
-- 所属项目：[[测试平台架构设计与落地/测试平台架构设计与落地]]
+- 所属项目：[[测试平台架构设计与落地]]

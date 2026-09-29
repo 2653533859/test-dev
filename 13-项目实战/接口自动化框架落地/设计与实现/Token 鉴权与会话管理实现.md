@@ -186,4 +186,4 @@ A：三个原因。连接池复用，省掉每次 TCP 和 TLS 握手，我们实
 
 - requests Session 文档：`https://requests.readthedocs.io/en/latest/user/advanced/`
 - 相关笔记：[[Token 与 JWT 鉴权的获取与刷新]]、[[requests Session 会话保持与 Cookie]]、[[requests 超时、重试与连接池]]、[[pytest fixture 详解]]、[[conftest.py 查找规则与作用域]]、[[pytest-xdist 并行执行]]
-- 所属项目：[[接口自动化框架落地/接口自动化框架落地]]
+- 所属项目：[[接口自动化框架落地]]

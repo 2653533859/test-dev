@@ -166,4 +166,4 @@ def run_test_suite_task(self, execution_id: int, suite_config: dict):
 
 - Celery 生产最佳实践：`https://docs.celeryq.dev/en/stable/userguide/optimizing.html`
 - 相关笔记：[[05-自动化测试框架]]、[[11-持续集成]]、[[pytest-xdist 并行执行]]
-- 所属项目：[[测试平台架构设计与落地/测试平台架构设计与落地]]
+- 所属项目：[[测试平台架构设计与落地]]

@@ -143,4 +143,4 @@ def extract_crash_fingerprint(logcat_text: str) -> Optional[dict]:
 
 - Fastbot 官方使用手册：`https://github.com/bytedance/Fastbot_Android/blob/main/HANDBOOK.md`
 - 相关笔记：[[08-App自动化测试]]、[[adb logcat 日志抓取与崩溃定位]]、[[App UI 自动化稳定性治理]]
-- 所属项目：[[移动端质量巡检与稳定性专项/移动端质量巡检与稳定性专项]]
+- 所属项目：[[移动端质量巡检与稳定性专项]]

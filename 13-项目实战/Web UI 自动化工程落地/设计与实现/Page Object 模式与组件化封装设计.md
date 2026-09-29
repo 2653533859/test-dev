@@ -149,4 +149,4 @@ class OrderPage(BasePage):
 
 - Playwright 官方 Locators 指南：`https://playwright.dev/python/docs/locators`
 - 相关笔记：[[07-Web自动化测试]]、[[Page Object 模式与分层设计]]、[[测试框架分层架构设计]]
-- 所属项目：[[Web UI 自动化工程落地/Web UI 自动化工程落地]]
+- 所属项目：[[Web UI 自动化工程落地]]

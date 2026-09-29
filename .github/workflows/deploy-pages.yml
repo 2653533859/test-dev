@@ -63,7 +63,9 @@ jobs:
         run: |
           cd quartz-engine
           npx quartz build --output ../public
-          touch ../public/.nojekyll
+          cd ..
+          python3 scripts/prepare_quartz.py
+
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3

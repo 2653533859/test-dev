@@ -63,4 +63,4 @@ docker run --rm pytest-runner:3.11
 - [[Jenkinsfile 多阶段流水线设计]]
 - [[质量门禁与失败通知策略]]
 - [[Docker 化测试执行环境]]
-- 项目总览：[[CI 流水线打通/CI 流水线打通]]
+- 项目总览：[[CI 流水线打通]]
