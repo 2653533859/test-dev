@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+    <marker id="arO" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#d98324"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">Session 会话保持：Cookie 自动存取 + 连接复用</text>
+
+  <!-- lane heads -->
+  <rect x="25" y="46" width="140" height="42" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="95" y="72" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">pytest 用例</text>
+
+  <rect x="252" y="46" width="176" height="42" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="340" y="65" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">requests.Session</text>
+  <text x="340" y="81" font-size="11" fill="#41546b" text-anchor="middle">CookieJar + 连接池</text>
+
+  <rect x="510" y="46" width="140" height="42" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="580" y="72" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">被测服务端</text>
+
+  <!-- lifelines -->
+  <line x1="95" y1="88" x2="95" y2="382" stroke="#8a9bb0" stroke-width="1" stroke-dasharray="4 4"/>
+  <line x1="340" y1="88" x2="340" y2="382" stroke="#8a9bb0" stroke-width="1" stroke-dasharray="4 4"/>
+  <line x1="580" y1="88" x2="580" y2="382" stroke="#8a9bb0" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- messages -->
+  <line x1="95" y1="118" x2="336" y2="118" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="215" y="112" font-size="11.5" fill="#1f2d3d" text-anchor="middle">s.post("/login", json={…})</text>
+
+  <line x1="340" y1="152" x2="576" y2="152" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="458" y="146" font-size="11.5" fill="#1f2d3d" text-anchor="middle">POST /login</text>
+
+  <line x1="580" y1="186" x2="344" y2="186" stroke="#d98324" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arO)"/>
+  <text x="462" y="180" font-size="11.5" fill="#1f2d3d" text-anchor="middle">200 Set-Cookie: SESSIONID=ab12</text>
+
+  <rect x="258" y="198" width="200" height="34" rx="6" fill="#fff3e3" stroke="#d98324"/>
+  <text x="358" y="220" font-size="11.5" fill="#1f2d3d" text-anchor="middle">CookieJar 自动写入并持有</text>
+
+  <line x1="95" y1="262" x2="336" y2="262" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="215" y="256" font-size="11.5" fill="#1f2d3d" text-anchor="middle">s.get("/api/profile")</text>
+
+  <line x1="340" y1="300" x2="576" y2="300" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="458" y="280" font-size="11.5" fill="#1f2d3d" text-anchor="middle">GET /api/profile</text>
+  <text x="458" y="295" font-size="11.5" font-weight="700" fill="#2f6fd0" text-anchor="middle">Cookie: SESSIONID=ab12（自动带上）</text>
+
+  <line x1="580" y1="334" x2="344" y2="334" stroke="#d98324" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arO)"/>
+  <text x="462" y="328" font-size="11.5" fill="#1f2d3d" text-anchor="middle">200 用户信息（复用同一 TCP 连接）</text>
+
+  <line x1="336" y1="366" x2="99" y2="366" stroke="#d98324" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arO)"/>
+  <text x="215" y="360" font-size="11.5" fill="#1f2d3d" text-anchor="middle">Response 对象</text>
+
+  <!-- contrast -->
+  <rect x="25" y="394" width="625" height="46" rx="6" fill="#fdeaea" stroke="#c0504d"/>
+  <text x="40" y="413" font-size="11.5" fill="#1f2d3d">对比：直接 requests.get("/api/profile") 每次都是全新会话 —— 不带 Cookie → 401 未登录；</text>
+  <text x="40" y="431" font-size="11.5" fill="#1f2d3d">且每次重新 TCP + TLS 握手，无 keep-alive 复用，几百条用例下来耗时差出好几倍。</text>
+
+  <text x="20" y="460" font-size="11.5" fill="#41546b">要点：Session 同时承担「Cookie 状态机」和「连接池」两个职责，这是它比裸函数快且能保持登录态的原因。</text>
+</svg>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">安全左移：SAST / SCA / DAST 在流水线里的位置</text>
+
+  <!-- pipeline -->
+  <rect x="16" y="46" width="120" height="50" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="76" y="68" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">本地开发</text>
+  <text x="76" y="86" font-size="11" fill="#31527a" text-anchor="middle">pre-commit</text>
+
+  <rect x="152" y="46" width="120" height="50" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="212" y="68" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">提 PR</text>
+  <text x="212" y="86" font-size="11" fill="#31527a" text-anchor="middle">增量扫描</text>
+
+  <rect x="288" y="46" width="120" height="50" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="348" y="68" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">构建打包</text>
+  <text x="348" y="86" font-size="11" fill="#31527a" text-anchor="middle">依赖与镜像</text>
+
+  <rect x="424" y="46" width="120" height="50" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="484" y="68" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">部署测试环境</text>
+  <text x="484" y="86" font-size="11" fill="#31527a" text-anchor="middle">跑起来才能测</text>
+
+  <rect x="560" y="46" width="104" height="50" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="612" y="68" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">发布上线</text>
+  <text x="612" y="86" font-size="11" fill="#31527a" text-anchor="middle">门禁通过</text>
+
+  <line x1="136" y1="71" x2="150" y2="71" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="272" y1="71" x2="286" y2="71" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="408" y1="71" x2="422" y2="71" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="544" y1="71" x2="558" y2="71" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <line x1="76" y1="96" x2="76" y2="122" stroke="#d98324" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="212" y1="96" x2="212" y2="122" stroke="#d98324" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="348" y1="96" x2="348" y2="122" stroke="#d98324" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="484" y1="96" x2="484" y2="122" stroke="#d98324" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- tool cards -->
+  <rect x="16" y="126" width="156" height="118" rx="8" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="94" y="148" font-size="13" font-weight="700" fill="#8a4b00" text-anchor="middle">密钥扫描</text>
+  <text x="28" y="169" font-size="11.5" fill="#1f2d3d">gitleaks / detect-secrets</text>
+  <text x="28" y="187" font-size="11.5" fill="#1f2d3d">拦住 AK/SK、密码、私钥</text>
+  <text x="28" y="205" font-size="11.5" fill="#1f2d3d">被提交进仓库</text>
+  <text x="28" y="226" font-size="11" fill="#b3261e">泄露后改代码没用，</text>
+  <text x="28" y="239" font-size="11" fill="#b3261e">必须轮换密钥</text>
+
+  <rect x="188" y="126" width="156" height="118" rx="8" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="266" y="148" font-size="13" font-weight="700" fill="#8a4b00" text-anchor="middle">SAST 静态分析</text>
+  <text x="200" y="169" font-size="11.5" fill="#1f2d3d">Semgrep / SonarQube</text>
+  <text x="200" y="187" font-size="11.5" fill="#1f2d3d">读源码找危险模式</text>
+  <text x="200" y="205" font-size="11.5" fill="#1f2d3d">如 SQL 拼接、shell=True</text>
+  <text x="200" y="226" font-size="11" fill="#64748b">优点：早、定位到行</text>
+  <text x="200" y="239" font-size="11" fill="#64748b">缺点：误报多</text>
+
+  <rect x="360" y="126" width="156" height="118" rx="8" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="438" y="148" font-size="13" font-weight="700" fill="#8a4b00" text-anchor="middle">SCA 成分分析</text>
+  <text x="372" y="169" font-size="11.5" fill="#1f2d3d">pip-audit / Trivy</text>
+  <text x="372" y="187" font-size="11.5" fill="#1f2d3d">Dependency-Check</text>
+  <text x="372" y="205" font-size="11.5" fill="#1f2d3d">比对依赖与 CVE 库</text>
+  <text x="372" y="226" font-size="11" fill="#64748b">还要扫基础镜像</text>
+  <text x="372" y="239" font-size="11" fill="#64748b">输出 SBOM 便于追溯</text>
+
+  <rect x="532" y="126" width="132" height="118" rx="8" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="598" y="148" font-size="13" font-weight="700" fill="#8a4b00" text-anchor="middle">DAST 动态扫描</text>
+  <text x="544" y="169" font-size="11.5" fill="#1f2d3d">OWASP ZAP baseline</text>
+  <text x="544" y="187" font-size="11.5" fill="#1f2d3d">对跑起来的站点</text>
+  <text x="544" y="205" font-size="11.5" fill="#1f2d3d">发探测请求</text>
+  <text x="544" y="226" font-size="11" fill="#64748b">只能扫测试环境</text>
+  <text x="544" y="239" font-size="11" fill="#64748b">耗时长，放夜间</text>
+
+  <!-- gate -->
+  <rect x="16" y="262" width="648" height="98" rx="8" fill="#eef4ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="30" y="284" font-size="13.5" font-weight="700" fill="#1a4a8f">质量门禁怎么定才落得下去</text>
+  <text x="30" y="306" font-size="12" fill="#1f2d3d">① 只卡「新增」不卡存量：老项目一开就是几千条告警，全卡死会被团队直接关掉</text>
+  <text x="30" y="325" font-size="12" fill="#1f2d3d">② 按等级分级：Critical/High 阻断合并，Medium 提 issue 限期修，Low 只记录</text>
+  <text x="30" y="344" font-size="12" fill="#1f2d3d">③ 允许带审批的例外白名单（带负责人 + 到期时间），到期自动重新拦截</text>
+
+  <!-- coverage -->
+  <rect x="16" y="376" width="648" height="52" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="30" y="397" font-size="12.5" font-weight="700" fill="#1f2d3d">能力边界：工具能覆盖注入、危险 API、脆弱组件、配置错误这类「有固定模式」的问题</text>
+  <text x="30" y="417" font-size="12.5" font-weight="700" fill="#b3261e">越权、支付逻辑、业务风控这类「与业务语义相关」的漏洞，扫描器天然扫不出来，只能靠人工用例</text>
+
+  <text x="20" y="452" font-size="11.5" fill="#64748b">DAST 目标地址必须写死为测试环境域名，并在流水线中做校验，防止误扫生产或第三方站点。</text>
+  <text x="20" y="466" font-size="11.5" fill="#64748b">扫描结果统一汇总到缺陷平台，走和功能 bug 一样的流转，避免「扫了没人修」。</text>
+</svg>

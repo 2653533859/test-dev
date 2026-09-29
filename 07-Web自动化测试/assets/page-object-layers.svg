@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="po" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">Page Object 分层：改动只落在一层</text>
+
+  <!-- layer 1 -->
+  <rect x="24" y="46" width="410" height="62" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="40" y="68" font-size="13.5" font-weight="700" fill="#1b4a91">① 用例层 test_*.py</text>
+  <text x="40" y="88" font-size="11.5" fill="#1b4a91">只描述业务意图与断言：dashboard = login_flow.login("qa01", pwd)</text>
+  <text x="40" y="103" font-size="11.5" fill="#1b4a91">禁止出现 driver / By / WebDriverWait / 选择器</text>
+  <rect x="446" y="46" width="210" height="62" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="460" y="68" font-size="11.5" font-weight="700" fill="#1f2d3d">改动来源</text>
+  <text x="460" y="88" font-size="11" fill="#334155">需求变了 → 只改这一层</text>
+
+  <!-- layer 2 -->
+  <rect x="24" y="122" width="410" height="62" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="144" font-size="13.5" font-weight="700" fill="#8a4b0f">② 业务流程层 business/</text>
+  <text x="40" y="164" font-size="11.5" fill="#8a4b0f">跨页面的完整链路：下单 = 商品页 → 购物车 → 结算 → 支付</text>
+  <text x="40" y="179" font-size="11.5" fill="#8a4b0f">编排页面对象，不碰元素；被多条用例复用</text>
+  <rect x="446" y="122" width="210" height="62" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="460" y="144" font-size="11.5" font-weight="700" fill="#1f2d3d">改动来源</text>
+  <text x="460" y="164" font-size="11" fill="#334155">流程顺序调整、</text>
+  <text x="460" y="179" font-size="11" fill="#334155">新增中间步骤</text>
+
+  <!-- layer 3 -->
+  <rect x="24" y="198" width="410" height="76" rx="8" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="40" y="220" font-size="13.5" font-weight="700" fill="#2f5d3a">③ 页面对象层 pages/</text>
+  <text x="40" y="240" font-size="11.5" fill="#2f5d3a">每个页面一个类：定位常量（类属性）+ 页面动作（方法）</text>
+  <text x="40" y="255" font-size="11.5" fill="#2f5d3a">方法返回下一个页面对象，支持链式；不写断言</text>
+  <text x="40" y="270" font-size="11.5" fill="#2f5d3a">对外暴露业务语义方法 login()，不暴露 click_submit()</text>
+  <rect x="446" y="198" width="210" height="76" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="460" y="220" font-size="11.5" font-weight="700" fill="#1f2d3d">改动来源</text>
+  <text x="460" y="240" font-size="11" fill="#334155">前端改版、选择器失效</text>
+  <text x="460" y="258" font-size="11" fill="#9c2b2b">← 90% 的维护都在这层</text>
+
+  <!-- layer 4 -->
+  <rect x="24" y="288" width="410" height="76" rx="8" fill="#f3efff" stroke="#7c5cd6"/>
+  <text x="40" y="310" font-size="13.5" font-weight="700" fill="#5b3fa8">④ 基础操作层 BasePage</text>
+  <text x="40" y="330" font-size="11.5" fill="#5b3fa8">封装 click / fill / text_of / select，每个原语内置正确等待</text>
+  <text x="40" y="345" font-size="11.5" fill="#5b3fa8">统一日志、失败截图、异常包装成带定位描述的信息</text>
+  <text x="40" y="360" font-size="11.5" fill="#5b3fa8">这一层是 Selenium/Playwright 的适配层，换框架只改它</text>
+  <rect x="446" y="288" width="210" height="76" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="460" y="310" font-size="11.5" font-weight="700" fill="#1f2d3d">改动来源</text>
+  <text x="460" y="330" font-size="11" fill="#334155">等待策略调整、</text>
+  <text x="460" y="348" font-size="11" fill="#334155">驱动框架迁移</text>
+
+  <line x1="229" y1="108" x2="229" y2="120" stroke="#475569" stroke-width="1.6" marker-end="url(#po)"/>
+  <line x1="229" y1="184" x2="229" y2="196" stroke="#475569" stroke-width="1.6" marker-end="url(#po)"/>
+  <line x1="229" y1="274" x2="229" y2="286" stroke="#475569" stroke-width="1.6" marker-end="url(#po)"/>
+
+  <!-- footer -->
+  <rect x="24" y="380" width="632" height="76" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="402" font-size="12.5" font-weight="700" fill="#1f2d3d">分层的唯一判据：一次改动应该只穿透一层。</text>
+  <text x="40" y="422" font-size="11.5" fill="#334155">正向依赖：用例 → 业务流程 → 页面对象 → 基础操作，禁止反向依赖与跨层调用。</text>
+  <text x="40" y="440" font-size="11.5" fill="#9c2b2b">反模式：页面对象里写 assert（断言应留在用例层）；用例里 import By；页面类塞成上千行的上帝对象。</text>
+</svg>

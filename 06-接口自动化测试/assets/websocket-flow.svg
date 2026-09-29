@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="-apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <text x="24" y="34" font-size="17" font-weight="700" fill="#1f2d3d">WebSocket 接口测试流转</text>
+  <text x="24" y="56" font-size="12" fill="#5b6b7c">握手（HTTP Upgrade）→ 双向消息 → 关闭</text>
+
+  <!-- 握手 -->
+  <rect x="24" y="90" width="200" height="120" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="44" y="116" font-size="14" font-weight="700" fill="#1f2d3d">① 握手</text>
+  <text x="44" y="142" font-size="12" fill="#1f2d3d">ws.connect(url)</text>
+  <text x="44" y="166" font-size="12" fill="#1f2d3d">Upgrade: websocket</text>
+  <text x="44" y="190" font-size="12" fill="#1f2d3d">带 token 鉴权</text>
+
+  <line x1="224" y1="150" x2="300" y2="150" stroke="#9fb3c8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 消息环 -->
+  <rect x="300" y="90" width="356" height="200" rx="8" fill="#eef2f7" stroke="#9fb3c8"/>
+  <text x="320" y="116" font-size="14" font-weight="700" fill="#1f2d3d">② 双向消息环</text>
+  <text x="320" y="142" font-size="12" fill="#1f2d3d">send(json.dumps(payload))</text>
+  <text x="320" y="166" font-size="12" fill="#1f2d3d">recv() → 解析帧</text>
+  <text x="320" y="190" font-size="12" fill="#1f2d3d">心跳 ping / 服务端推送</text>
+  <text x="320" y="214" font-size="12" fill="#1f2d3d">断言 msg['type'] == 'event'</text>
+
+  <line x1="300" y1="290" x2="224" y2="290" stroke="#9fb3c8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 关闭 -->
+  <rect x="24" y="300" width="200" height="80" rx="8" fill="#ffe9d6" stroke="#d98324"/>
+  <text x="44" y="328" font-size="14" font-weight="700" fill="#1f2d3d">③ 关闭</text>
+  <text x="44" y="352" font-size="12" fill="#1f2d3d">ws.close() 发 Close frame</text>
+  <text x="44" y="376" font-size="12" fill="#1f2d3d">连接释放</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+  </defs>
+</svg>

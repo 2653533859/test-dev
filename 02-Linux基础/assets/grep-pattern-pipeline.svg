@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">grep：逐行流式匹配管道与正则方言选择</text>
+
+  <!-- ① 流式处理管道 -->
+  <rect x="16" y="44" width="648" height="138" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="66" font-size="14" font-weight="700" fill="#2f6fd0">① 流式管道：逐行读 → 正则匹配 → 命中输出整行</text>
+
+  <rect x="32" y="82" width="108" height="42" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="86" y="103" font-size="12" fill="#334155" text-anchor="middle">tail -F</text>
+  <text x="86" y="118" font-size="10.5" fill="#64748b" text-anchor="middle">源源不断的行</text>
+
+  <line x1="140" y1="103" x2="158" y2="103" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="160" y="82" width="156" height="42" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="238" y="100" font-size="12" fill="#1e3a8a" text-anchor="middle">grep -E "err|warn"</text>
+  <text x="238" y="116" font-size="10.5" fill="#1e3a8a" text-anchor="middle">每行做正则匹配</text>
+
+  <line x1="316" y1="103" x2="334" y2="103" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="336" y="82" width="120" height="42" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="396" y="100" font-size="12" fill="#8a4b08" text-anchor="middle">awk '{print $3}'</text>
+  <text x="396" y="116" font-size="10.5" fill="#8a4b08" text-anchor="middle">取列 / 统计</text>
+
+  <line x1="456" y1="103" x2="474" y2="103" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="476" y="82" width="172" height="42" rx="6" fill="#d4edda" stroke="#28a745"/>
+  <text x="562" y="100" font-size="12" fill="#1b5e20" text-anchor="middle">sort | uniq -c | head</text>
+  <text x="562" y="116" font-size="10.5" fill="#1b5e20" text-anchor="middle">聚合 / 输出</text>
+
+  <text x="32" y="148" font-size="11.5" fill="#dc2626">坑：管道里 grep 默认块缓冲，tail -F 实时输出会卡 → 加 --line-buffered 让它逐行冲</text>
+  <text x="32" y="168" font-size="11.5" fill="#475569">本质：grep 名字来自 ed 的 g/re/p（global / regular expression / print），「以行为单位」决定了它适合日志，但跨行堆栈要靠 -A/-B/-C</text>
+
+  <!-- ② 正则方言 -->
+  <rect x="16" y="192" width="318" height="138" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="214" font-size="14" font-weight="700" fill="#d98324">② 三种正则方言：选错就匹配不上</text>
+
+  <rect x="32" y="228" width="288" height="30" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="44" y="248" font-size="11.5" fill="#334155">BRE（默认）</text>
+  <text x="140" y="248" font-size="11.5" fill="#334155">+ ? { } ( ) |</text>
+  <text x="248" y="248" font-size="11.5" fill="#dc2626">都要 \ 转义</text>
+
+  <rect x="32" y="262" width="288" height="30" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="44" y="282" font-size="11.5" fill="#1b5e20">ERE（-E，推荐）</text>
+  <text x="140" y="282" font-size="11.5" fill="#1b5e20">+ ? { } ( ) |</text>
+  <text x="248" y="282" font-size="11.5" fill="#1b5e20">直接生效</text>
+
+  <rect x="32" y="296" width="288" height="30" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="44" y="316" font-size="11.5" fill="#1e3a8a">PCRE（-P）</text>
+  <text x="140" y="316" font-size="11.5" fill="#1e3a8a">\d \w \s *?</text>
+  <text x="248" y="316" font-size="11.5" fill="#1e3a8a">断言、非贪婪</text>
+
+  <!-- ③ 上下文参数 -->
+  <rect x="346" y="192" width="318" height="138" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="362" y="214" font-size="14" font-weight="700" fill="#2f6fd0">③ 上下文参数：捞异常堆栈必用</text>
+
+  <rect x="362" y="228" width="288" height="30" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="374" y="248" font-size="11.5" fill="#1b5e20">-A 30 "Exception"</text>
+  <text x="498" y="248" font-size="11" fill="#1b5e20">命中行 + 后 30 行（看堆栈）</text>
+
+  <rect x="362" y="262" width="288" height="30" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="374" y="282" font-size="11.5" fill="#8a4b08">-B 5  "Exception"</text>
+  <text x="498" y="282" font-size="11" fill="#8a4b08">命中行 + 前 5 行（看触发）</text>
+
+  <rect x="362" y="296" width="288" height="30" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="374" y="316" font-size="11.5" fill="#1e3a8a">-C 10 "Exception"</text>
+  <text x="498" y="316" font-size="11" fill="#1e3a8a">前后各 10 行（Context）</text>
+
+  <!-- ④ 退出码与计数陷阱 -->
+  <rect x="16" y="340" width="648" height="114" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="362" font-size="14" font-weight="700" fill="#1f2d3d">④ 退出码用作条件判断；-c 数的是「行数」不是「次数」</text>
+
+  <rect x="32" y="374" width="180" height="32" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="122" y="394" font-size="11.5" fill="#334155" text-anchor="middle">grep -q "BUILD SUCCESS"</text>
+
+  <line x1="212" y1="390" x2="230" y2="390" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="232" y="374" width="120" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="292" y="394" font-size="11.5" fill="#1e3a8a" text-anchor="middle">返回 0 / 1 / 2</text>
+
+  <line x1="352" y1="390" x2="370" y2="390" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="372" y="374" width="120" height="32" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="432" y="394" font-size="11.5" fill="#1b5e20" text-anchor="middle">if 判断 / CI 门禁</text>
+
+  <text x="32" y="428" font-size="11.5" fill="#dc2626">-c 陷阱：一行里出现 3 次 ERROR 也只算 1 行 → 数次数要 grep -o "ERROR" | wc -l</text>
+  <text x="32" y="446" font-size="11.5" fill="#475569">退出码：0 = 至少匹配一行（成功），1 = 一行都没匹配，2 = 出错（文件不存在 / 正则非法）</text>
+</svg>

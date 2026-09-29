@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#0f172a">HTTPS 抓包原理：抓包工具做的就是「被授权的中间人」</text>
+
+  <!-- normal chain -->
+  <text x="20" y="58" font-size="13" font-weight="700" fill="#1e293b">正常链路：一条 TLS 连接，中间设备只看得到密文</text>
+  <rect x="40" y="70" width="140" height="40" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="110" y="95" font-size="12" fill="#1f2d3d" text-anchor="middle">客户端</text>
+  <line x1="182" y1="90" x2="478" y2="90" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="330" y="83" font-size="11.5" fill="#166534" text-anchor="middle">端到端 TLS 加密（密文）</text>
+  <rect x="480" y="70" width="160" height="40" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="560" y="95" font-size="12" fill="#1f2d3d" text-anchor="middle">真实服务端</text>
+
+  <!-- mitm chain -->
+  <text x="20" y="150" font-size="13" font-weight="700" fill="#1e293b">开启抓包后：一条连接被拆成两条</text>
+  <rect x="30" y="164" width="140" height="52" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="100" y="186" font-size="12" fill="#1f2d3d" text-anchor="middle">客户端</text>
+  <text x="100" y="204" font-size="11" fill="#475569" text-anchor="middle">已信任抓包根证书</text>
+
+  <line x1="172" y1="190" x2="258" y2="190" stroke="#d98324" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="215" y="182" font-size="11" fill="#d98324" text-anchor="middle">TLS-1</text>
+
+  <rect x="260" y="158" width="160" height="64" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="340" y="180" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">抓包工具</text>
+  <text x="340" y="198" font-size="11" fill="#475569" text-anchor="middle">Charles / Fiddler / mitmproxy</text>
+  <text x="340" y="214" font-size="11" fill="#dc2626" text-anchor="middle">此处明文可见、可改</text>
+
+  <line x1="422" y1="190" x2="508" y2="190" stroke="#2f6fd0" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="465" y="182" font-size="11" fill="#2f6fd0" text-anchor="middle">TLS-2</text>
+
+  <rect x="510" y="164" width="140" height="52" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="580" y="194" font-size="12" fill="#1f2d3d" text-anchor="middle">真实服务端</text>
+
+  <!-- why cert -->
+  <text x="20" y="258" font-size="13" font-weight="700" fill="#1e293b">为什么必须装根证书</text>
+  <rect x="30" y="272" width="180" height="56" rx="6" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="120" y="292" font-size="11.5" fill="#1f2d3d" text-anchor="middle">工具用自己的 CA</text>
+  <text x="120" y="310" font-size="11.5" fill="#1f2d3d" text-anchor="middle">现签一张 example.com</text>
+  <line x1="212" y1="300" x2="248" y2="300" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="250" y="272" width="180" height="56" rx="6" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="340" y="292" font-size="11.5" fill="#1f2d3d" text-anchor="middle">客户端校验签发链</text>
+  <text x="340" y="310" font-size="11.5" fill="#1f2d3d" text-anchor="middle">这个 CA 在信任库里吗？</text>
+  <line x1="432" y1="288" x2="468" y2="278" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="432" y1="312" x2="468" y2="322" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="470" y="258" width="180" height="34" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="560" y="279" font-size="11.5" fill="#166534" text-anchor="middle">在 → 握手通过，抓到明文</text>
+  <rect x="470" y="308" width="180" height="34" rx="6" fill="#fecaca" stroke="#dc2626"/>
+  <text x="560" y="329" font-size="11.5" fill="#991b1b" text-anchor="middle">不在 → 证书告警 / 连接失败</text>
+
+  <!-- pinning -->
+  <rect x="30" y="358" width="620" height="46" rx="8" fill="#fff4e6" stroke="#d98324"/>
+  <text x="45" y="378" font-size="12.5" font-weight="700" fill="#1f2d3d">抓不到的两种情况</text>
+  <text x="45" y="396" font-size="11.5" fill="#475569">① SSL Pinning：App 把服务端证书/公钥硬编码，只认它，装根证书也没用。② 双向认证：服务端要求客户端出示证书。</text>
+
+  <text x="20" y="428" font-size="11.5" fill="#64748b">破 Pinning 的合规手段：找开发拿测试包（关掉 pinning 的 debug 版本），或用 Frida/Xposed hook 校验函数——仅限已获授权的自有 App。</text>
+  <text x="20" y="450" font-size="11.5" fill="#64748b">双向认证抓包：在工具里配置客户端证书（Charles 的 Client Certificates、mitmproxy 的 --set client_certs=）。</text>
+</svg>

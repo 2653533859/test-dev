@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="dt" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">并发模型选型决策树</text>
+
+  <!-- root -->
+  <rect x="235" y="44" width="210" height="40" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="340" y="69" font-size="13" font-weight="700" fill="#92400e" text-anchor="middle">任务瓶颈是？</text>
+
+  <!-- branch labels -->
+  <rect x="60" y="130" width="180" height="36" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="150" y="153" font-size="12.5" fill="#334155" text-anchor="middle">CPU 密集（计算型）</text>
+  <rect x="440" y="130" width="180" height="36" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="530" y="153" font-size="12.5" fill="#334155" text-anchor="middle">I/O 密集（等待型）</text>
+
+  <!-- CPU leaf: multiprocessing -->
+  <rect x="50" y="208" width="200" height="60" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="150" y="234" font-size="13" font-weight="700" fill="#166534" text-anchor="middle">多进程 multiprocessing</text>
+  <text x="150" y="254" font-size="11" fill="#166534" text-anchor="middle">绕过 GIL · 真并行</text>
+
+  <!-- I/O judge -->
+  <rect x="430" y="208" width="200" height="60" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="530" y="234" font-size="13" font-weight="700" fill="#92400e" text-anchor="middle">并发规模？</text>
+  <text x="530" y="254" font-size="11" fill="#92400e" text-anchor="middle">一般 vs 海量连接</text>
+
+  <!-- I/O leaves -->
+  <rect x="320" y="330" width="200" height="60" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="420" y="356" font-size="13" font-weight="700" fill="#1e40af" text-anchor="middle">多线程 threading</text>
+  <text x="420" y="376" font-size="11" fill="#1e40af" text-anchor="middle">I/O 等待释放 GIL</text>
+
+  <rect x="540" y="330" width="200" height="60" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="640" y="356" font-size="13" font-weight="700" fill="#5b21b6" text-anchor="middle">协程 asyncio</text>
+  <text x="640" y="376" font-size="11" fill="#5b21b6" text-anchor="middle">单线程高吞吐·低内存</text>
+
+  <!-- arrows -->
+  <line x1="340" y1="84" x2="150" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#dt)"/>
+  <line x1="340" y1="84" x2="530" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#dt)"/>
+  <line x1="150" y1="166" x2="150" y2="206" stroke="#475569" stroke-width="1.5" marker-end="url(#dt)"/>
+  <line x1="530" y1="166" x2="530" y2="206" stroke="#475569" stroke-width="1.5" marker-end="url(#dt)"/>
+  <line x1="530" y1="268" x2="530" y2="300" stroke="#475569" stroke-width="1.5" marker-end="url(#dt)"/>
+  <line x1="530" y1="300" x2="420" y2="328" stroke="#475569" stroke-width="1.5" marker-end="url(#dt)"/>
+  <line x1="530" y1="300" x2="640" y2="328" stroke="#475569" stroke-width="1.5" marker-end="url(#dt)"/>
+
+  <!-- branch hints -->
+  <text x="195" y="118" font-size="10.5" fill="#64748b" text-anchor="middle">编码/图像处理/数值计算</text>
+  <text x="575" y="118" font-size="10.5" fill="#64748b" text-anchor="middle">网络/磁盘/请求等待</text>
+  <text x="375" y="318" font-size="10.5" fill="#64748b" text-anchor="middle">数十~数百连接</text>
+  <text x="595" y="318" font-size="10.5" fill="#64748b" text-anchor="middle">数千+ 连接</text>
+
+  <!-- red line -->
+  <rect x="30" y="412" width="620" height="44" rx="6" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="44" y="432" font-size="11.5" fill="#991b1b">GIL 红线：纯 CPU 任务用多线程 = 不加速（GIL 单时刻只跑一个线程的字节码）。</text>
+  <text x="44" y="450" font-size="11.5" fill="#991b1b">混合任务：用「进程池跑 CPU 部分 + 线程/协程跑 I/O 部分」组合；统一接口用 concurrent.futures。</text>
+</svg>

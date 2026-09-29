@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="st" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">App UI 用例稳定性治理：一条用例的完整防护链</text>
+
+  <!-- pre -->
+  <rect x="24" y="44" width="196" height="88" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="40" y="64" font-size="12.5" font-weight="700" fill="#1b4a91">① 用例前：环境归零</text>
+  <text x="40" y="83" font-size="11" fill="#1b4a91">force-stop + pm clear（或 noReset=False）</text>
+  <text x="40" y="99" font-size="11" fill="#1b4a91">关掉动画：window/transition/animator_scale</text>
+  <text x="40" y="115" font-size="11" fill="#1b4a91">解锁屏幕、确认网络与时间正常</text>
+  <text x="40" y="128" font-size="10.5" fill="#9c2b2b">动画不关 → stale 与点击落空翻倍</text>
+
+  <line x1="220" y1="88" x2="240" y2="88" stroke="#475569" stroke-width="1.4" marker-end="url(#st)"/>
+
+  <rect x="242" y="44" width="196" height="88" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="258" y="64" font-size="12.5" font-weight="700" fill="#8a4b0f">② 执行中：显式等待</text>
+  <text x="258" y="83" font-size="11" fill="#8a4b0f">WebDriverWait + presence/visible/clickable</text>
+  <text x="258" y="99" font-size="11" fill="#8a4b0f">禁止 sleep 与 implicitly_wait 混用</text>
+  <text x="258" y="115" font-size="11" fill="#8a4b0f">长列表用 UiScrollable 滚动到元素</text>
+  <text x="258" y="128" font-size="10.5" fill="#8a4b0f">隐式+显式混用 → 超时时间相乘</text>
+
+  <line x1="438" y1="88" x2="458" y2="88" stroke="#475569" stroke-width="1.4" marker-end="url(#st)"/>
+
+  <rect x="460" y="44" width="196" height="88" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="476" y="64" font-size="12.5" font-weight="700" fill="#8a4b0f">③ 全程：弹窗拦截</text>
+  <text x="476" y="83" font-size="11" fill="#8a4b0f">系统权限框 / 版本更新 / 运营活动弹层</text>
+  <text x="476" y="99" font-size="11" fill="#8a4b0f">autoGrantPermissions 处理系统框</text>
+  <text x="476" y="115" font-size="11" fill="#8a4b0f">业务弹窗用装饰器统一兜底关闭</text>
+  <text x="476" y="128" font-size="10.5" fill="#8a4b0f">弹窗是 App 端 flaky 的头号来源</text>
+
+  <line x1="340" y1="132" x2="340" y2="152" stroke="#475569" stroke-width="1.4" marker-end="url(#st)"/>
+
+  <!-- failure branch -->
+  <rect x="182" y="154" width="316" height="34" rx="7" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="340" y="176" font-size="12.5" fill="#1f2d3d" text-anchor="middle">用例失败 / 抛异常</text>
+
+  <line x1="250" y1="188" x2="180" y2="212" stroke="#475569" stroke-width="1.4" marker-end="url(#st)"/>
+  <line x1="430" y1="188" x2="500" y2="212" stroke="#475569" stroke-width="1.4" marker-end="url(#st)"/>
+
+  <rect x="24" y="216" width="300" height="130" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="40" y="236" font-size="12.5" font-weight="700" fill="#9c2b2b">④ 失败取证（在 teardown 里做）</text>
+  <text x="40" y="256" font-size="11" fill="#9c2b2b">driver.get_screenshot_as_file() 截图</text>
+  <text x="40" y="272" font-size="11" fill="#9c2b2b">driver.page_source 存控件树 XML</text>
+  <text x="40" y="288" font-size="11" fill="#9c2b2b">adb logcat -d -b crash 拉崩溃日志</text>
+  <text x="40" y="304" font-size="11" fill="#9c2b2b">driver.current_activity 记录当前页面</text>
+  <text x="40" y="320" font-size="11" fill="#9c2b2b">全部 attach 到 Allure 报告</text>
+  <text x="40" y="338" font-size="10.5" fill="#9c2b2b">没有这四件套，远程真机失败等于无解</text>
+
+  <rect x="356" y="216" width="300" height="130" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="372" y="236" font-size="12.5" font-weight="700" fill="#2f5d3a">⑤ 状态恢复（下一条用例的前提）</text>
+  <text x="372" y="256" font-size="11" fill="#2f5d3a">回到首页：terminate_app + activate_app</text>
+  <text x="372" y="272" font-size="11" fill="#2f5d3a">关掉可能残留的弹窗 / 侧滑抽屉</text>
+  <text x="372" y="288" font-size="11" fill="#2f5d3a">清理测试产生的脏数据（走接口更快）</text>
+  <text x="372" y="304" font-size="11" fill="#2f5d3a">session 异常时整个重建 driver</text>
+  <text x="372" y="320" font-size="11" fill="#2f5d3a">恢复失败要标记设备不可用并告警</text>
+  <text x="372" y="338" font-size="10.5" fill="#2f5d3a">用例互不依赖，是可重跑的前提</text>
+
+  <!-- retry -->
+  <rect x="24" y="366" width="632" height="42" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="386" font-size="12.5" font-weight="700" fill="#1f2d3d">⑥ 重跑：pytest --reruns 2 --reruns-delay 3</text>
+  <text x="40" y="402" font-size="11" fill="#334155">重跑是止血不是治疗——必须统计「重跑成功率」，某条用例长期靠重跑通过，说明它掩盖了真实缺陷或设计缺陷。</text>
+
+  <rect x="24" y="418" width="632" height="40" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="40" y="438" font-size="12.5" font-weight="700" fill="#1b4a91">判断标准</text>
+  <text x="40" y="453" font-size="11" fill="#1b4a91">同一套用例连续三轮全绿，且单轮通过率 ≥ 98%，才算可以进 CI 质量门禁；否则先治稳定性，别急着扩用例数量。</text>
+</svg>

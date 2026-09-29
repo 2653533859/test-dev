@@ -1,0 +1,48 @@
+# 被测服务编排：仅用于核心链路的独立环境。
+# 关键点：depends_on 只保证容器启动顺序，不保证服务可用，必须配 healthcheck。
+
+services:
+  mysql:
+    image: mysql:8.0                      # 锁版本，不用 latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?必须设置}
+      MYSQL_DATABASE: shop_test
+      TZ: Asia/Shanghai
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  order-service:
+    image: registry.internal/shop/order-service:${SERVICE_TAG:-v1.8.0}
+    environment:
+      SPRING_PROFILES_ACTIVE: test
+      TZ: Asia/Shanghai
+    depends_on:
+      mysql:
+        condition: service_healthy        # 等健康检查通过，而不是等容器启动
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    ports:
+      - "8080:8080"
+
+# 用法：
+#   docker compose -f docker-compose.test.yml up -d --wait
+#   docker compose -f docker-compose.test.yml down -v
+# down 一定要带 -v，否则残留数据卷会影响下次执行。

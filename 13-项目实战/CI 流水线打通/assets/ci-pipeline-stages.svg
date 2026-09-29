@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">CI 流水线阶段编排：不同触发源跑不同深度的测试</text>
+
+  <!-- 触发源 -->
+  <rect x="20" y="52" width="140" height="112" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="90" y="74" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">触发源</text>
+  <rect x="32" y="84" width="116" height="24" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="90" y="101" font-size="11.5" fill="#1e3a6f" text-anchor="middle">PR 提交</text>
+  <rect x="32" y="112" width="116" height="24" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="90" y="129" font-size="11.5" fill="#1e3a6f" text-anchor="middle">合入 main</text>
+  <rect x="32" y="140" width="116" height="24" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="90" y="157" font-size="11.5" fill="#7c4a12" text-anchor="middle">每晚 02:00 定时</text>
+
+  <!-- 阶段主干 -->
+  <rect x="196" y="52" width="112" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="252" y="74" font-size="12.5" font-weight="700" fill="#1e3a6f" text-anchor="middle">Checkout</text>
+  <text x="252" y="92" font-size="11" fill="#1f2d3d" text-anchor="middle">拉代码 + 缓存 pip</text>
+
+  <rect x="336" y="52" width="112" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="392" y="74" font-size="12.5" font-weight="700" fill="#1e3a6f" text-anchor="middle">Lint &amp; 静态检查</text>
+  <text x="392" y="92" font-size="11" fill="#1f2d3d" text-anchor="middle">ruff / 用例规范校验</text>
+
+  <rect x="476" y="52" width="112" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="532" y="74" font-size="12.5" font-weight="700" fill="#1e3a6f" text-anchor="middle">部署待测服务</text>
+  <text x="532" y="92" font-size="11" fill="#1f2d3d" text-anchor="middle">docker compose up</text>
+
+  <line x1="162" y1="108" x2="192" y2="82" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <line x1="310" y1="78" x2="332" y2="78" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <line x1="450" y1="78" x2="472" y2="78" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+  <!-- 测试阶段（并行） -->
+  <rect x="196" y="130" width="392" height="118" rx="8" fill="#fff7ed" stroke="#d98324" stroke-width="1.5"/>
+  <text x="212" y="152" font-size="13" font-weight="700" fill="#7c4a12">Test 阶段（parallel + pytest-xdist 分片）</text>
+
+  <rect x="212" y="164" width="118" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="271" y="185" font-size="11.5" fill="#7c4a12" text-anchor="middle">冒烟 smoke ~4min</text>
+  <rect x="340" y="164" width="118" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="399" y="185" font-size="11.5" fill="#7c4a12" text-anchor="middle">接口全量 ~22min</text>
+  <rect x="468" y="164" width="106" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="521" y="185" font-size="11.5" fill="#7c4a12" text-anchor="middle">UI 核心链路</text>
+
+  <text x="212" y="222" font-size="11.5" fill="#1f2d3d">PR：只跑 smoke（-m smoke）；合入 main：smoke + 接口全量；夜间：三者全跑</text>
+  <text x="212" y="240" font-size="11.5" fill="#1f2d3d">失败用例自动 rerun 1 次，仍失败才判定为真失败并打 flaky 标记</text>
+
+  <line x1="532" y1="108" x2="532" y2="126" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+  <!-- 质量门禁 -->
+  <rect x="196" y="270" width="184" height="76" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="288" y="292" font-size="13" font-weight="700" fill="#1e3a6f" text-anchor="middle">Quality Gate 门禁</text>
+  <text x="288" y="312" font-size="11.5" fill="#1f2d3d" text-anchor="middle">通过率 &lt; 100% → 阻断合入</text>
+  <text x="288" y="330" font-size="11.5" fill="#1f2d3d" text-anchor="middle">P0 用例失败 → 直接 FAILURE</text>
+
+  <!-- 报告归档 -->
+  <rect x="404" y="270" width="184" height="76" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="496" y="292" font-size="13" font-weight="700" fill="#1e3a6f" text-anchor="middle">Report 归档</text>
+  <text x="496" y="312" font-size="11.5" fill="#1f2d3d" text-anchor="middle">allure generate + history</text>
+  <text x="496" y="330" font-size="11.5" fill="#1f2d3d" text-anchor="middle">趋势图跨构建保留</text>
+
+  <line x1="288" y1="250" x2="288" y2="266" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <line x1="496" y1="250" x2="496" y2="266" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+  <!-- post always -->
+  <rect x="196" y="366" width="392" height="60" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
+  <text x="212" y="388" font-size="13" font-weight="700" fill="#334155">post { always } —— 无论成败都执行</text>
+  <text x="212" y="410" font-size="11.5" fill="#1f2d3d">推送企微卡片（结果 / 通过率 / 报告链接 / 责任人）· 清理容器与 workspace</text>
+
+  <line x1="288" y1="348" x2="288" y2="362" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <line x1="496" y1="348" x2="496" y2="362" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+  <!-- 侧栏说明 -->
+  <rect x="20" y="270" width="152" height="156" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="96" y="292" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">分层触发的意义</text>
+  <text x="96" y="316" font-size="11" fill="#475569" text-anchor="middle">PR 阶段追求「快」</text>
+  <text x="96" y="334" font-size="11" fill="#475569" text-anchor="middle">4 分钟给出反馈</text>
+  <text x="96" y="358" font-size="11" fill="#475569" text-anchor="middle">主干追求「稳」</text>
+  <text x="96" y="376" font-size="11" fill="#475569" text-anchor="middle">全量兜底防回归</text>
+  <text x="96" y="400" font-size="11" fill="#475569" text-anchor="middle">夜间追求「全」</text>
+  <text x="96" y="418" font-size="11" fill="#475569" text-anchor="middle">不占用白天资源</text>
+
+  <text x="20" y="452" font-size="11.5" fill="#475569">若所有触发源都跑全量：PR 等 40 分钟没人愿意用，CI 很快会被开发绕过（skip ci）——分层是让流水线活下来的前提。</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 330" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar7" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="330" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">异常处理：try / except / else / finally 流程</text>
+
+  <rect x="240" y="50" width="200" height="34" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="340" y="71" font-size="12" fill="#1e40af" text-anchor="middle">try 代码块</text>
+
+  <!-- branch: exception? -->
+  <rect x="240" y="104" width="200" height="34" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="340" y="125" font-size="12" fill="#92400e" text-anchor="middle">是否抛异常？</text>
+
+  <!-- yes branch -->
+  <rect x="60" y="160" width="200" height="34" rx="6" fill="#fecaca" stroke="#dc2626"/>
+  <text x="160" y="181" font-size="12" fill="#991b1b" text-anchor="middle">except 捕获→处理</text>
+  <rect x="60" y="214" width="200" height="34" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="160" y="235" font-size="12" fill="#166534" text-anchor="middle">else（无异常才跑）</text>
+
+  <!-- no branch -->
+  <rect x="420" y="160" width="200" height="34" rx="6" fill="#e0f2fe" stroke="#0ea5e9"/>
+  <text x="520" y="181" font-size="12" fill="#075985" text-anchor="middle">正常执行完</text>
+
+  <!-- finally -->
+  <rect x="240" y="270" width="200" height="34" rx="6" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="340" y="291" font-size="12" fill="#5b21b6" text-anchor="middle">finally（总会执行）</text>
+
+  <line x1="340" y1="84" x2="340" y2="102" stroke="#475569" stroke-width="1.5" marker-end="url(#ar7)"/>
+  <line x1="240" y1="121" x2="162" y2="158" stroke="#dc2626" stroke-width="1.5" marker-end="url(#ar7)"/>
+  <line x1="440" y1="121" x2="518" y2="158" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#ar7)"/>
+  <line x1="160" y1="194" x2="160" y2="212" stroke="#475569" stroke-width="1.5" marker-end="url(#ar7)"/>
+  <line x1="160" y1="248" x2="295" y2="270" stroke="#475569" stroke-width="1.5" marker-end="url(#ar7)"/>
+  <line x1="520" y1="194" x2="385" y2="270" stroke="#475569" stroke-width="1.5" marker-end="url(#ar7)"/>
+
+  <text x="20" y="322" font-size="11.5" fill="#64748b">finally 无论是否异常/return 都执行（常用于释放资源）；未捕获异常沿调用栈向上传播，直到被捕获或崩到顶层。</text>
+</svg>

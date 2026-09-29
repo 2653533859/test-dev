@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">pytest 用例发现：rootdir → 收集树 → 执行</text>
+
+  <!-- step 1 -->
+  <rect x="20" y="48" width="200" height="70" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="120" y="72" font-size="13" font-weight="700" fill="#1e40af" text-anchor="middle">1. 确定 rootdir / inifile</text>
+  <text x="120" y="94" font-size="11.5" fill="#1e40af" text-anchor="middle">pytest.ini &gt; pyproject.toml</text>
+  <text x="120" y="110" font-size="11.5" fill="#1e40af" text-anchor="middle">&gt; tox.ini &gt; setup.cfg</text>
+
+  <rect x="240" y="48" width="200" height="70" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="340" y="72" font-size="13" font-weight="700" fill="#1e40af" text-anchor="middle">2. 递归遍历 testpaths</text>
+  <text x="340" y="94" font-size="11.5" fill="#1e40af" text-anchor="middle">命中 python_files</text>
+  <text x="340" y="110" font-size="11.5" fill="#1e40af" text-anchor="middle">默认 test_*.py / *_test.py</text>
+
+  <rect x="460" y="48" width="200" height="70" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="560" y="72" font-size="13" font-weight="700" fill="#1e40af" text-anchor="middle">3. import 模块</text>
+  <text x="560" y="94" font-size="11.5" fill="#1e40af" text-anchor="middle">先加载同级及上层</text>
+  <text x="560" y="110" font-size="11.5" fill="#1e40af" text-anchor="middle">conftest.py</text>
+
+  <line x1="220" y1="83" x2="238" y2="83" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="440" y1="83" x2="458" y2="83" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- collection tree -->
+  <text x="20" y="150" font-size="14" font-weight="700" fill="#0f172a">4. 生成收集树（Node 树）</text>
+
+  <rect x="30" y="164" width="150" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="105" y="186" font-size="12.5" fill="#8a4b06" text-anchor="middle">Session</text>
+
+  <rect x="30" y="212" width="150" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="105" y="234" font-size="12.5" fill="#8a4b06" text-anchor="middle">Package / Dir</text>
+
+  <rect x="30" y="260" width="150" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="105" y="282" font-size="12.5" fill="#8a4b06" text-anchor="middle">Module（test_x.py）</text>
+
+  <rect x="30" y="308" width="150" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="105" y="330" font-size="12.5" fill="#8a4b06" text-anchor="middle">Class（Test*）</text>
+
+  <rect x="30" y="356" width="150" height="34" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="105" y="378" font-size="12.5" fill="#166534" text-anchor="middle">Function（test_*）</text>
+
+  <g stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="105" y1="198" x2="105" y2="210"/>
+    <line x1="105" y1="246" x2="105" y2="258"/>
+    <line x1="105" y1="294" x2="105" y2="306"/>
+    <line x1="105" y1="342" x2="105" y2="354"/>
+  </g>
+
+  <!-- rules -->
+  <rect x="210" y="164" width="450" height="122" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="226" y="186" font-size="13" font-weight="700" fill="#1f2d3d">默认命名约定（可在 ini 覆盖）</text>
+  <text x="226" y="208" font-size="12" fill="#1f2d3d">python_files    = test_*.py  *_test.py</text>
+  <text x="226" y="228" font-size="12" fill="#1f2d3d">python_classes  = Test*      （不能有 __init__）</text>
+  <text x="226" y="248" font-size="12" fill="#1f2d3d">python_functions = test_*</text>
+  <text x="226" y="272" font-size="11.5" fill="#64748b">改了约定务必写进 ini，否则本地能跑、CI 收集为 0</text>
+
+  <rect x="210" y="298" width="450" height="92" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="226" y="320" font-size="13" font-weight="700" fill="#991b1b">收集失败的常见原因</text>
+  <text x="226" y="342" font-size="11.5" fill="#7f1d1d">· 测试类写了 `__init__` → 直接跳过且只给 warning</text>
+  <text x="226" y="362" font-size="11.5" fill="#7f1d1d">· 两个目录同名 test_api.py 且无 `__init__.py` → import 冲突</text>
+  <text x="226" y="382" font-size="11.5" fill="#7f1d1d">· `--ignore` / `norecursedirs` / `collect_ignore` 把目录排除了</text>
+
+  <rect x="20" y="404" width="640" height="48" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="1.2"/>
+  <text x="36" y="426" font-size="12.5" fill="#1f2d3d">排障命令：`pytest --collect-only -q` 只收集不执行；`pytest --co -q | wc -l` 数用例；`pytest --rootdir` 看根目录判定</text>
+  <text x="36" y="444" font-size="12.5" fill="#1f2d3d">nodeid 格式：`tests/api/test_login.py::TestLogin::test_ok[admin]`，可直接粘回命令行精确重跑</text>
+</svg>

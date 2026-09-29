@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+    <marker id="arrowO" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#d98324"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="30" font-size="17" font-weight="bold" fill="#1f2d3d">用例失败重跑与现场收集流程</text>
+
+  <!-- 1 用例执行 -->
+  <rect x="40" y="60" width="150" height="46" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="115" y="88" font-size="13" text-anchor="middle" fill="#1f2d3d">用例执行</text>
+
+  <!-- 2 是否失败 -->
+  <rect x="270" y="55" width="120" height="56" rx="28" fill="#ffffff" stroke="#1f2d3d"/>
+  <text x="330" y="80" font-size="13" text-anchor="middle" fill="#1f2d3d">执行结果</text>
+  <text x="330" y="98" font-size="11" text-anchor="middle" fill="#5b6b7b">通过 / 失败?</text>
+
+  <!-- 通过 -->
+  <rect x="470" y="60" width="150" height="46" rx="8" fill="#c8f0d0" stroke="#2f9e44"/>
+  <text x="545" y="88" font-size="13" text-anchor="middle" fill="#1f2d3d">标记为通过</text>
+
+  <!-- 3 钩子收集 -->
+  <rect x="40" y="170" width="170" height="46" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="125" y="198" font-size="13" text-anchor="middle" fill="#1f2d3d">pytest_runtest_makereport</text>
+
+  <!-- 4 收集现场 -->
+  <rect x="40" y="250" width="170" height="96" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="125" y="278" font-size="12" text-anchor="middle" fill="#1f2d3d">收集现场</text>
+  <text x="125" y="300" font-size="11" text-anchor="middle" fill="#5b6b7b">截图 / page_source</text>
+  <text x="125" y="318" font-size="11" text-anchor="middle" fill="#5b6b7b">URL / 控制台日志</text>
+  <text x="125" y="336" font-size="11" text-anchor="middle" fill="#5b6b7b">video / trace</text>
+
+  <!-- 5 是否达上限 -->
+  <rect x="290" y="245" width="120" height="56" rx="28" fill="#ffffff" stroke="#1f2d3d"/>
+  <text x="350" y="270" font-size="12" text-anchor="middle" fill="#1f2d3d">重试次数</text>
+  <text x="350" y="288" font-size="11" text-anchor="middle" fill="#5b6b7b">达上限?</text>
+
+  <!-- 6 重跑 -->
+  <rect x="470" y="250" width="150" height="46" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="545" y="278" font-size="13" text-anchor="middle" fill="#1f2d3d">有限次重跑</text>
+
+  <!-- 7 标记失败+artifacts -->
+  <rect x="290" y="360" width="200" height="48" rx="8" fill="#ffd6d6" stroke="#c0392b"/>
+  <text x="390" y="389" font-size="13" text-anchor="middle" fill="#1f2d3d">标记失败 · 报告附 artifacts</text>
+
+  <!-- edges -->
+  <line x1="190" y1="83" x2="268" y2="83" stroke="#2f6fd0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="330" y1="111" x2="330" y2="150" stroke="#2f6fd0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="390" y1="83" x2="468" y2="83" stroke="#2f9e44" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="430" y="76" font-size="11" fill="#2f9e44">通过</text>
+
+  <line x1="125" y1="216" x2="125" y2="248" stroke="#d98324" stroke-width="2" marker-end="url(#arrowO)"/>
+  <line x1="210" y1="298" x2="288" y2="273" stroke="#d98324" stroke-width="2" marker-end="url(#arrowO)"/>
+  <text x="250" y="262" font-size="11" fill="#d98324">失败</text>
+
+  <line x1="350" y1="301" x2="350" y2="358" stroke="#c0392b" stroke-width="2" marker-end="url(#arrowO)"/>
+  <text x="360" y="335" font-size="11" fill="#c0392b">是</text>
+
+  <line x1="410" y1="273" x2="468" y2="273" stroke="#d98324" stroke-width="2" marker-end="url(#arrowO)"/>
+  <text x="430" y="266" font-size="11" fill="#d98324">否</text>
+
+  <line x1="545" y1="296" x2="545" y2="340" stroke="#d98324" stroke-width="2"/>
+  <line x1="545" y1="340" x2="492" y2="340" stroke="#d98324" stroke-width="2" marker-end="url(#arrowO)"/>
+  <text x="556" y="312" font-size="11" fill="#d98324">重跑后</text>
+</svg>

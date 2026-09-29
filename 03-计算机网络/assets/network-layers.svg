@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">OSI 七层与 TCP/IP 四层对照 · 数据封装</text>
+
+  <text x="60" y="58" font-size="13" font-weight="700" fill="#1e293b">OSI 七层</text>
+  <text x="270" y="58" font-size="13" font-weight="700" fill="#1e293b">TCP/IP 四层</text>
+  <text x="470" y="58" font-size="13" font-weight="700" fill="#1e293b">典型协议 / 数据单位</text>
+
+  <!-- OSI layers -->
+  <rect x="30" y="70" width="180" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="120" y="92" font-size="12" fill="#1f2d3d" text-anchor="middle">7 应用层</text>
+  <rect x="30" y="108" width="180" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="120" y="130" font-size="12" fill="#1f2d3d" text-anchor="middle">6 表示层</text>
+  <rect x="30" y="146" width="180" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="120" y="168" font-size="12" fill="#1f2d3d" text-anchor="middle">5 会话层</text>
+  <rect x="30" y="188" width="180" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="120" y="210" font-size="12" fill="#1f2d3d" text-anchor="middle">4 传输层</text>
+  <rect x="30" y="230" width="180" height="34" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="120" y="252" font-size="12" fill="#1f2d3d" text-anchor="middle">3 网络层</text>
+  <rect x="30" y="272" width="180" height="34" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="120" y="294" font-size="12" fill="#1f2d3d" text-anchor="middle">2 数据链路层</text>
+  <rect x="30" y="310" width="180" height="34" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="120" y="332" font-size="12" fill="#1f2d3d" text-anchor="middle">1 物理层</text>
+
+  <!-- TCP/IP layers -->
+  <rect x="240" y="70" width="170" height="110" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="325" y="122" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">应用层</text>
+  <text x="325" y="142" font-size="11.5" fill="#475569" text-anchor="middle">(合并 5/6/7)</text>
+  <rect x="240" y="188" width="170" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="325" y="210" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">传输层</text>
+  <rect x="240" y="230" width="170" height="34" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="325" y="252" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">网际层</text>
+  <rect x="240" y="272" width="170" height="72" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="325" y="304" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">网络接口层</text>
+  <text x="325" y="324" font-size="11.5" fill="#475569" text-anchor="middle">(合并 1/2)</text>
+
+  <!-- protocols -->
+  <text x="440" y="92" font-size="11.5" fill="#1f2d3d">HTTP / HTTPS / DNS / FTP / SSH</text>
+  <text x="440" y="112" font-size="11.5" fill="#64748b">数据单位：message（报文）</text>
+  <text x="440" y="205" font-size="11.5" fill="#1f2d3d">TCP（segment）/ UDP（datagram）</text>
+  <text x="440" y="225" font-size="11.5" fill="#64748b">寻址靠端口号 0-65535</text>
+  <text x="440" y="248" font-size="11.5" fill="#1f2d3d">IP / ICMP / ARP —— packet</text>
+  <text x="440" y="268" font-size="11.5" fill="#64748b">寻址靠 IP 地址，路由转发</text>
+  <text x="440" y="300" font-size="11.5" fill="#1f2d3d">Ethernet / Wi-Fi —— frame</text>
+  <text x="440" y="320" font-size="11.5" fill="#64748b">寻址靠 MAC，只在本网段有效</text>
+
+  <line x1="212" y1="125" x2="238" y2="125" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="212" y1="205" x2="238" y2="205" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="212" y1="247" x2="238" y2="247" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="212" y1="308" x2="238" y2="308" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- encapsulation -->
+  <text x="20" y="382" font-size="13" font-weight="700" fill="#1e293b">发送方逐层封装（每层加自己的头）</text>
+  <rect x="30" y="394" width="120" height="30" rx="4" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="90" y="414" font-size="11.5" fill="#1f2d3d" text-anchor="middle">以太网头</text>
+  <rect x="150" y="394" width="100" height="30" rx="4" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="200" y="414" font-size="11.5" fill="#1f2d3d" text-anchor="middle">IP 头</text>
+  <rect x="250" y="394" width="110" height="30" rx="4" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="305" y="414" font-size="11.5" fill="#1f2d3d" text-anchor="middle">TCP 头</text>
+  <rect x="360" y="394" width="250" height="30" rx="4" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="485" y="414" font-size="11.5" fill="#1f2d3d" text-anchor="middle">HTTP 报文（真正的业务数据）</text>
+  <line x1="610" y1="409" x2="650" y2="409" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <text x="20" y="452" font-size="11.5" fill="#64748b">要点：抓包看到的一帧就是这样层层套娃；定位问题时先判断卡在哪一层——DNS/证书属应用层，连接超时多在传输层，路由不通在网际层。</text>
+</svg>

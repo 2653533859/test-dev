@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="fs" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">iframe 与 Shadow DOM：两种「查找边界」</text>
+
+  <!-- left: iframe -->
+  <text x="30" y="58" font-size="13.5" font-weight="700" fill="#1b4a91">iframe：独立文档，driver 有「当前上下文」状态</text>
+  <rect x="24" y="70" width="310" height="180" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="38" y="90" font-size="12" fill="#64748b">主文档 document</text>
+  <rect x="40" y="98" width="180" height="30" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="130" y="118" font-size="12" fill="#1b4a91" text-anchor="middle">#header 按钮</text>
+
+  <rect x="40" y="140" width="278" height="96" rx="6" fill="#fff8ef" stroke="#d98324" stroke-dasharray="5 3"/>
+  <text x="52" y="158" font-size="11.5" fill="#8a4b0f">&lt;iframe&gt; 内部：另一个 document</text>
+  <rect x="56" y="168" width="180" height="30" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="146" y="188" font-size="12" fill="#8a4b0f" text-anchor="middle">#pay-submit 按钮</text>
+  <text x="56" y="220" font-size="11" fill="#8a4b0f">主文档的 find_element 看不到这里</text>
+
+  <rect x="24" y="258" width="310" height="86" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="38" y="278" font-size="12" font-weight="700" fill="#1f2d3d">Selenium：有状态切换</text>
+  <text x="38" y="296" font-size="11.5" fill="#334155">switch_to.frame(el) → 操作 → switch_to.default_content()</text>
+  <text x="38" y="314" font-size="12" font-weight="700" fill="#1f2d3d">Playwright：无状态链式</text>
+  <text x="38" y="332" font-size="11.5" fill="#334155">page.frame_locator("#pay").get_by_role("button")</text>
+
+  <!-- right: shadow dom -->
+  <text x="360" y="58" font-size="13.5" font-weight="700" fill="#5b3fa8">Shadow DOM：同一文档，封装的子树</text>
+  <rect x="354" y="70" width="302" height="180" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="368" y="90" font-size="12" fill="#64748b">主文档 document</text>
+  <rect x="370" y="98" width="200" height="30" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="470" y="118" font-size="12" fill="#1b4a91" text-anchor="middle">&lt;my-dialog&gt; 宿主元素</text>
+
+  <rect x="386" y="140" width="254" height="96" rx="6" fill="#f3efff" stroke="#7c5cd6" stroke-dasharray="5 3"/>
+  <text x="398" y="158" font-size="11.5" fill="#5b3fa8">#shadow-root (open)</text>
+  <rect x="402" y="168" width="180" height="30" rx="5" fill="#e6dcff" stroke="#7c5cd6"/>
+  <text x="492" y="188" font-size="12" fill="#5b3fa8" text-anchor="middle">.confirm 按钮</text>
+  <text x="402" y="220" font-size="11" fill="#5b3fa8">CSS 选择器无法跨越这条边界</text>
+
+  <rect x="354" y="258" width="302" height="86" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="368" y="278" font-size="12" font-weight="700" fill="#1f2d3d">Selenium：逐层取 shadow_root</text>
+  <text x="368" y="296" font-size="11.5" fill="#334155">host.shadow_root.find_element(CSS, ".confirm")</text>
+  <text x="368" y="314" font-size="12" font-weight="700" fill="#1f2d3d">Playwright：自动穿透 open 影子树</text>
+  <text x="368" y="332" font-size="11.5" fill="#334155">page.locator("my-dialog .confirm")</text>
+
+  <line x1="130" y1="128" x2="130" y2="166" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#fs)"/>
+  <line x1="470" y1="128" x2="470" y2="166" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#fs)"/>
+
+  <!-- footer -->
+  <rect x="24" y="360" width="632" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="382" font-size="12.5" font-weight="700" fill="#1f2d3d">共同点：都是「查找边界」，普通 find_element 穿不过去，报 NoSuchElementException。</text>
+  <text x="40" y="404" font-size="11.5" fill="#334155">差异一：iframe 是独立 document（可跨域）；Shadow DOM 在同一 document 内，只是封装。</text>
+  <text x="40" y="422" font-size="11.5" fill="#334155">差异二：Selenium 的 frame 切换是有状态的——切进去后所有查找都在 frame 内，忘了切回来后续全部失败。</text>
+  <text x="40" y="440" font-size="11.5" fill="#9c2b2b">红线：closed 模式的 shadow root 拿不到 shadow_root，只能让前端改成 open 或走 JS 内部 API。</text>
+</svg>

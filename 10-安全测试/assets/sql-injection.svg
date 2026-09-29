@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">SQL 注入：字符串拼接 vs 参数化查询</text>
+
+  <!-- LEFT: concat -->
+  <rect x="16" y="46" width="316" height="196" rx="10" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="174" y="70" font-size="14" font-weight="700" fill="#8a4b00" text-anchor="middle">拼接：数据被当成代码</text>
+
+  <rect x="32" y="82" width="284" height="30" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="174" y="102" font-size="12" fill="#1f2d3d" text-anchor="middle">输入 id = 1 OR 1=1</text>
+
+  <line x1="174" y1="112" x2="174" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="32" y="130" width="284" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="174" y="151" font-size="12" fill="#8a4b00" text-anchor="middle">"SELECT * FROM u WHERE id=" + 输入</text>
+
+  <line x1="174" y1="164" x2="174" y2="180" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="32" y="182" width="284" height="46" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="174" y="200" font-size="12" fill="#1f2d3d" text-anchor="middle">解析器收到一整条文本，先分词再建树</text>
+  <text x="174" y="218" font-size="12" font-weight="700" fill="#b3261e" text-anchor="middle">OR 1=1 被解析成「逻辑运算符」→ 全表返回</text>
+
+  <!-- RIGHT: prepared -->
+  <rect x="348" y="46" width="316" height="196" rx="10" fill="#eef4ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="506" y="70" font-size="14" font-weight="700" fill="#1a4a8f" text-anchor="middle">参数化：数据永远只是数据</text>
+
+  <rect x="364" y="82" width="284" height="30" rx="6" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="506" y="102" font-size="12" fill="#1f2d3d" text-anchor="middle">模板 "SELECT * FROM u WHERE id=?"</text>
+
+  <line x1="506" y1="112" x2="506" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="364" y="130" width="284" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="506" y="151" font-size="12" fill="#1a4a8f" text-anchor="middle">① Prepare：语法树先编译好并定型</text>
+
+  <line x1="506" y1="164" x2="506" y2="180" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="364" y="182" width="284" height="46" rx="6" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="506" y="200" font-size="12" fill="#1f2d3d" text-anchor="middle">② Bind：值走独立通道填进占位符</text>
+  <text x="506" y="218" font-size="12" font-weight="700" fill="#1a7f37" text-anchor="middle">"1 OR 1=1" 整体当字符串 → 查不到记录</text>
+
+  <!-- key insight -->
+  <rect x="16" y="258" width="648" height="42" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="340" y="276" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">本质区别：拼接是「先拼字符串后解析」，参数化是「先解析定型后填值」</text>
+  <text x="340" y="293" font-size="11.5" fill="#475569" text-anchor="middle">语法树在参数到达之前就已经固定，参数再怎么写也改不了树的形状</text>
+
+  <!-- escaping caveat -->
+  <text x="20" y="330" font-size="14" font-weight="700" fill="#1f2d3d">为什么「转义」不够可靠</text>
+
+  <rect x="20" y="342" width="205" height="66" rx="8" fill="#fff5ec" stroke="#d98324"/>
+  <text x="122" y="363" font-size="12.5" font-weight="700" fill="#8a4b00" text-anchor="middle">数字型无引号</text>
+  <text x="122" y="382" font-size="11.5" fill="#8a4b00" text-anchor="middle">id=1 OR 1=1 里没有引号</text>
+  <text x="122" y="399" font-size="11.5" fill="#8a4b00" text-anchor="middle">转义引号完全不起作用</text>
+
+  <rect x="237" y="342" width="205" height="66" rx="8" fill="#fff5ec" stroke="#d98324"/>
+  <text x="339" y="363" font-size="12.5" font-weight="700" fill="#8a4b00" text-anchor="middle">字符集不一致</text>
+  <text x="339" y="382" font-size="11.5" fill="#8a4b00" text-anchor="middle">宽字节场景转义符被吃掉</text>
+  <text x="339" y="399" font-size="11.5" fill="#8a4b00" text-anchor="middle">需统一 utf8mb4</text>
+
+  <rect x="454" y="342" width="210" height="66" rx="8" fill="#fff5ec" stroke="#d98324"/>
+  <text x="559" y="363" font-size="12.5" font-weight="700" fill="#8a4b00" text-anchor="middle">标识符不能绑参</text>
+  <text x="559" y="382" font-size="11.5" fill="#8a4b00" text-anchor="middle">表名/列名/ORDER BY</text>
+  <text x="559" y="399" font-size="11.5" fill="#8a4b00" text-anchor="middle">只能白名单枚举</text>
+
+  <text x="20" y="440" font-size="11.5" fill="#64748b">测试关注点：所有进入 SQL 的输入是否都走了占位符；排序字段、动态表名、LIKE 拼接、IN 列表是最常见的漏网之鱼。</text>
+  <text x="20" y="458" font-size="11.5" fill="#64748b">验证一律在 DVWA / sqli-labs 等自有靶场进行，生产环境只做代码与配置审计。</text>
+</svg>

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="sarrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">慢 SQL 定位与优化流程</text>
+
+  <!-- step 1 -->
+  <rect x="30" y="50" width="180" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="120" y="72" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">① 发现</text>
+  <text x="120" y="91" font-size="11.5" fill="#1f2d3d" text-anchor="middle">慢查询日志 / 监控告警</text>
+
+  <line x1="210" y1="76" x2="248" y2="76" stroke="#475569" stroke-width="1.5" marker-end="url(#sarrow)"/>
+
+  <rect x="250" y="50" width="180" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="340" y="72" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">② 排序取 TopN</text>
+  <text x="340" y="91" font-size="11.5" fill="#1f2d3d" text-anchor="middle">mysqldumpslow / pt-query-digest</text>
+
+  <line x1="430" y1="76" x2="468" y2="76" stroke="#475569" stroke-width="1.5" marker-end="url(#sarrow)"/>
+
+  <rect x="470" y="50" width="180" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="560" y="72" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">③ 分析执行计划</text>
+  <text x="560" y="91" font-size="11.5" fill="#1f2d3d" text-anchor="middle">EXPLAIN / EXPLAIN ANALYZE</text>
+
+  <line x1="560" y1="102" x2="560" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#sarrow)"/>
+
+  <!-- decision -->
+  <rect x="180" y="130" width="470" height="34" rx="6" fill="#ffe0c2" stroke="#d98324" stroke-width="1.5"/>
+  <text x="415" y="152" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">④ 看 type / key / key_len / rows / Extra，判断瓶颈类型</text>
+
+  <line x1="415" y1="164" x2="415" y2="186" stroke="#475569" stroke-width="1.5"/>
+  <line x1="120" y1="186" x2="650" y2="186" stroke="#475569" stroke-width="1.5"/>
+  <line x1="120" y1="186" x2="120" y2="206" stroke="#475569" stroke-width="1.5" marker-end="url(#sarrow)"/>
+  <line x1="298" y1="186" x2="298" y2="206" stroke="#475569" stroke-width="1.5" marker-end="url(#sarrow)"/>
+  <line x1="474" y1="186" x2="474" y2="206" stroke="#475569" stroke-width="1.5" marker-end="url(#sarrow)"/>
+  <line x1="650" y1="186" x2="650" y2="206" stroke="#475569" stroke-width="1.5" marker-end="url(#sarrow)"/>
+
+  <!-- branches -->
+  <rect x="30" y="210" width="176" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="118" y="230" font-size="12.5" font-weight="700" fill="#c0392b" text-anchor="middle">type = ALL</text>
+  <text x="42" y="250" font-size="11.5" fill="#1f2d3d">没走索引</text>
+  <text x="42" y="269" font-size="11.5" fill="#64748b">· 检查函数/隐式转换</text>
+  <text x="42" y="286" font-size="11.5" fill="#64748b">· 检查最左前缀</text>
+  <text x="42" y="301" font-size="11.5" fill="#64748b">· 补索引</text>
+
+  <rect x="212" y="210" width="176" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="300" y="230" font-size="12.5" font-weight="700" fill="#d98324" text-anchor="middle">rows 很大</text>
+  <text x="224" y="250" font-size="11.5" fill="#1f2d3d">扫描行数过多</text>
+  <text x="224" y="269" font-size="11.5" fill="#64748b">· 换选择性更高的列</text>
+  <text x="224" y="286" font-size="11.5" fill="#64748b">· 调整联合索引顺序</text>
+  <text x="224" y="301" font-size="11.5" fill="#64748b">· ANALYZE TABLE</text>
+
+  <rect x="394" y="210" width="176" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="482" y="230" font-size="12.5" font-weight="700" fill="#d98324" text-anchor="middle">Using filesort</text>
+  <text x="406" y="250" font-size="11.5" fill="#1f2d3d">排序无法用索引</text>
+  <text x="406" y="269" font-size="11.5" fill="#64748b">· ORDER BY 列进索引</text>
+  <text x="406" y="286" font-size="11.5" fill="#64748b">· 保持排序方向一致</text>
+  <text x="406" y="301" font-size="11.5" fill="#64748b">· 减少排序数据量</text>
+
+  <rect x="576" y="210" width="74" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="613" y="230" font-size="12" font-weight="700" fill="#d98324" text-anchor="middle">回表多</text>
+  <text x="586" y="252" font-size="11.5" fill="#64748b">· 覆盖索引</text>
+  <text x="586" y="271" font-size="11.5" fill="#64748b">· 延迟关联</text>
+  <text x="586" y="290" font-size="11.5" fill="#64748b">· 只查需要</text>
+  <text x="586" y="303" font-size="11.5" fill="#64748b">　的列</text>
+
+  <line x1="118" y1="306" x2="118" y2="330" stroke="#475569" stroke-width="1.5"/>
+  <line x1="300" y1="306" x2="300" y2="330" stroke="#475569" stroke-width="1.5"/>
+  <line x1="482" y1="306" x2="482" y2="330" stroke="#475569" stroke-width="1.5"/>
+  <line x1="613" y1="306" x2="613" y2="330" stroke="#475569" stroke-width="1.5"/>
+  <line x1="118" y1="330" x2="613" y2="330" stroke="#475569" stroke-width="1.5"/>
+  <line x1="340" y1="330" x2="340" y2="348" stroke="#475569" stroke-width="1.5" marker-end="url(#sarrow)"/>
+
+  <!-- verify -->
+  <rect x="150" y="352" width="380" height="46" rx="8" fill="#e8f2e4" stroke="#5b8c4a" stroke-width="1.5"/>
+  <text x="340" y="372" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">⑤ 改完必须回归验证</text>
+  <text x="340" y="390" font-size="11.5" fill="#1f2d3d" text-anchor="middle">重跑 EXPLAIN 对比 + 用生产量级数据实测耗时 + 检查写入是否变慢</text>
+
+  <text x="20" y="428" font-size="11.5" fill="#64748b">要点：优化前先量化（当前耗时、扫描行数），优化后同口径对比，避免「感觉快了」这种无效结论。</text>
+  <text x="20" y="448" font-size="11.5" fill="#64748b">注意：加索引会拖慢写入，测试环境务必用与生产同数量级的数据验证，小表上任何执行计划都看不出差别。</text>
+</svg>

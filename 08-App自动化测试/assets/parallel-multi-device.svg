@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">多设备并行：端口分配与 Grid 架构</text>
+
+  <!-- ① 架构图 -->
+  <rect x="16" y="44" width="648" height="220" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="66" font-size="14" font-weight="700" fill="#2f6fd0">① 一台机器跑 N 个 Appium Server，每个绑一台设备</text>
+
+  <!-- pytest-xdist -->
+  <rect x="32" y="80" width="156" height="40" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="110" y="100" font-size="11.5" fill="#1b5e20" text-anchor="middle">pytest-xdist</text>
+  <text x="110" y="114" font-size="10" fill="#1b5e20" text-anchor="middle">N 个 worker 并行</text>
+
+  <!-- Appium Server 1 -->
+  <rect x="208" y="80" width="200" height="40" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="308" y="98" font-size="11" fill="#1e3a8a" text-anchor="middle">Appium Server --port 4723</text>
+  <text x="308" y="113" font-size="10" fill="#1e3a8a" text-anchor="middle">systemPort=8200 · wdaLocalPort=8100</text>
+
+  <!-- Appium Server 2 -->
+  <rect x="208" y="128" width="200" height="40" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="308" y="146" font-size="11" fill="#1e3a8a" text-anchor="middle">Appium Server --port 4725</text>
+  <text x="308" y="161" font-size="10" fill="#1e3a8a" text-anchor="middle">systemPort=8201 · wdaLocalPort=8101</text>
+
+  <!-- Appium Server 3 -->
+  <rect x="208" y="176" width="200" height="40" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="308" y="194" font-size="11" fill="#1e3a8a" text-anchor="middle">Appium Server --port 4727</text>
+  <text x="308" y="209" font-size="10" fill="#1e3a8a" text-anchor="middle">systemPort=8202 · wdaLocalPort=8102</text>
+
+  <line x1="188" y1="100" x2="206" y2="100" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="188" y1="148" x2="206" y2="148" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="188" y1="196" x2="206" y2="196" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 设备 1 -->
+  <rect x="424" y="80" width="116" height="40" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="482" y="98" font-size="11" fill="#8a4b08" text-anchor="middle">Device A</text>
+  <text x="482" y="113" font-size="10" fill="#8a4b08" text-anchor="middle">udid=R5CT30X</text>
+
+  <!-- 设备 2 -->
+  <rect x="424" y="128" width="116" height="40" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="482" y="146" font-size="11" fill="#8a4b08" text-anchor="middle">Device B</text>
+  <text x="482" y="161" font-size="10" fill="#8a4b08" text-anchor="middle">udid=R5CT31Y</text>
+
+  <!-- 设备 3 -->
+  <rect x="424" y="176" width="116" height="40" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="482" y="194" font-size="11" fill="#8a4b08" text-anchor="middle">Device C</text>
+  <text x="482" y="209" font-size="10" fill="#8a4b08" text-anchor="middle">udid=emulator-5556</text>
+
+  <line x1="408" y1="100" x2="422" y2="100" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="408" y1="148" x2="422" y2="148" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="408" y1="196" x2="422" y2="196" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 云真机分支 -->
+  <rect x="552" y="80" width="100" height="136" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="602" y="100" font-size="11" font-weight="700" fill="#1b5e20" text-anchor="middle">云真机</text>
+  <text x="602" y="120" font-size="10" fill="#1b5e20" text-anchor="middle">平台自带</text>
+  <text x="602" y="136" font-size="10" fill="#1b5e20" text-anchor="middle">并发调度</text>
+  <text x="602" y="152" font-size="10" fill="#1b5e20" text-anchor="middle">remote 指向</text>
+  <text x="602" y="168" font-size="10" fill="#1b5e20" text-anchor="middle">云 Appium</text>
+  <text x="602" y="184" font-size="10" fill="#1b5e20" text-anchor="middle">脚本不变</text>
+  <text x="602" y="200" font-size="10" fill="#1b5e20" text-anchor="middle">只换 caps</text>
+
+  <text x="32" y="236" font-size="11.5" fill="#dc2626">并行前提：每个 session 必须独立 systemPort（Android）/ wdaLocalPort（iOS）/ mjpegServerPort，Appium --port 也要错开</text>
+  <text x="32" y="254" font-size="11.5" fill="#475569">工程化：caps 抽成 YAML，每台设备一个 profile，pytest --device=xxx 切换，CI 配合 xdist 分发</text>
+
+  <!-- ② 端口分配表 -->
+  <rect x="16" y="272" width="318" height="184" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="294" font-size="14" font-weight="700" fill="#d98324">② 单机三设备端口分配示例</text>
+
+  <rect x="32" y="306" width="60" height="26" rx="4" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="62" y="323" font-size="10.5" font-weight="700" fill="#334155" text-anchor="middle">设备</text>
+  <rect x="94" y="306" width="70" height="26" rx="4" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="129" y="323" font-size="10.5" font-weight="700" fill="#334155" text-anchor="middle">--port</text>
+  <rect x="166" y="306" width="78" height="26" rx="4" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="205" y="323" font-size="10.5" font-weight="700" fill="#334155" text-anchor="middle">systemPort</text>
+  <rect x="246" y="306" width="72" height="26" rx="4" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="282" y="323" font-size="10.5" font-weight="700" fill="#334155" text-anchor="middle">wdaPort</text>
+
+  <rect x="32" y="334" width="60" height="26" rx="4" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="62" y="351" font-size="10.5" fill="#1e3a8a" text-anchor="middle">A</text>
+  <rect x="94" y="334" width="70" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="129" y="351" font-size="10.5" fill="#334155" text-anchor="middle">4723</text>
+  <rect x="166" y="334" width="78" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="205" y="351" font-size="10.5" fill="#334155" text-anchor="middle">8200</text>
+  <rect x="246" y="334" width="72" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="282" y="351" font-size="10.5" fill="#334155" text-anchor="middle">8100</text>
+
+  <rect x="32" y="362" width="60" height="26" rx="4" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="62" y="379" font-size="10.5" fill="#1e3a8a" text-anchor="middle">B</text>
+  <rect x="94" y="362" width="70" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="129" y="379" font-size="10.5" fill="#334155" text-anchor="middle">4725</text>
+  <rect x="166" y="362" width="78" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="205" y="379" font-size="10.5" fill="#334155" text-anchor="middle">8201</text>
+  <rect x="246" y="362" width="72" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="282" y="379" font-size="10.5" fill="#334155" text-anchor="middle">8101</text>
+
+  <rect x="32" y="390" width="60" height="26" rx="4" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="62" y="407" font-size="10.5" fill="#1e3a8a" text-anchor="middle">C</text>
+  <rect x="94" y="390" width="70" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="129" y="407" font-size="10.5" fill="#334155" text-anchor="middle">4727</text>
+  <rect x="166" y="390" width="78" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="205" y="407" font-size="10.5" fill="#334155" text-anchor="middle">8202</text>
+  <rect x="246" y="390" width="72" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="282" y="407" font-size="10.5" fill="#334155" text-anchor="middle">8102</text>
+
+  <text x="32" y="432" font-size="10.5" fill="#dc2626">--port：Appium Server 监听端口</text>
+  <text x="32" y="446" font-size="10.5" fill="#dc2626">systemPort：adb forward 的 PC 侧端口</text>
+
+  <!-- ③ 常见坑 -->
+  <rect x="346" y="272" width="318" height="184" rx="8" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="362" y="294" font-size="14" font-weight="700" fill="#9c2b2b">③ 并行高频翻车点</text>
+  <text x="362" y="316" font-size="11" fill="#9c2b2b">1. systemPort 没错开</text>
+  <text x="362" y="332" font-size="10.5" fill="#9c2b2b">第二个 session 抢不到 8200 直接超时</text>
+  <text x="362" y="354" font-size="11" fill="#9c2b2b">2. udid 没显式指定</text>
+  <text x="362" y="370" font-size="10.5" fill="#9c2b2b">多设备时随机连一台，结果跑重了</text>
+  <text x="362" y="392" font-size="11" fill="#9c2b2b">3. 同一台设备被两个 session 抢</text>
+  <text x="362" y="408" font-size="10.5" fill="#9c2b2b">报 session already exists</text>
+  <text x="362" y="430" font-size="11" fill="#9c2b2b">4. 云真机并发数不够</text>
+  <text x="362" y="446" font-size="10.5" fill="#9c2b2b">矩阵串行跑几小时，按风险分层冒烟</text>
+</svg>

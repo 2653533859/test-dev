@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="wc" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">隐式等待 × 显式等待：两层轮询叠加导致超时失控</text>
+
+  <!-- setup -->
+  <rect x="24" y="44" width="632" height="38" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="68" font-size="12.5" fill="#1f2d3d">前提：driver.implicitly_wait(10) + WebDriverWait(driver, 10, poll=0.5)，等待一个永远不出现的元素</text>
+
+  <!-- expected -->
+  <text x="24" y="110" font-size="13.5" font-weight="700" fill="#2f5d3a">预期：显式等待 10 秒后超时</text>
+  <rect x="24" y="120" width="300" height="34" rx="6" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="174" y="142" font-size="12" fill="#2f5d3a" text-anchor="middle">10s → TimeoutException</text>
+
+  <!-- actual -->
+  <text x="356" y="110" font-size="13.5" font-weight="700" fill="#9c2b2b">实际：远超 10 秒（driver 实现相关）</text>
+  <rect x="356" y="120" width="300" height="34" rx="6" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="506" y="142" font-size="12" fill="#9c2b2b" text-anchor="middle">可能 10s / 20s / 60s+，不可预测</text>
+
+  <!-- timeline lanes -->
+  <text x="24" y="188" font-size="13" font-weight="700" fill="#1f2d3d">一次显式轮询内部发生了什么</text>
+
+  <text x="24" y="216" font-size="12" fill="#334155">第 1 轮</text>
+  <rect x="96" y="200" width="200" height="26" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="196" y="218" font-size="11.5" fill="#8a4b0f" text-anchor="middle">find_element 被隐式等待挂起 10s</text>
+  <rect x="304" y="200" width="120" height="26" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="364" y="218" font-size="11.5" fill="#1b4a91" text-anchor="middle">抛 NoSuchElement</text>
+  <rect x="432" y="200" width="120" height="26" rx="5" fill="#e2e8f0" stroke="#94a3b8"/>
+  <text x="492" y="218" font-size="11.5" fill="#475569" text-anchor="middle">被 wait 吞掉</text>
+  <rect x="560" y="200" width="96" height="26" rx="5" fill="#e2e8f0" stroke="#94a3b8"/>
+  <text x="608" y="218" font-size="11.5" fill="#475569" text-anchor="middle">sleep 0.5s</text>
+
+  <text x="24" y="254" font-size="12" fill="#334155">第 2 轮</text>
+  <rect x="96" y="238" width="200" height="26" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="196" y="256" font-size="11.5" fill="#8a4b0f" text-anchor="middle">再次被挂起 10s</text>
+  <text x="312" y="256" font-size="11.5" fill="#9c2b2b">此时已过 20.5 秒，显式超时判定才第二次生效</text>
+
+  <line x1="296" y1="213" x2="302" y2="213" stroke="#475569" stroke-width="1.4" marker-end="url(#wc)"/>
+  <line x1="424" y1="213" x2="430" y2="213" stroke="#475569" stroke-width="1.4" marker-end="url(#wc)"/>
+  <line x1="552" y1="213" x2="558" y2="213" stroke="#475569" stroke-width="1.4" marker-end="url(#wc)"/>
+  <path d="M608,226 L608,232 L96,232 L96,236" fill="none" stroke="#475569" stroke-width="1.4" marker-end="url(#wc)"/>
+
+  <!-- second problem -->
+  <text x="24" y="298" font-size="13" font-weight="700" fill="#1f2d3d">第二个副作用：本该「立刻判定不存在」的断言被拖慢</text>
+  <rect x="24" y="310" width="300" height="60" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="40" y="330" font-size="11.5" fill="#9c2b2b">assert len(find_elements(...)) == 0</text>
+  <text x="40" y="348" font-size="11.5" fill="#9c2b2b">find_elements 找不到时不报错，但仍会</text>
+  <text x="40" y="364" font-size="11.5" fill="#9c2b2b">被隐式等待挂满 10 秒才返回空列表</text>
+
+  <rect x="356" y="310" width="300" height="60" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="372" y="330" font-size="11.5" fill="#2f5d3a">正确做法：全局 implicitly_wait(0)，</text>
+  <text x="372" y="348" font-size="11.5" fill="#2f5d3a">所有等待走显式条件；「断言不存在」</text>
+  <text x="372" y="364" font-size="11.5" fill="#2f5d3a">用 invisibility_of_element_located</text>
+
+  <!-- footer -->
+  <rect x="24" y="388" width="632" height="68" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="410" font-size="11.5" fill="#334155">隐式等待是「会话级全局配置」，对所有 find_element 生效；显式等待是「一次性局部条件」，两者作用域不同。</text>
+  <text x="40" y="430" font-size="11.5" fill="#334155">隐式等待只判断「元素在不在 DOM」，管不了可见、可点、文本是否更新——覆盖不了真实的等待需求。</text>
+  <text x="40" y="450" font-size="11.5" fill="#9c2b2b">结论：二选一，且选显式。在 driver fixture 里显式写 implicitly_wait(0)，防止别人偷偷加回来。</text>
+</svg>

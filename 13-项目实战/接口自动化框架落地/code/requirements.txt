@@ -1,0 +1,12 @@
+# 接口自动化框架依赖。固定版本号，避免 CI 构建因上游发版而飘红。
+# 安装：pip install -r requirements.txt
+
+pytest==8.3.4
+requests==2.32.3
+PyYAML==6.0.2
+jsonpath-ng==1.6.1
+jsonschema==4.23.0
+filelock==3.16.1
+pytest-xdist==3.6.1
+pytest-rerunfailures==15.0
+allure-pytest==2.13.5

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">并发数 / TPS / 响应时间 三者关系曲线</text>
+  <text x="20" y="50" font-size="12" fill="#64748b">TPS 到顶、响应时间起飞的那个并发数，就是系统的容量拐点</text>
+
+  <!-- zones background -->
+  <rect x="70" y="70" width="150" height="270" fill="#eaf3ff"/>
+  <rect x="220" y="70" width="130" height="270" fill="#fff5e8"/>
+  <rect x="350" y="70" width="150" height="270" fill="#ffeeee"/>
+  <rect x="500" y="70" width="130" height="270" fill="#f1f5f9"/>
+
+  <text x="145" y="88" font-size="12" font-weight="700" fill="#2f6fd0" text-anchor="middle">轻压区</text>
+  <text x="285" y="88" font-size="12" font-weight="700" fill="#d98324" text-anchor="middle">拐点区</text>
+  <text x="425" y="88" font-size="12" font-weight="700" fill="#c2410c" text-anchor="middle">饱和区</text>
+  <text x="565" y="88" font-size="12" font-weight="700" fill="#64748b" text-anchor="middle">崩溃区</text>
+
+  <!-- axes -->
+  <line x1="70" y1="340" x2="650" y2="340" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="70" y1="340" x2="70" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <text x="600" y="360" font-size="12" fill="#64748b">并发用户数 →</text>
+  <text x="16" y="66" font-size="12" fill="#64748b">指标值</text>
+
+  <!-- TPS curve -->
+  <path d="M70,335 C140,290 190,190 220,150 C260,120 310,115 350,118 C420,124 470,150 500,190 C540,240 590,290 630,320"
+        fill="none" stroke="#2f6fd0" stroke-width="2.5"/>
+  <!-- RT curve -->
+  <path d="M70,320 C150,314 200,306 220,300 C270,288 310,270 350,240 C400,200 430,150 460,116 C500,92 560,80 630,76"
+        fill="none" stroke="#d98324" stroke-width="2.5" stroke-dasharray="6 4"/>
+
+  <!-- inflection marker -->
+  <line x1="285" y1="70" x2="285" y2="340" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <circle cx="285" cy="128" r="5" fill="#ffffff" stroke="#dc2626" stroke-width="2"/>
+  <text x="292" y="112" font-size="12" font-weight="700" fill="#b91c1c">拐点：TPS 达峰</text>
+
+  <!-- legend -->
+  <line x1="430" y1="316" x2="466" y2="316" stroke="#2f6fd0" stroke-width="2.5"/>
+  <text x="472" y="320" font-size="12" fill="#1f2d3d">TPS（吞吐量）</text>
+  <line x1="430" y1="334" x2="466" y2="334" stroke="#d98324" stroke-width="2.5" stroke-dasharray="6 4"/>
+  <text x="472" y="338" font-size="12" fill="#1f2d3d">响应时间</text>
+
+  <!-- explanation table -->
+  <rect x="24" y="372" width="632" height="82" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="392" font-size="12.5" fill="#334155"><tspan font-weight="700" fill="#2f6fd0">轻压区：</tspan>资源空闲，加并发 → TPS 线性涨，响应时间几乎不变。</text>
+  <text x="40" y="412" font-size="12.5" fill="#334155"><tspan font-weight="700" fill="#d98324">拐点区：</tspan>某资源（CPU / 连接池 / 锁）先打满，TPS 触顶，响应时间开始明显抬头。</text>
+  <text x="40" y="432" font-size="12.5" fill="#334155"><tspan font-weight="700" fill="#c2410c">饱和区：</tspan>再加并发 TPS 不涨反跌，请求全在排队，响应时间线性膨胀。</text>
+  <text x="40" y="450" font-size="12.5" fill="#334155"><tspan font-weight="700" fill="#64748b">崩溃区：</tspan>超时、连接拒绝，错误率飙升，TPS 断崖式下滑。</text>
+</svg>

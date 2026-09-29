@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">后台任务：作业状态切换与 SIGHUP 的杀伤链路</text>
+
+  <!-- ① 作业状态 -->
+  <rect x="16" y="42" width="648" height="150" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="30" y="64" font-size="13.5" font-weight="700" fill="#2f6fd0">① 作业（job）在一个终端里的三种状态</text>
+
+  <rect x="36" y="82" width="150" height="52" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="111" y="104" font-size="13" font-weight="700" fill="#1e3a8a" text-anchor="middle">前台运行</text>
+  <text x="111" y="123" font-size="11.5" fill="#1e3a8a" text-anchor="middle">独占终端输入</text>
+
+  <line x1="188" y1="96" x2="266" y2="96" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="227" y="89" font-size="11" fill="#64748b" text-anchor="middle">Ctrl+Z</text>
+  <line x1="266" y1="120" x2="188" y2="120" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="227" y="136" font-size="11" fill="#64748b" text-anchor="middle">fg %1</text>
+
+  <rect x="270" y="82" width="150" height="52" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="345" y="104" font-size="13" font-weight="700" fill="#8a4b08" text-anchor="middle">已停止（T）</text>
+  <text x="345" y="123" font-size="11.5" fill="#8a4b08" text-anchor="middle">jobs 里显示 Stopped</text>
+
+  <line x1="422" y1="96" x2="500" y2="96" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="461" y="89" font-size="11" fill="#64748b" text-anchor="middle">bg %1</text>
+  <line x1="500" y1="120" x2="422" y2="120" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="461" y="136" font-size="11" fill="#64748b" text-anchor="middle">Ctrl+Z</text>
+
+  <rect x="504" y="82" width="146" height="52" rx="6" fill="#eaf7ee" stroke="#3f9d5a"/>
+  <text x="577" y="104" font-size="13" font-weight="700" fill="#1d6b36" text-anchor="middle">后台运行</text>
+  <text x="577" y="123" font-size="11.5" fill="#1d6b36" text-anchor="middle">cmd &amp; 直接进入</text>
+
+  <text x="36" y="162" font-size="12" fill="#475569">后台作业仍属于当前终端的会话；它的 stdout 依旧连着终端，输出会插花打断你的操作，所以必须重定向。</text>
+  <text x="36" y="180" font-size="12" fill="#475569">若后台作业尝试读 stdin，会收到 SIGTTIN 被自动停止 —— 这就是「后台跑着跑着变成 Stopped」的原因。</text>
+
+  <!-- ② SIGHUP 链路 -->
+  <rect x="16" y="204" width="648" height="132" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="30" y="226" font-size="13.5" font-weight="700" fill="#dc2626">② 关掉 SSH 之后，后台任务为什么也死了</text>
+
+  <rect x="30" y="242" width="130" height="46" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="95" y="262" font-size="12" fill="#334155" text-anchor="middle">关闭 SSH 窗口</text>
+  <text x="95" y="279" font-size="11" fill="#64748b" text-anchor="middle">网络断开</text>
+
+  <line x1="162" y1="265" x2="196" y2="265" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+
+  <rect x="200" y="242" width="140" height="46" rx="6" fill="#fdeaea" stroke="#dc2626"/>
+  <text x="270" y="262" font-size="12" fill="#991b1b" text-anchor="middle">内核给会话首进程</text>
+  <text x="270" y="279" font-size="12" fill="#991b1b" text-anchor="middle">发 SIGHUP</text>
+
+  <line x1="342" y1="265" x2="376" y2="265" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+
+  <rect x="380" y="242" width="140" height="46" rx="6" fill="#fdeaea" stroke="#dc2626"/>
+  <text x="450" y="262" font-size="12" fill="#991b1b" text-anchor="middle">shell 转发给</text>
+  <text x="450" y="279" font-size="12" fill="#991b1b" text-anchor="middle">所有作业</text>
+
+  <line x1="522" y1="265" x2="556" y2="265" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+
+  <rect x="560" y="242" width="94" height="46" rx="6" fill="#fdeaea" stroke="#dc2626"/>
+  <text x="607" y="269" font-size="12.5" font-weight="700" fill="#991b1b" text-anchor="middle">进程终止</text>
+
+  <text x="30" y="312" font-size="12" fill="#475569">默认行为：SIGHUP 的默认动作就是终止进程 —— 所以「跑了一半的压测/部署脚本」会随窗口一起没。</text>
+  <text x="30" y="328" font-size="12" fill="#475569">补充：nohup 只解决 SIGHUP，不解决输出问题；两者要一起处理。</text>
+
+  <!-- ③ 三种免疫方式 -->
+  <rect x="16" y="348" width="648" height="106" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="30" y="370" font-size="13.5" font-weight="700" fill="#2f6fd0">③ 三种让任务活下来的手段</text>
+
+  <rect x="30" y="384" width="196" height="56" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="128" y="404" font-size="12.5" font-weight="700" fill="#1e3a8a" text-anchor="middle">nohup cmd &gt; a.log 2&gt;&amp;1 &amp;</text>
+  <text x="128" y="424" font-size="11.5" fill="#1e3a8a" text-anchor="middle">忽略 SIGHUP + 重定向输出</text>
+
+  <rect x="242" y="384" width="196" height="56" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="340" y="404" font-size="12.5" font-weight="700" fill="#8a4b08" text-anchor="middle">cmd &amp; 之后 disown -h %1</text>
+  <text x="340" y="424" font-size="11.5" fill="#8a4b08" text-anchor="middle">已经跑起来了才补救</text>
+
+  <rect x="454" y="384" width="196" height="56" rx="6" fill="#eaf7ee" stroke="#3f9d5a"/>
+  <text x="552" y="404" font-size="12.5" font-weight="700" fill="#1d6b36" text-anchor="middle">tmux / screen 会话</text>
+  <text x="552" y="424" font-size="11.5" fill="#1d6b36" text-anchor="middle">可断线重连、能回看输出 ✅</text>
+</svg>

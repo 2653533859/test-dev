@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">pytest 运行生命周期与常用 hook 挂载点</text>
+
+  <!-- phases -->
+  <rect x="20" y="48" width="200" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="120" y="70" font-size="13" font-weight="700" fill="#1e40af" text-anchor="middle">① 启动与配置</text>
+  <text x="240" y="62" font-size="12" fill="#1f2d3d">pytest_addoption(parser)　自定义 --env</text>
+  <text x="240" y="80" font-size="12" fill="#1f2d3d">pytest_configure(config)　注册 marker</text>
+
+  <rect x="20" y="98" width="200" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="120" y="120" font-size="13" font-weight="700" fill="#1e40af" text-anchor="middle">② 收集 collection</text>
+  <text x="240" y="112" font-size="12" fill="#1f2d3d">pytest_collection_modifyitems(items)</text>
+  <text x="240" y="130" font-size="12" fill="#64748b">改顺序、批量打标记、修中文 nodeid 乱码</text>
+
+  <rect x="20" y="148" width="200" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="120" y="170" font-size="13" font-weight="700" fill="#8a4b06" text-anchor="middle">③ 会话开始</text>
+  <text x="240" y="170" font-size="12" fill="#1f2d3d">pytest_sessionstart(session)</text>
+
+  <!-- per test loop -->
+  <rect x="20" y="196" width="640" height="150" rx="10" fill="#fff7ed" stroke="#d98324" stroke-dasharray="4 3"/>
+  <text x="36" y="218" font-size="13" font-weight="700" fill="#8a4b06">④ 逐条用例循环 pytest_runtest_protocol(item)</text>
+
+  <rect x="40" y="230" width="180" height="42" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="130" y="248" font-size="12" font-weight="700" fill="#8a4b06" text-anchor="middle">setup 阶段</text>
+  <text x="130" y="264" font-size="11" fill="#8a4b06" text-anchor="middle">fixture 建资源</text>
+
+  <rect x="250" y="230" width="180" height="42" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="340" y="248" font-size="12" font-weight="700" fill="#8a4b06" text-anchor="middle">call 阶段</text>
+  <text x="340" y="264" font-size="11" fill="#8a4b06" text-anchor="middle">执行测试函数体</text>
+
+  <rect x="460" y="230" width="180" height="42" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="550" y="248" font-size="12" font-weight="700" fill="#8a4b06" text-anchor="middle">teardown 阶段</text>
+  <text x="550" y="264" font-size="11" fill="#8a4b06" text-anchor="middle">fixture 回收</text>
+
+  <g stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="220" y1="251" x2="248" y2="251"/>
+    <line x1="430" y1="251" x2="458" y2="251"/>
+  </g>
+
+  <rect x="40" y="284" width="600" height="50" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="56" y="304" font-size="12" font-weight="700" fill="#166534">每阶段结束都会调用 pytest_runtest_makereport(item, call) → 生成一个 TestReport</text>
+  <text x="56" y="324" font-size="11.5" fill="#14532d">这是「失败自动截图 / 附加日志」的唯一正确挂点：判断 report.when == "call" and report.failed</text>
+
+  <!-- session end -->
+  <rect x="20" y="360" width="200" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="120" y="382" font-size="13" font-weight="700" fill="#8a4b06" text-anchor="middle">⑤ 会话结束</text>
+  <text x="240" y="374" font-size="12" fill="#1f2d3d">pytest_sessionfinish(session, exitstatus)</text>
+  <text x="240" y="392" font-size="12" fill="#64748b">生成报告、发通知、清理测试数据</text>
+
+  <g stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="120" y1="82" x2="120" y2="96"/>
+    <line x1="120" y1="132" x2="120" y2="146"/>
+    <line x1="120" y1="182" x2="120" y2="194"/>
+    <line x1="120" y1="346" x2="120" y2="358"/>
+  </g>
+
+  <rect x="20" y="408" width="640" height="44" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="1.2"/>
+  <text x="36" y="428" font-size="12.5" fill="#1f2d3d">hook 写在 conftest.py 里即自动生效；同名 hook 多处定义会**全部执行**（LIFO），不是覆盖</text>
+  <text x="36" y="446" font-size="12.5" fill="#1f2d3d">带 `hookwrapper=True` 的实现可以包住其它实现：yield 前是前置，yield 拿到 outcome 后是后置</text>
+</svg>

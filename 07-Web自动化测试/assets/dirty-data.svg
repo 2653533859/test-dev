@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <defs>
+    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+    <marker id="arrowO2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#d98324"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="30" font-size="17" font-weight="bold" fill="#1f2d3d">测试脏数据清理与隔离策略</text>
+
+  <!-- 3 种隔离层级 -->
+  <text x="40" y="64" font-size="13" font-weight="bold" fill="#1f2d3d">三种隔离层级（左→右隔离性增强）</text>
+
+  <rect x="40" y="80" width="170" height="70" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="125" y="108" font-size="13" text-anchor="middle" fill="#1f2d3d">共享库 + 固定账号</text>
+  <text x="125" y="128" font-size="11" text-anchor="middle" fill="#5b6b7b">易串味，仅 demo</text>
+
+  <rect x="255" y="80" width="180" height="70" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="345" y="108" font-size="13" text-anchor="middle" fill="#1f2d3d">独立测试账号 / 空间</text>
+  <text x="345" y="128" font-size="11" text-anchor="middle" fill="#5b6b7b">前缀/后缀隔离</text>
+
+  <rect x="480" y="80" width="170" height="70" rx="8" fill="#c8f0d0" stroke="#2f9e44"/>
+  <text x="565" y="108" font-size="13" text-anchor="middle" fill="#1f2d3d">即时重建</text>
+  <text x="565" y="128" font-size="11" text-anchor="middle" fill="#5b6b7b">DB 快照 / 容器</text>
+
+  <line x1="210" y1="115" x2="253" y2="115" stroke="#2f6fd0" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="435" y1="115" x2="478" y2="115" stroke="#2f6fd0" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- 单用例生命周期 -->
+  <text x="40" y="200" font-size="13" font-weight="bold" fill="#1f2d3d">单用例数据生命周期（pytest fixture 模型）</text>
+
+  <rect x="40" y="216" width="120" height="46" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="100" y="244" font-size="12" text-anchor="middle" fill="#1f2d3d">setup</text>
+
+  <rect x="190" y="216" width="120" height="46" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="250" y="238" font-size="12" text-anchor="middle" fill="#1f2d3d">用例执行</text>
+  <text x="250" y="254" font-size="11" text-anchor="middle" fill="#5b6b7b">产生脏数据</text>
+
+  <rect x="340" y="216" width="140" height="46" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="410" y="238" font-size="12" text-anchor="middle" fill="#1f2d3d">teardown</text>
+  <text x="410" y="254" font-size="11" text-anchor="middle" fill="#5b6b7b">finalizer / yield</text>
+
+  <rect x="520" y="216" width="130" height="46" rx="8" fill="#c8f0d0" stroke="#2f9e44"/>
+  <text x="585" y="244" font-size="12" text-anchor="middle" fill="#1f2d3d">环境干净</text>
+
+  <line x1="160" y1="239" x2="188" y2="239" stroke="#2f6fd0" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="310" y1="239" x2="338" y2="239" stroke="#2f6fd0" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="480" y1="239" x2="518" y2="239" stroke="#2f9e44" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- 清理方式对比 -->
+  <text x="40" y="310" font-size="13" font-weight="bold" fill="#1f2d3d">清理方式的取舍</text>
+
+  <rect x="40" y="326" width="180" height="100" rx="8" fill="#ffffff" stroke="#1f2d3d"/>
+  <text x="130" y="350" font-size="12" font-weight="bold" text-anchor="middle" fill="#1f2d3d">偏前（预防性）</text>
+  <text x="130" y="372" font-size="11" text-anchor="middle" fill="#5b6b7b">用例开头按 key 删</text>
+  <text x="130" y="390" font-size="11" text-anchor="middle" fill="#5b6b7b">幂等、不怕 setup</text>
+  <text x="130" y="408" font-size="11" text-anchor="middle" fill="#5b6b7b">失败也安全</text>
+
+  <rect x="250" y="326" width="180" height="100" rx="8" fill="#ffffff" stroke="#1f2d3d"/>
+  <text x="340" y="350" font-size="12" font-weight="bold" text-anchor="middle" fill="#1f2d3d">偏后（清理性）</text>
+  <text x="340" y="372" font-size="11" text-anchor="middle" fill="#5b6b7b">teardown / API 删</text>
+  <text x="340" y="390" font-size="11" text-anchor="middle" fill="#5b6b7b">失败可能漏清</text>
+  <text x="340" y="408" font-size="11" text-anchor="middle" fill="#5b6b7b">需 try/finally</text>
+
+  <rect x="460" y="326" width="180" height="100" rx="8" fill="#ffffff" stroke="#1f2d3d"/>
+  <text x="550" y="350" font-size="12" font-weight="bold" text-anchor="middle" fill="#1f2d3d">重建（最干净）</text>
+  <text x="550" y="372" font-size="11" text-anchor="middle" fill="#5b6b7b">DB 快照回滚</text>
+  <text x="550" y="390" font-size="11" text-anchor="middle" fill="#5b6b7b">容器/事务回滚</text>
+  <text x="550" y="408" font-size="11" text-anchor="middle" fill="#5b6b7b">成本高但彻底</text>
+
+  <line x1="220" y1="376" x2="248" y2="376" stroke="#2f6fd0" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="430" y1="376" x2="458" y2="376" stroke="#2f6fd0" stroke-width="2" marker-end="url(#arrow2)"/>
+</svg>

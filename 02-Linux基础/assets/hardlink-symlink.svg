@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">硬链接 vs 软链接：目录项、inode 与数据块的指向关系</text>
+
+  <!-- ===== 硬链接 ===== -->
+  <rect x="16" y="48" width="648" height="176" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="72" font-size="14" font-weight="700" fill="#2f6fd0">① 硬链接 ln a.txt b.txt —— 两个名字指向同一个 inode</text>
+
+  <rect x="36" y="92" width="118" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="95" y="114" font-size="13" fill="#1e3a8a" text-anchor="middle">目录项 a.txt</text>
+  <rect x="36" y="146" width="118" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="95" y="168" font-size="13" fill="#1e3a8a" text-anchor="middle">目录项 b.txt</text>
+
+  <line x1="156" y1="109" x2="246" y2="126" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="156" y1="163" x2="246" y2="146" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="250" y="106" width="164" height="60" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="332" y="128" font-size="13" font-weight="700" fill="#8a4b08" text-anchor="middle">inode 131074</text>
+  <text x="332" y="150" font-size="12" fill="#8a4b08" text-anchor="middle">链接数 nlink = 2</text>
+
+  <line x1="416" y1="136" x2="486" y2="136" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="490" y="106" width="150" height="60" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="565" y="128" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">数据块</text>
+  <text x="565" y="150" font-size="12" fill="#334155" text-anchor="middle">真正的文件内容</text>
+
+  <text x="36" y="205" font-size="12" fill="#475569">rm a.txt 只把 nlink 减到 1，内容仍可通过 b.txt 读到；nlink 归 0 才真正回收数据块。不能跨文件系统，不能给目录建。</text>
+
+  <!-- ===== 软链接 ===== -->
+  <rect x="16" y="240" width="648" height="186" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="264" font-size="14" font-weight="700" fill="#d98324">② 软链接 ln -s /data/a.txt link —— 独立 inode，内容是一段目标路径字符串</text>
+
+  <rect x="36" y="286" width="112" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="92" y="308" font-size="13" fill="#1e3a8a" text-anchor="middle">目录项 link</text>
+
+  <line x1="150" y1="303" x2="184" y2="303" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="188" y="278" width="176" height="60" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="276" y="300" font-size="13" font-weight="700" fill="#8a4b08" text-anchor="middle">inode 131099（类型 l）</text>
+  <text x="276" y="321" font-size="12" fill="#8a4b08" text-anchor="middle">内容 = "/data/a.txt"</text>
+
+  <line x1="366" y1="303" x2="404" y2="303" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="385" y="292" font-size="11" fill="#64748b" text-anchor="middle">按路径解析</text>
+
+  <rect x="408" y="286" width="118" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="467" y="308" font-size="13" fill="#1e3a8a" text-anchor="middle">目录项 a.txt</text>
+
+  <line x1="528" y1="303" x2="556" y2="303" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="560" y="286" width="88" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="604" y="308" font-size="12" fill="#8a4b08" text-anchor="middle">inode 131074</text>
+
+  <line x1="467" y1="330" x2="467" y2="356" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrowRed)"/>
+  <text x="480" y="352" font-size="12" fill="#dc2626">删掉 a.txt 后：路径解析失败 → 断链（dangling），ls 显示红色闪烁</text>
+
+  <text x="36" y="392" font-size="12" fill="#475569">软链接可跨文件系统、可指向目录，因此发版目录切换（/app -&gt; /data/release-20260731）都用它。</text>
+  <text x="36" y="412" font-size="12" fill="#475569">代价：每次访问多一次路径解析；相对路径软链接随所在目录移动会失效。</text>
+
+  <text x="20" y="452" font-size="11.5" fill="#64748b">判定口诀：ls -li 看 inode 号相同 = 硬链接；ls -l 显示 l 类型且带 -&gt; 指向 = 软链接。</text>
+</svg>

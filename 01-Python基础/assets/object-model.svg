@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar9" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="340" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">对象模型：id / type / value 与「调用即共享」</text>
+
+  <!-- two names one object -->
+  <text x="30" y="62" font-size="13" font-weight="700" fill="#0f172a">a = [1,2,3]   b = a</text>
+  <rect x="30" y="76" width="90" height="40" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="75" y="101" font-size="12" fill="#1e40af" text-anchor="middle">a</text>
+  <rect x="160" y="76" width="90" height="40" rx="6" fill="#e0e7ff" stroke="#4f46e5"/>
+  <text x="205" y="101" font-size="12" fill="#3730a3" text-anchor="middle">b</text>
+  <rect x="320" y="76" width="140" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="390" y="101" font-size="12" fill="#166534" text-anchor="middle">list 对象</text>
+  <line x1="120" y1="96" x2="318" y2="96" stroke="#475569" stroke-width="1.5" marker-end="url(#ar9)"/>
+  <line x1="250" y1="96" x2="320" y2="96" stroke="#475569" stroke-width="1.5" marker-end="url(#ar9)"/>
+  <text x="500" y="101" font-size="11.5" fill="#64748b" text-anchor="middle">id 相同</text>
+  <text x="500" y="117" font-size="11.5" fill="#64748b" text-anchor="middle">(同一对象)</text>
+
+  <!-- immutable -->
+  <text x="30" y="170" font-size="13" font-weight="700" fill="#0f172a">不可变对象：x = 1; x += 1 是「换新对象」</text>
+  <rect x="30" y="184" width="80" height="36" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="70" y="207" font-size="12" fill="#1e40af" text-anchor="middle">x→1</text>
+  <line x1="110" y1="202" x2="158" y2="202" stroke="#475569" stroke-width="1.5" marker-end="url(#ar9)"/>
+  <rect x="160" y="184" width="80" height="36" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="200" y="207" font-size="12" fill="#92400e" text-anchor="middle">x→2</text>
+  <text x="260" y="207" font-size="11.5" fill="#64748b">原 1 对象未变，x 改指向新对象</text>
+
+  <!-- mutable -->
+  <text x="30" y="268" font-size="13" font-weight="700" fill="#0f172a">可变对象：l.append(4) 在原对象上改</text>
+  <rect x="30" y="282" width="160" height="36" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="110" y="305" font-size="12" fill="#166534" text-anchor="middle">[1,2,3] → [1,2,3,4]</text>
+  <text x="210" y="305" font-size="11.5" fill="#64748b">id 不变，原地修改</text>
+
+  <text x="20" y="335" font-size="11.5" fill="#64748b">Python 一切皆对象：变量是「名字→对象」的绑定；可哈希性取决于 value 能否哈希（可变对象不可哈希，不能当 dict 键）。</text>
+</svg>

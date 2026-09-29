@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">JWT 结构与服务端校验流程（含常见缺陷点）</text>
+
+  <!-- structure -->
+  <rect x="20" y="46" width="196" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="118" y="67" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">Header</text>
+  <text x="118" y="87" font-size="11.5" fill="#31527a" text-anchor="middle">{"alg":"HS256","typ":"JWT"}</text>
+
+  <rect x="240" y="46" width="196" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="338" y="67" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">Payload</text>
+  <text x="338" y="87" font-size="11.5" fill="#31527a" text-anchor="middle">{"sub":"1001","role":"user","exp":…}</text>
+
+  <rect x="460" y="46" width="200" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="560" y="67" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">Signature</text>
+  <text x="560" y="87" font-size="11.5" fill="#31527a" text-anchor="middle">HMAC(base64(h)+"."+base64(p), key)</text>
+
+  <text x="20" y="118" font-size="12" font-weight="700" fill="#b3261e">注意：前两段只是 Base64URL 编码，不是加密——任何人都能解开看内容，不要往里放密码、身份证、完整手机号。</text>
+
+  <!-- verify chain -->
+  <text x="20" y="150" font-size="14" font-weight="700" fill="#1f2d3d">服务端校验链（缺任何一步都是漏洞）</text>
+
+  <rect x="20" y="162" width="124" height="56" rx="8" fill="#ffffff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="82" y="184" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">① 校验 alg</text>
+  <text x="82" y="203" font-size="11" fill="#475569" text-anchor="middle">白名单固定算法</text>
+
+  <rect x="164" y="162" width="124" height="56" rx="8" fill="#ffffff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="226" y="184" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">② 验签名</text>
+  <text x="226" y="203" font-size="11" fill="#475569" text-anchor="middle">强密钥 · 恒定时比较</text>
+
+  <rect x="308" y="162" width="124" height="56" rx="8" fill="#ffffff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="370" y="184" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">③ 校验 exp/nbf</text>
+  <text x="370" y="203" font-size="11" fill="#475569" text-anchor="middle">时钟偏移容忍要小</text>
+
+  <rect x="452" y="162" width="124" height="56" rx="8" fill="#ffffff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="514" y="184" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">④ 校验 iss/aud</text>
+  <text x="514" y="203" font-size="11" fill="#475569" text-anchor="middle">防跨系统串用</text>
+
+  <rect x="596" y="162" width="64" height="56" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="628" y="184" font-size="12" font-weight="700" fill="#1a4a8f" text-anchor="middle">⑤ 黑名单</text>
+  <text x="628" y="203" font-size="11" fill="#31527a" text-anchor="middle">/版本号</text>
+
+  <line x1="144" y1="190" x2="162" y2="190" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="288" y1="190" x2="306" y2="190" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="432" y1="190" x2="450" y2="190" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="576" y1="190" x2="594" y2="190" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- flaw callouts -->
+  <line x1="82" y1="218" x2="82" y2="240" stroke="#d98324" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="226" y1="218" x2="226" y2="240" stroke="#d98324" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="370" y1="218" x2="370" y2="240" stroke="#d98324" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="628" y1="218" x2="628" y2="240" stroke="#d98324" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="20" y="244" width="156" height="92" rx="8" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="98" y="264" font-size="12.5" font-weight="700" fill="#8a4b00" text-anchor="middle">alg 缺陷</text>
+  <text x="98" y="283" font-size="11" fill="#1f2d3d" text-anchor="middle">alg=none 被接受</text>
+  <text x="98" y="300" font-size="11" fill="#1f2d3d" text-anchor="middle">RS256 被降级成</text>
+  <text x="98" y="315" font-size="11" fill="#1f2d3d" text-anchor="middle">HS256 用公钥当密钥</text>
+  <text x="98" y="331" font-size="11" font-weight="700" fill="#8a4b00" text-anchor="middle">测：改 header 重放</text>
+
+  <rect x="188" y="244" width="156" height="92" rx="8" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="266" y="264" font-size="12.5" font-weight="700" fill="#8a4b00" text-anchor="middle">签名缺陷</text>
+  <text x="266" y="283" font-size="11" fill="#1f2d3d" text-anchor="middle">只 decode 不 verify</text>
+  <text x="266" y="300" font-size="11" fill="#1f2d3d" text-anchor="middle">密钥是 secret/123456</text>
+  <text x="266" y="315" font-size="11" fill="#1f2d3d" text-anchor="middle">多环境共用同一密钥</text>
+  <text x="266" y="331" font-size="11" font-weight="700" fill="#8a4b00" text-anchor="middle">测：改 role 后重放</text>
+
+  <rect x="356" y="244" width="156" height="92" rx="8" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="434" y="264" font-size="12.5" font-weight="700" fill="#8a4b00" text-anchor="middle">时效缺陷</text>
+  <text x="434" y="283" font-size="11" fill="#1f2d3d" text-anchor="middle">不带 exp 或有效期</text>
+  <text x="434" y="300" font-size="11" fill="#1f2d3d" text-anchor="middle">长达数月</text>
+  <text x="434" y="315" font-size="11" fill="#1f2d3d" text-anchor="middle">refresh 可无限续</text>
+  <text x="434" y="331" font-size="11" font-weight="700" fill="#8a4b00" text-anchor="middle">测：解码看 exp 值</text>
+
+  <rect x="524" y="244" width="136" height="92" rx="8" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="592" y="264" font-size="12.5" font-weight="700" fill="#8a4b00" text-anchor="middle">注销缺陷</text>
+  <text x="592" y="283" font-size="11" fill="#1f2d3d" text-anchor="middle">JWT 天然无状态</text>
+  <text x="592" y="300" font-size="11" fill="#1f2d3d" text-anchor="middle">登出/改密后旧 token</text>
+  <text x="592" y="315" font-size="11" fill="#1f2d3d" text-anchor="middle">仍在有效期内可用</text>
+  <text x="592" y="331" font-size="11" font-weight="700" fill="#8a4b00" text-anchor="middle">测：登出后重放</text>
+
+  <rect x="20" y="350" width="640" height="66" rx="8" fill="#eef4ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="34" y="371" font-size="13" font-weight="700" fill="#1a4a8f">修复要点</text>
+  <text x="34" y="391" font-size="12" fill="#1f2d3d">服务端固定算法白名单，绝不信任 header 里的 alg · 密钥 ≥ 32 字节随机且按环境隔离、走密钥管理不入库不入仓</text>
+  <text x="34" y="409" font-size="12" fill="#1f2d3d">access token 短效（15 分钟内）+ refresh token 可撤销 · 用户表存 token_version，改密自增使旧 token 全部失效</text>
+
+  <text x="20" y="442" font-size="11.5" fill="#64748b">测试手法：只在授权测试环境用自己的 token 做「解码查看 → 篡改字段 → 重放观察」，判断服务端是否真正验签。</text>
+  <text x="20" y="460" font-size="11.5" fill="#64748b">不对他人 token 做任何破解或爆破尝试；报告里 token 需脱敏，仅保留 payload 结构说明。</text>
+</svg>

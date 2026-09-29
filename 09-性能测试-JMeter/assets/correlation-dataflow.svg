@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arw5" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">参数化与关联的数据流</text>
+  <text x="20" y="50" font-size="12" fill="#64748b">参数化解决「不同用户用不同数据」，关联解决「后一个请求依赖前一个响应」</text>
+
+  <!-- CSV source -->
+  <rect x="24" y="76" width="150" height="70" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="99" y="100" font-size="12.5" font-weight="700" fill="#96560f" text-anchor="middle">CSV Data Set</text>
+  <text x="99" y="119" font-size="11.5" fill="#1f2d3d" text-anchor="middle">user.csv</text>
+  <text x="99" y="136" font-size="11" fill="#64748b" text-anchor="middle">user,pwd 每行一条</text>
+
+  <line x1="174" y1="111" x2="214" y2="111" stroke="#d98324" stroke-width="1.6" marker-end="url(#arw5)"/>
+  <text x="194" y="102" font-size="11" fill="#96560f" text-anchor="middle">每线程</text>
+  <text x="194" y="126" font-size="11" fill="#96560f" text-anchor="middle">各取一行</text>
+
+  <!-- request 1 -->
+  <rect x="216" y="76" width="230" height="70" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="331" y="98" font-size="12.5" font-weight="700" fill="#1b4f9c" text-anchor="middle">① HTTP 请求：登录</text>
+  <text x="331" y="118" font-size="11.5" fill="#1f2d3d" text-anchor="middle">POST /login</text>
+  <text x="331" y="136" font-size="11.5" fill="#1f2d3d" text-anchor="middle">body: {"u":"${user}","p":"${pwd}"}</text>
+
+  <line x1="446" y1="111" x2="486" y2="111" stroke="#475569" stroke-width="1.5" marker-end="url(#arw5)"/>
+
+  <!-- response -->
+  <rect x="488" y="76" width="168" height="70" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="572" y="98" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">响应体</text>
+  <text x="572" y="118" font-size="11" fill="#334155" text-anchor="middle">{"data":{"token":</text>
+  <text x="572" y="134" font-size="11" fill="#334155" text-anchor="middle">"eyJhbG..."}}</text>
+
+  <line x1="572" y1="146" x2="572" y2="176" stroke="#475569" stroke-width="1.5" marker-end="url(#arw5)"/>
+
+  <!-- extractor -->
+  <rect x="404" y="180" width="252" height="64" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="530" y="202" font-size="12.5" font-weight="700" fill="#96560f" text-anchor="middle">② JSON 提取器（后置处理器）</text>
+  <text x="530" y="221" font-size="11.5" fill="#1f2d3d" text-anchor="middle">表达式 $.data.token</text>
+  <text x="530" y="238" font-size="11.5" fill="#1f2d3d" text-anchor="middle">存入变量名 TOKEN</text>
+
+  <!-- variable pool -->
+  <line x1="404" y1="212" x2="330" y2="212" stroke="#475569" stroke-width="1.5" marker-end="url(#arw5)"/>
+  <rect x="140" y="180" width="186" height="64" rx="8" fill="#e8eefc" stroke="#2f6fd0" stroke-dasharray="4 3"/>
+  <text x="233" y="202" font-size="12.5" font-weight="700" fill="#1b4f9c" text-anchor="middle">线程私有变量池</text>
+  <text x="233" y="222" font-size="11.5" fill="#1f2d3d" text-anchor="middle">${user} ${pwd} ${TOKEN}</text>
+  <text x="233" y="238" font-size="11" fill="#64748b" text-anchor="middle">各线程独立，互不串味</text>
+
+  <line x1="233" y1="244" x2="233" y2="274" stroke="#475569" stroke-width="1.5" marker-end="url(#arw5)"/>
+
+  <!-- request 2 -->
+  <rect x="24" y="278" width="410" height="70" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="229" y="300" font-size="12.5" font-weight="700" fill="#1b4f9c" text-anchor="middle">③ HTTP 请求：下单（引用上一步提取的 token）</text>
+  <text x="229" y="320" font-size="11.5" fill="#1f2d3d" text-anchor="middle">POST /order</text>
+  <text x="229" y="338" font-size="11.5" fill="#1f2d3d" text-anchor="middle">Header: Authorization: Bearer ${TOKEN}</text>
+
+  <!-- cross thread group -->
+  <rect x="450" y="278" width="206" height="70" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-dasharray="4 3"/>
+  <text x="553" y="300" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">跨线程组传值</text>
+  <text x="553" y="319" font-size="11" fill="#334155" text-anchor="middle">${__setProperty(TK,${TOKEN},)}</text>
+  <text x="553" y="337" font-size="11" fill="#334155" text-anchor="middle">另一组用 ${__P(TK)} 取</text>
+
+  <!-- notes -->
+  <rect x="24" y="366" width="632" height="88" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="388" font-size="12.5" font-weight="700" fill="#1f2d3d">关键区别</text>
+  <text x="40" y="408" font-size="11.5" fill="#334155">变量 ${VAR}：线程私有、运行期动态，参数化和关联都用它，跨线程组不可见。</text>
+  <text x="40" y="428" font-size="11.5" fill="#334155">属性 ${__P(NAME)}：JVM 全局共享、跨线程组可见，但所有线程读到同一份，不适合放每人不同的 token。</text>
+  <text x="40" y="448" font-size="11.5" fill="#334155">提取失败时变量会被置为默认值（如 NOT_FOUND），必须配断言拦住，否则后续请求带着脏值继续压。</text>
+</svg>

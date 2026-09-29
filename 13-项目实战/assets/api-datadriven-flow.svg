@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">数据驱动执行流程：一份 YAML 展开成 N 条独立用例</text>
+
+  <!-- Step 1 -->
+  <rect x="24" y="52" width="150" height="70" rx="8" fill="#ffe0c2" stroke="#d98324" stroke-width="1.5"/>
+  <text x="99" y="76" font-size="13" font-weight="700" fill="#7c4a12" text-anchor="middle">1. 读取 YAML</text>
+  <text x="99" y="96" font-size="11.5" fill="#1f2d3d" text-anchor="middle">data/order.yaml</text>
+  <text x="99" y="112" font-size="11.5" fill="#1f2d3d" text-anchor="middle">用例名 / 入参 / 期望</text>
+
+  <!-- Step 2 -->
+  <rect x="204" y="52" width="150" height="70" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="279" y="76" font-size="13" font-weight="700" fill="#1e3a6f" text-anchor="middle">2. parametrize</text>
+  <text x="279" y="96" font-size="11.5" fill="#1f2d3d" text-anchor="middle">收集期展开为</text>
+  <text x="279" y="112" font-size="11.5" fill="#1f2d3d" text-anchor="middle">N 个独立 test item</text>
+
+  <!-- Step 3 -->
+  <rect x="384" y="52" width="150" height="70" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="459" y="76" font-size="13" font-weight="700" fill="#1e3a6f" text-anchor="middle">3. 变量渲染</text>
+  <text x="459" y="96" font-size="11.5" fill="#1f2d3d" text-anchor="middle">${token} ${order_id}</text>
+  <text x="459" y="112" font-size="11.5" fill="#1f2d3d" text-anchor="middle">从上下文池取值</text>
+
+  <!-- Step 4 -->
+  <rect x="384" y="162" width="150" height="70" rx="8" fill="#ffe0c2" stroke="#d98324" stroke-width="1.5"/>
+  <text x="459" y="186" font-size="13" font-weight="700" fill="#7c4a12" text-anchor="middle">4. 发送请求</text>
+  <text x="459" y="206" font-size="11.5" fill="#1f2d3d" text-anchor="middle">HttpClient 复用 Session</text>
+  <text x="459" y="222" font-size="11.5" fill="#1f2d3d" text-anchor="middle">超时 10s / 重试 2 次</text>
+
+  <!-- Step 5 assert -->
+  <rect x="204" y="162" width="150" height="70" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="279" y="186" font-size="13" font-weight="700" fill="#1e3a6f" text-anchor="middle">5. 三层断言</text>
+  <text x="279" y="206" font-size="11.5" fill="#1f2d3d" text-anchor="middle">状态码 → Schema</text>
+  <text x="279" y="222" font-size="11.5" fill="#1f2d3d" text-anchor="middle">→ 业务字段 / 落库</text>
+
+  <!-- Step 6 extract -->
+  <rect x="24" y="162" width="150" height="70" rx="8" fill="#ffe0c2" stroke="#d98324" stroke-width="1.5"/>
+  <text x="99" y="186" font-size="13" font-weight="700" fill="#7c4a12" text-anchor="middle">6. 提取回写</text>
+  <text x="99" y="206" font-size="11.5" fill="#1f2d3d" text-anchor="middle">JSONPath 取 order_id</text>
+  <text x="99" y="222" font-size="11.5" fill="#1f2d3d" text-anchor="middle">写回上下文供下一步</text>
+
+  <!-- arrows row1 -->
+  <line x1="176" y1="87" x2="200" y2="87" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <line x1="356" y1="87" x2="380" y2="87" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <line x1="459" y1="124" x2="459" y2="158" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <line x1="382" y1="197" x2="358" y2="197" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <line x1="202" y1="197" x2="178" y2="197" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+  <!-- loop back -->
+  <path d="M99 234 L99 258 L459 258 L459 236" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow2)"/>
+  <text x="279" y="252" font-size="11.5" fill="#475569" text-anchor="middle">串联场景：下一个接口带着上一步产出继续跑</text>
+
+  <!-- 上下文池 -->
+  <rect x="24" y="290" width="300" height="96" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="174" y="312" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">上下文变量池（function / class 作用域）</text>
+  <rect x="40" y="324" width="128" height="26" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="104" y="342" font-size="11.5" fill="#1e3a6f" text-anchor="middle">token</text>
+  <rect x="180" y="324" width="128" height="26" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="244" y="342" font-size="11.5" fill="#1e3a6f" text-anchor="middle">order_id</text>
+  <text x="174" y="370" font-size="11.5" fill="#475569" text-anchor="middle">用例间不共享，避免并行执行时相互踩踏</text>
+
+  <!-- 报告 -->
+  <rect x="356" y="290" width="300" height="96" rx="8" fill="#ffe0c2" stroke="#d98324" stroke-width="1.5"/>
+  <text x="506" y="312" font-size="13" font-weight="700" fill="#7c4a12" text-anchor="middle">7. 结果落地</text>
+  <text x="506" y="334" font-size="11.5" fill="#1f2d3d" text-anchor="middle">每条用例独立计入：通过 / 失败互不影响</text>
+  <text x="506" y="354" font-size="11.5" fill="#1f2d3d" text-anchor="middle">失败自动附请求体、响应体、耗时到 Allure</text>
+  <text x="506" y="374" font-size="11.5" fill="#1f2d3d" text-anchor="middle">ids 用中文用例名，报告可读不用翻代码</text>
+
+  <text x="20" y="414" font-size="12" font-weight="700" fill="#1f2d3d">关键点：数据驱动的价值不是「省代码」，是让每条数据成为一条可独立定位、独立重跑的用例。</text>
+  <text x="20" y="436" font-size="11.5" fill="#475569">若把 5 组数据写在一个 for 循环里，第 2 组失败后面 3 组不再执行，报告只显示「1 条失败」，排查全靠翻日志。</text>
+  <text x="20" y="456" font-size="11.5" fill="#475569">展开成 5 条 item 后：失败 1 条、其余照跑，重跑可精确到 -k "库存不足"。</text>
+</svg>

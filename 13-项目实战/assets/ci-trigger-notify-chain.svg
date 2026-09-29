@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">从一次 git push 到通知落地：闭环链路与时延</text>
+
+  <!-- 1 开发提交 -->
+  <rect x="24" y="56" width="126" height="62" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="87" y="80" font-size="12.5" font-weight="700" fill="#1e3a6f" text-anchor="middle">① 开发 push</text>
+  <text x="87" y="99" font-size="11" fill="#1f2d3d" text-anchor="middle">feature 分支</text>
+  <text x="87" y="113" font-size="11" fill="#1f2d3d" text-anchor="middle">提 PR</text>
+
+  <!-- 2 webhook -->
+  <rect x="186" y="56" width="126" height="62" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="249" y="80" font-size="12.5" font-weight="700" fill="#1e3a6f" text-anchor="middle">② Webhook</text>
+  <text x="249" y="99" font-size="11" fill="#1f2d3d" text-anchor="middle">Git 事件推送</text>
+  <text x="249" y="113" font-size="11" fill="#1f2d3d" text-anchor="middle">携带 commit / 作者</text>
+
+  <!-- 3 jenkins -->
+  <rect x="348" y="56" width="126" height="62" rx="8" fill="#ffe0c2" stroke="#d98324" stroke-width="1.5"/>
+  <text x="411" y="80" font-size="12.5" font-weight="700" fill="#7c4a12" text-anchor="middle">③ Jenkins 调度</text>
+  <text x="411" y="99" font-size="11" fill="#1f2d3d" text-anchor="middle">分配 agent</text>
+  <text x="411" y="113" font-size="11" fill="#1f2d3d" text-anchor="middle">拉起 Docker 容器</text>
+
+  <!-- 4 执行 -->
+  <rect x="510" y="56" width="146" height="62" rx="8" fill="#ffe0c2" stroke="#d98324" stroke-width="1.5"/>
+  <text x="583" y="80" font-size="12.5" font-weight="700" fill="#7c4a12" text-anchor="middle">④ 执行测试</text>
+  <text x="583" y="99" font-size="11" fill="#1f2d3d" text-anchor="middle">pytest -m smoke -n 4</text>
+  <text x="583" y="113" font-size="11" fill="#1f2d3d" text-anchor="middle">产出 allure-results</text>
+
+  <line x1="152" y1="87" x2="182" y2="87" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="314" y1="87" x2="344" y2="87" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="476" y1="87" x2="506" y2="87" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+  <!-- 时延标注 -->
+  <text x="167" y="140" font-size="10.5" fill="#64748b" text-anchor="middle">&lt;5s</text>
+  <text x="329" y="140" font-size="10.5" fill="#64748b" text-anchor="middle">~20s</text>
+  <text x="491" y="140" font-size="10.5" fill="#64748b" text-anchor="middle">~50s 起容器</text>
+
+  <!-- 5 结果判定 -->
+  <rect x="248" y="164" width="184" height="56" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="340" y="186" font-size="13" font-weight="700" fill="#1e3a6f" text-anchor="middle">⑤ 结果判定 + 门禁</text>
+  <text x="340" y="206" font-size="11" fill="#1f2d3d" text-anchor="middle">解析 JUnit XML → 通过率 / 失败清单</text>
+
+  <path d="M583 120 L583 146 L434 146 L434 162" fill="none" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+  <!-- 分支：成功 -->
+  <rect x="24" y="252" width="196" height="88" rx="8" fill="#e8f5e9" stroke="#3d8b40" stroke-width="1.5"/>
+  <text x="122" y="274" font-size="12.5" font-weight="700" fill="#255c28" text-anchor="middle">通过 → 静默 + 打绿标</text>
+  <text x="122" y="295" font-size="11" fill="#1f2d3d" text-anchor="middle">PR 状态置为 success</text>
+  <text x="122" y="313" font-size="11" fill="#1f2d3d" text-anchor="middle">允许 Merge 按钮点亮</text>
+  <text x="122" y="331" font-size="11" fill="#475569" text-anchor="middle">成功不打扰，是通知不被屏蔽的关键</text>
+
+  <!-- 分支：失败 -->
+  <rect x="248" y="252" width="408" height="88" rx="8" fill="#fdecea" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="452" y="274" font-size="12.5" font-weight="700" fill="#8c2318" text-anchor="middle">失败 → 定向通知（越具体越有人管）</text>
+  <text x="264" y="295" font-size="11" fill="#1f2d3d">企微机器人卡片：分支 / commit / 触发人 @ 到人</text>
+  <text x="264" y="313" font-size="11" fill="#1f2d3d">Top3 失败用例名 + 错误摘要（不是「有 7 条失败」这种废话）</text>
+  <text x="264" y="331" font-size="11" fill="#1f2d3d">Allure 报告直达链接 + 阻断 PR 合入</text>
+
+  <line x1="300" y1="222" x2="180" y2="248" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="380" y1="222" x2="420" y2="248" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+  <!-- 闭环 -->
+  <rect x="24" y="372" width="632" height="52" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
+  <text x="40" y="394" font-size="12.5" font-weight="700" fill="#334155">⑥ 闭环：修复后重新 push，重复 ①—⑤，直到绿灯才允许合入</text>
+  <text x="40" y="414" font-size="11" fill="#1f2d3d">全链路 P50 = 9 分钟（PR 冒烟）；改造前靠人工提测排期，平均反馈时长约半天</text>
+
+  <path d="M122 342 L122 356 L14 356 L14 87 L20 87" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <line x1="340" y1="342" x2="340" y2="368" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+  <text x="20" y="452" font-size="11.5" fill="#475569">经验：通知必须「可定位、可点击、可追责」。只发「构建失败」的机器人，两周内一定会被全员折叠。</text>
+</svg>

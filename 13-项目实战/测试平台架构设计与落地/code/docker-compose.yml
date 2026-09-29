@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qa-platform-api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://qa_user:SecurePass123@postgres:5432/qa_platform
+      - REDIS_URL=redis://:SecurePass123@redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - qa-net
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qa-celery-worker
+    command: celery -A app.core.celery_app worker -l info -c 4 -Q high_priority,regression
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://qa_user:SecurePass123@postgres:5432/qa_platform
+      - REDIS_URL=redis://:SecurePass123@redis:6379/0
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # 允许 Worker 调用宿主 Docker 拉起沙箱
+      - /data/reports:/data/reports
+    networks:
+      - qa-net
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: qa-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=qa_user
+      - POSTGRES_PASSWORD=SecurePass123
+      - POSTGRES_DB=qa_platform
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    networks:
+      - qa-net
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: qa-redis
+    restart: always
+    command: redis-server --requirepass SecurePass123
+    networks:
+      - qa-net
+
+networks:
+  qa-net:
+    driver: bridge
+
+volumes:
+  pg-data:

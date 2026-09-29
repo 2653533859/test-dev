@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="as" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">Appium session 生命周期：newSession 那 30 秒里发生了什么</text>
+
+  <rect x="24" y="42" width="404" height="34" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="40" y="64" font-size="12.5" fill="#1b4a91">webdriver.Remote("http://127.0.0.1:4723", options=opts)</text>
+
+  <line x1="226" y1="76" x2="226" y2="92" stroke="#475569" stroke-width="1.4" marker-end="url(#as)"/>
+
+  <rect x="24" y="94" width="404" height="34" rx="7" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="40" y="116" font-size="12" fill="#1f2d3d">① POST /session ，body 里带 capabilities（首字母大写的 W3C 格式）</text>
+
+  <line x1="226" y1="128" x2="226" y2="144" stroke="#475569" stroke-width="1.4" marker-end="url(#as)"/>
+
+  <rect x="24" y="146" width="404" height="34" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="168" font-size="12" fill="#8a4b0f">② Server 按 automationName 加载 UiAutomator2 Driver</text>
+
+  <line x1="226" y1="180" x2="226" y2="196" stroke="#475569" stroke-width="1.4" marker-end="url(#as)"/>
+
+  <rect x="24" y="198" width="404" height="52" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="218" font-size="12" fill="#8a4b0f">③ Driver 装三个 apk：uiautomator2-server、其 androidTest 包、</text>
+  <text x="40" y="234" font-size="12" fill="#8a4b0f">io.appium.settings（负责输入法、网络开关、Toast 监听）</text>
+  <text x="40" y="247" font-size="11" fill="#8a4b0f">→ 这一步最慢，也是「首次跑用例特别久」的原因</text>
+
+  <line x1="226" y1="250" x2="226" y2="266" stroke="#475569" stroke-width="1.4" marker-end="url(#as)"/>
+
+  <rect x="24" y="268" width="404" height="34" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="290" font-size="12" fill="#8a4b0f">④ am instrument 拉起 server，adb forward 打通端口</text>
+
+  <line x1="226" y1="302" x2="226" y2="318" stroke="#475569" stroke-width="1.4" marker-end="url(#as)"/>
+
+  <rect x="24" y="320" width="404" height="34" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="40" y="342" font-size="12" fill="#2f5d3a">⑤ 按 appPackage/appActivity 启动 App，返回 sessionId</text>
+
+  <line x1="226" y1="354" x2="226" y2="370" stroke="#475569" stroke-width="1.4" marker-end="url(#as)"/>
+
+  <rect x="24" y="372" width="404" height="34" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="40" y="394" font-size="12" fill="#1b4a91">⑥ 之后每条命令都带上 sessionId：/session/{id}/element/...</text>
+
+  <line x1="226" y1="406" x2="226" y2="422" stroke="#475569" stroke-width="1.4" marker-end="url(#as)"/>
+
+  <rect x="24" y="424" width="404" height="34" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="40" y="446" font-size="12" fill="#9c2b2b">⑦ driver.quit() → DELETE /session/{id}，回收 server 与端口</text>
+
+  <!-- right column notes -->
+  <rect x="444" y="94" width="212" height="120" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="458" y="114" font-size="12" font-weight="700" fill="#1f2d3d">session 的作用域</text>
+  <text x="458" y="134" font-size="11" fill="#334155">一个 session = 一台设备的</text>
+  <text x="458" y="150" font-size="11" fill="#334155">一次完整控制权，天然串行</text>
+  <text x="458" y="170" font-size="11" fill="#334155">并行跑用例 = 多设备多 session，</text>
+  <text x="458" y="186" font-size="11" fill="#334155">每个 session 要独立的</text>
+  <text x="458" y="202" font-size="11" fill="#334155">systemPort / wdaLocalPort</text>
+
+  <rect x="444" y="226" width="212" height="128" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="458" y="246" font-size="12" font-weight="700" fill="#9c2b2b">忘记 quit 的代价</text>
+  <text x="458" y="266" font-size="11" fill="#9c2b2b">· 设备上残留 instrument 进程</text>
+  <text x="458" y="282" font-size="11" fill="#9c2b2b">· 端口不释放，下次 session 抢占失败</text>
+  <text x="458" y="298" font-size="11" fill="#9c2b2b">· Server 里堆积僵尸 session</text>
+  <text x="458" y="318" font-size="11" fill="#9c2b2b">所以 driver 必须放在 fixture 的</text>
+  <text x="458" y="334" font-size="11" fill="#9c2b2b">yield 后面 quit，而不是用例末尾</text>
+
+  <rect x="444" y="366" width="212" height="92" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="458" y="386" font-size="12" font-weight="700" fill="#2f5d3a">加速技巧</text>
+  <text x="458" y="406" font-size="11" fill="#2f5d3a">skipServerInstallation=True</text>
+  <text x="458" y="422" font-size="11" fill="#2f5d3a">skipDeviceInitialization=True</text>
+  <text x="458" y="440" font-size="11" fill="#2f5d3a">noReset=True（保留登录态）</text>
+  <text x="458" y="454" font-size="10.5" fill="#2f5d3a">代价：环境不干净，首跑仍要全量</text>
+</svg>

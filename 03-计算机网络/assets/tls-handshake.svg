@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#0f172a">TLS 1.2 握手：用非对称加密协商出对称密钥</text>
+
+  <rect x="55" y="42" width="120" height="28" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="115" y="61" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">客户端</text>
+  <rect x="505" y="42" width="120" height="28" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="565" y="61" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">服务端</text>
+  <line x1="115" y1="70" x2="115" y2="386" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <line x1="565" y1="70" x2="565" y2="386" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+
+  <rect x="190" y="82" width="300" height="24" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="340" y="99" font-size="11.5" fill="#475569" text-anchor="middle">前置：TCP 三次握手已完成</text>
+
+  <line x1="118" y1="132" x2="560" y2="132" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="126" font-size="12" fill="#1f2d3d" text-anchor="middle">1. ClientHello：TLS 版本、密码套件列表、随机数 R1、SNI 域名</text>
+
+  <line x1="562" y1="168" x2="120" y2="168" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="162" font-size="12" fill="#1f2d3d" text-anchor="middle">2. ServerHello：选定套件、随机数 R2</text>
+  <line x1="562" y1="196" x2="120" y2="196" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="190" font-size="12" fill="#1f2d3d" text-anchor="middle">3. Certificate：服务端证书链（含公钥）</text>
+
+  <rect x="140" y="208" width="240" height="42" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="260" y="226" font-size="11.5" fill="#1f2d3d" text-anchor="middle">4. 客户端校验证书：签名链、有效期、</text>
+  <text x="260" y="243" font-size="11.5" fill="#1f2d3d" text-anchor="middle">域名匹配、是否被吊销</text>
+
+  <line x1="118" y1="276" x2="560" y2="276" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="270" font-size="12" fill="#1f2d3d" text-anchor="middle">5. 用证书公钥加密 Pre-Master Secret 发过去</text>
+
+  <rect x="140" y="290" width="400" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="340" y="308" font-size="11.5" fill="#166534" text-anchor="middle">6. 双方各自用 R1 + R2 + Pre-Master 推导出同一把会话密钥</text>
+  <text x="340" y="324" font-size="11.5" fill="#166534" text-anchor="middle">（服务端用私钥解出 Pre-Master，中间人没有私钥就解不出）</text>
+
+  <line x1="118" y1="352" x2="560" y2="352" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="346" font-size="12" fill="#1f2d3d" text-anchor="middle">7. ChangeCipherSpec + Finished（双向）</text>
+
+  <rect x="140" y="366" width="400" height="26" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="340" y="384" font-size="11.5" fill="#1f2d3d" text-anchor="middle">8. 之后的 HTTP 报文全部用对称密钥加密传输</text>
+
+  <text x="20" y="418" font-size="11.5" fill="#64748b">为什么非对称只用来协商密钥：RSA/ECC 运算慢，几百倍于 AES；对称加密快但没法安全地交换密钥——两者结合各取所长。</text>
+  <text x="20" y="438" font-size="11.5" fill="#64748b">TLS 1.3 把握手压缩到 1-RTT（会话复用可 0-RTT），去掉 RSA 密钥交换，强制前向保密（ECDHE），密码套件也大幅精简。</text>
+  <text x="20" y="458" font-size="11.5" fill="#64748b">测试关注：证书过期、SNI 缺失导致返回错误站点、时间不同步导致「证书尚未生效」，都在第 4 步爆出。</text>
+</svg>

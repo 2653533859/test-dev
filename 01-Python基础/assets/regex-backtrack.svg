@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar15" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="340" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">正则回溯引擎：贪婪匹配与 ReDoS</text>
+
+  <!-- greedy match -->
+  <text x="30" y="60" font-size="12.5" font-weight="700" fill="#0f172a">模式 a.*c 对 "axxxc"</text>
+  <rect x="30" y="74" width="130" height="34" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="95" y="95" font-size="11.5" fill="#1e40af" text-anchor="middle">a 匹配</text>
+  <rect x="170" y="74" width="160" height="34" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="250" y="95" font-size="11.5" fill="#92400e" text-anchor="middle">.* 贪婪吞到末尾</text>
+  <rect x="340" y="74" width="170" height="34" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="425" y="95" font-size="11.5" fill="#166534" text-anchor="middle">c 不匹配→回溯吐出</text>
+  <line x1="160" y1="91" x2="168" y2="91" stroke="#475569" stroke-width="1.5" marker-end="url(#ar15)"/>
+  <line x1="330" y1="91" x2="338" y2="91" stroke="#475569" stroke-width="1.5" marker-end="url(#ar15)"/>
+
+  <!-- backtrack arrows -->
+  <path d="M510 91 L480 91 L480 120 L450 120" fill="none" stroke="#dc2626" stroke-width="1.5" marker-end="url(#ar15)"/>
+  <text x="540" y="100" font-size="10.5" fill="#dc2626" text-anchor="middle">回吐</text>
+
+  <!-- redos -->
+  <text x="30" y="160" font-size="12.5" font-weight="700" fill="#b91c1c">灾难性回溯：(a+)+$ 对 "aaaaX"</text>
+  <g font-size="10.5">
+    <rect x="30" y="174" width="40" height="28" rx="5" fill="#fecaca" stroke="#dc2626"/>
+    <text x="50" y="192" fill="#991b1b" text-anchor="middle">a</text>
+    <rect x="76" y="174" width="40" height="28" rx="5" fill="#fecaca" stroke="#dc2626"/>
+    <text x="96" y="192" fill="#991b1b" text-anchor="middle">a</text>
+    <rect x="122" y="174" width="40" height="28" rx="5" fill="#fecaca" stroke="#dc2626"/>
+    <text x="142" y="192" fill="#991b1b" text-anchor="middle">a</text>
+    <rect x="168" y="174" width="40" height="28" rx="5" fill="#fecaca" stroke="#dc2626"/>
+    <text x="188" y="192" fill="#991b1b" text-anchor="middle">a</text>
+    <rect x="214" y="174" width="40" height="28" rx="5" fill="#fee2e2" stroke="#dc2626"/>
+    <text x="234" y="192" fill="#991b1b" text-anchor="middle">X</text>
+  </g>
+  <text x="270" y="192" font-size="11" fill="#991b1b">(a+)+ 外层每多一个 a 就多一重分组，回溯组合指数级</text>
+
+  <!-- recursion tree -->
+  <text x="400" y="160" font-size="12" font-weight="700" fill="#0f172a">回溯组合爆炸</text>
+  <text x="400" y="184" font-size="11" fill="#334155">a+ : a | aa | aaa ...</text>
+  <text x="400" y="202" font-size="11" fill="#334155">(a+)+: 分组再分组的每一种切分</text>
+  <text x="400" y="220" font-size="11" fill="#334155">n 个 a → 2^(n-1) 种回溯路径</text>
+
+  <rect x="30" y="224" width="620" height="50" rx="6" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="44" y="246" font-size="11.5" fill="#991b1b">ReDoS：嵌套量词 + 无法匹配的结尾，导致指数级回溯 → CPU 占满、服务不可用。</text>
+  <text x="44" y="266" font-size="11.5" fill="#991b1b">防御：避免 (a+)+ / (a*)* 这类嵌套量词；对外来正则/输入限长；用 [^...] 而非 .* 收窄。</text>
+
+  <rect x="30" y="286" width="620" height="38" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+  <text x="44" y="308" font-size="11.5" fill="#166534">提取标签用 [^&gt;]* 比 &lt;.*?&gt; 更稳；后顾 (?&lt;=) 必须定宽，否则报 fixed-width 错误。</text>
+</svg>

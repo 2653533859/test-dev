@@ -1,0 +1,20 @@
+# 多环境配置：敏感信息（密码）走环境变量 TEST_PASSWORD，不落盘。
+# 用法：pytest --env test / dev / staging / prod
+# conftest.py 通过 yaml.safe_load(Path("config.yaml").read_text())[env] 读取。
+
+test:
+  # 本地/CI 占位地址：无真实服务时跑到「连接超时」即视为链路通。
+  base_url: "http://127.0.0.1:8080"
+  user: "qa-tester"
+
+dev:
+  base_url: "http://dev-api.example.com"
+  user: "qa-tester"
+
+staging:
+  base_url: "https://staging-api.example.com"
+  user: "qa-tester"
+
+prod:
+  base_url: "https://api.example.com"
+  user: "qa-tester"

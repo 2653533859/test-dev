@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">接口断言体系：三层核心 + 两层扩展</text>
+
+  <text x="46" y="52" font-size="12" font-weight="700" fill="#2f6fd0">断言什么</text>
+  <text x="348" y="52" font-size="12" font-weight="700" fill="#d98324">能拦住的真实问题</text>
+
+  <!-- layer 1 -->
+  <rect x="30" y="60" width="620" height="62" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <line x1="336" y1="60" x2="336" y2="122" stroke="#2f6fd0" stroke-dasharray="4 3"/>
+  <text x="46" y="83" font-size="12.5" font-weight="700" fill="#1f2d3d">第 1 层 · 协议层</text>
+  <text x="46" y="105" font-size="11.5" fill="#41546b">status_code、响应头、Content-Type、耗时</text>
+  <text x="352" y="83" font-size="11.5" fill="#41546b">服务没起来、路由写错 404、后端异常 500、</text>
+  <text x="352" y="105" font-size="11.5" fill="#41546b">网关超时、返回了 HTML 错误页而不是 JSON</text>
+
+  <!-- layer 2 -->
+  <rect x="30" y="134" width="620" height="62" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <line x1="336" y1="134" x2="336" y2="196" stroke="#2f6fd0" stroke-dasharray="4 3"/>
+  <text x="46" y="157" font-size="12.5" font-weight="700" fill="#1f2d3d">第 2 层 · 结构层</text>
+  <text x="46" y="179" font-size="11.5" fill="#41546b">JSON Schema：字段是否存在、类型、必填、枚举</text>
+  <text x="352" y="157" font-size="11.5" fill="#41546b">后端悄悄删字段 / 改名、int 变成 string、</text>
+  <text x="352" y="179" font-size="11.5" fill="#41546b">null 代替空数组 —— 前端最容易被坑的一类</text>
+
+  <!-- layer 3 -->
+  <rect x="30" y="208" width="620" height="62" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <line x1="336" y1="208" x2="336" y2="270" stroke="#2f6fd0" stroke-dasharray="4 3"/>
+  <text x="46" y="231" font-size="12.5" font-weight="700" fill="#1f2d3d">第 3 层 · 业务值层</text>
+  <text x="46" y="253" font-size="11.5" fill="#41546b">业务码、关键字段值、金额与数量的计算结果</text>
+  <text x="352" y="231" font-size="11.5" fill="#41546b">优惠算错、状态没流转、分页 total 与 list 不符、</text>
+  <text x="352" y="253" font-size="11.5" fill="#41546b">HTTP 200 但 body 里 code=500001</text>
+
+  <!-- layer 4 -->
+  <rect x="30" y="290" width="620" height="62" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <line x1="336" y1="290" x2="336" y2="352" stroke="#d98324" stroke-dasharray="4 3"/>
+  <text x="46" y="313" font-size="12.5" font-weight="700" fill="#1f2d3d">第 4 层 · 数据层（扩展）</text>
+  <text x="46" y="335" font-size="11.5" fill="#41546b">SELECT 回查落库结果、字段与响应比对</text>
+  <text x="352" y="313" font-size="11.5" fill="#41546b">接口返回成功但事务回滚、写了缓存没写库、</text>
+  <text x="352" y="335" font-size="11.5" fill="#41546b">金额精度在入库时被截断</text>
+
+  <!-- layer 5 -->
+  <rect x="30" y="364" width="620" height="62" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <line x1="336" y1="364" x2="336" y2="426" stroke="#d98324" stroke-dasharray="4 3"/>
+  <text x="46" y="387" font-size="12.5" font-weight="700" fill="#1f2d3d">第 5 层 · 链路层（扩展）</text>
+  <text x="46" y="409" font-size="11.5" fill="#41546b">日志关键字、MQ 消息、下游被调用记录</text>
+  <text x="352" y="387" font-size="11.5" fill="#41546b">异步任务没触发、消息没投递、</text>
+  <text x="352" y="409" font-size="11.5" fill="#41546b">主流程成功但通知/对账链路悄悄断了</text>
+
+  <line x1="15" y1="60" x2="15" y2="426" stroke="#8a9bb0" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <text x="20" y="452" font-size="11.5" fill="#41546b">要点：1～3 层每条用例都要做，4～5 层按业务重要度选做；只断言 status_code 的用例约等于「探活脚本」。</text>
+</svg>

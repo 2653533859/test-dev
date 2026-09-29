@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">用户 → 组 → 文件：三方归属与权限关系</text>
+
+  <!-- 用户与组 -->
+  <rect x="16" y="44" width="240" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="66" font-size="14" font-weight="700" fill="#2f6fd0">用户（uid）与组（gid）</text>
+
+  <rect x="32" y="80" width="100" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="82" y="100" font-size="11.5" fill="#1e3a8a" text-anchor="middle">tester (uid 1000)</text>
+
+  <rect x="140" y="80" width="100" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="190" y="100" font-size="11.5" fill="#1e3a8a" text-anchor="middle">jenkins (uid 1001)</text>
+
+  <text x="32" y="128" font-size="12" font-weight="700" fill="#1f2d3d">每个用户有：</text>
+  <text x="32" y="146" font-size="11" fill="#475569">· 主组（primary group）= 登录时写进进程凭据</text>
+  <text x="32" y="162" font-size="11" fill="#475569">· 附加组（supplementary）= usermod -aG 添加</text>
+
+  <rect x="32" y="174" width="208" height="40" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="192" font-size="11" fill="#8a4b08">usermod -aG docker tester</text>
+  <text x="40" y="208" font-size="10.5" fill="#8a4b08">→ 必须重新登录或 newgrp 才生效</text>
+
+  <!-- 组 -->
+  <rect x="272" y="44" width="180" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="288" y="66" font-size="14" font-weight="700" fill="#d98324">组（gid）</text>
+
+  <rect x="288" y="80" width="148" height="32" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="362" y="100" font-size="11.5" fill="#8a4b08" text-anchor="middle">docker (gid 998)</text>
+
+  <rect x="288" y="120" width="148" height="32" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="362" y="140" font-size="11.5" fill="#8a4b08" text-anchor="middle">www-data (gid 33)</text>
+
+  <rect x="288" y="160" width="148" height="32" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="362" y="180" font-size="11.5" fill="#8a4b08" text-anchor="middle">app (gid 1002)</text>
+
+  <text x="288" y="208" font-size="11" fill="#475569">一个用户可属于多个组</text>
+  <text x="288" y="222" font-size="11" fill="#475569">组的成员列表看 /etc/group</text>
+
+  <!-- 文件归属 -->
+  <rect x="468" y="44" width="196" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="484" y="66" font-size="14" font-weight="700" fill="#28a745">文件的三组归属</text>
+
+  <rect x="484" y="80" width="164" height="32" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="566" y="100" font-size="11.5" fill="#1b5e20" text-anchor="middle">属主 u (owner)</text>
+
+  <rect x="484" y="120" width="164" height="32" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="566" y="140" font-size="11.5" fill="#8a4b08" text-anchor="middle">属组 g (group)</text>
+
+  <rect x="484" y="160" width="164" height="32" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="566" y="180" font-size="11.5" fill="#334155" text-anchor="middle">其他 o (others)</text>
+
+  <text x="484" y="208" font-size="11" fill="#475569">ls -l 第二列就是这三组 rwx</text>
+  <text x="484" y="222" font-size="11" fill="#475569">鉴权顺序命中即停，不叠加</text>
+
+  <!-- 连接箭头 -->
+  <line x1="136" y1="96" x2="286" y2="96" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="200" y="88" font-size="10" fill="#64748b" text-anchor="middle">属于</text>
+
+  <line x1="436" y1="96" x2="482" y2="96" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="465" y="88" font-size="10" fill="#64748b" text-anchor="middle">owns</text>
+
+  <!-- chown / chgrp 操作 -->
+  <rect x="16" y="236" width="648" height="100" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="258" font-size="14" font-weight="700" fill="#2f6fd0">chown 改属主/属组 · chgrp 改属组 · chmod 改权限位</text>
+
+  <rect x="32" y="272" width="190" height="50" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="42" y="290" font-size="11.5" fill="#1e3a8a">chown jenkins app.log</text>
+  <text x="42" y="306" font-size="11" fill="#1e3a8a">chown jenkins:app app.log</text>
+  <text x="42" y="318" font-size="10.5" fill="#64748b">→ 改文件的 u / g</text>
+
+  <rect x="234" y="272" width="190" height="50" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="244" y="290" font-size="11.5" fill="#8a4b08">chgrp www-data app.log</text>
+  <text x="244" y="306" font-size="11" fill="#8a4b08">chown :www-data app.log</text>
+  <text x="244" y="318" font-size="10.5" fill="#64748b">→ 只改 g</text>
+
+  <rect x="436" y="272" width="212" height="50" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="446" y="290" font-size="11.5" fill="#1b5e20">chmod 755 deploy.sh</text>
+  <text x="446" y="306" font-size="11" fill="#1b5e20">chmod u+x,g-w file</text>
+  <text x="446" y="318" font-size="10.5" fill="#64748b">→ 改 rwx 位（不改归属）</text>
+
+  <!-- 关键规则 -->
+  <rect x="16" y="346" width="648" height="108" rx="8" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="32" y="368" font-size="14" font-weight="700" fill="#9c2b2b">三条高频规则</text>
+  <text x="32" y="390" font-size="11.5" fill="#9c2b2b">1. chown 只有 root 能用（普通用户不能把文件送给别人）。chgrp 普通用户只能改成自己所属的组。</text>
+  <text x="32" y="410" font-size="11.5" fill="#9c2b2b">2. usermod -aG 加组后必须重新登录才生效 —— 附加组在登录时写进进程凭据，已有 shell 不刷新。</text>
+  <text x="32" y="430" font-size="11.5" fill="#9c2b2b">3. 容器挂载卷写不进去：宿主机 uid=1000，容器内进程 uid=1001 → 用 --user $(id -u):$(id -g) 对齐，别 chmod 777。</text>
+  <text x="32" y="448" font-size="11" fill="#475569">排查权限问题：id 看自己 → ls -l 看文件 → namei -l 看路径每一层 → 确认 u/g/o 那一组生效</text>
+</svg>

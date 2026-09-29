@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">压测模型推算：从业务量到并发数</text>
+  <text x="20" y="50" font-size="12" fill="#64748b">二八原则 + Little's Law，把「日活多少」翻译成「压多少并发」</text>
+
+  <!-- step 1 -->
+  <rect x="24" y="70" width="180" height="58" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="114" y="94" font-size="13" font-weight="700" fill="#1b4f9c" text-anchor="middle">① 业务量输入</text>
+  <text x="114" y="114" font-size="12" fill="#1f2d3d" text-anchor="middle">日订单 100 万笔</text>
+
+  <line x1="204" y1="99" x2="248" y2="99" stroke="#475569" stroke-width="1.5" marker-end="url(#arw)"/>
+
+  <!-- step 2 -->
+  <rect x="250" y="70" width="200" height="58" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="350" y="94" font-size="13" font-weight="700" fill="#96560f" text-anchor="middle">② 二八原则折算峰值</text>
+  <text x="350" y="114" font-size="12" fill="#1f2d3d" text-anchor="middle">80% 量集中在 20% 时间</text>
+
+  <line x1="450" y1="99" x2="494" y2="99" stroke="#475569" stroke-width="1.5" marker-end="url(#arw)"/>
+
+  <!-- step 3 -->
+  <rect x="496" y="70" width="160" height="58" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="576" y="94" font-size="13" font-weight="700" fill="#1b4f9c" text-anchor="middle">③ 峰值 TPS</text>
+  <text x="576" y="114" font-size="12" fill="#1f2d3d" text-anchor="middle">≈ 46 TPS</text>
+
+  <!-- formula box -->
+  <rect x="24" y="150" width="632" height="86" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="174" font-size="13" font-weight="700" fill="#1f2d3d">推算公式</text>
+  <text x="40" y="196" font-size="12.5" fill="#334155">峰值 TPS = 日总量 × 80% ÷ (24h × 20% × 3600s) = 1,000,000 × 0.8 ÷ 17280 ≈ 46</text>
+  <text x="40" y="216" font-size="12.5" fill="#334155">压测目标 TPS = 峰值 TPS × 安全系数（2～5 倍）= 46 × 3 ≈ 140</text>
+
+  <!-- little's law -->
+  <text x="20" y="268" font-size="15" font-weight="700" fill="#1f2d3d">Little's Law：并发数 = TPS × 响应时间</text>
+
+  <rect x="24" y="284" width="150" height="52" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="99" y="306" font-size="12.5" font-weight="700" fill="#96560f" text-anchor="middle">目标 TPS</text>
+  <text x="99" y="325" font-size="12.5" fill="#1f2d3d" text-anchor="middle">140 /s</text>
+
+  <text x="186" y="316" font-size="18" fill="#475569" text-anchor="middle">×</text>
+
+  <rect x="204" y="284" width="150" height="52" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="279" y="306" font-size="12.5" font-weight="700" fill="#96560f" text-anchor="middle">目标响应时间</text>
+  <text x="279" y="325" font-size="12.5" fill="#1f2d3d" text-anchor="middle">0.5 s</text>
+
+  <text x="366" y="316" font-size="18" fill="#475569" text-anchor="middle">=</text>
+
+  <rect x="384" y="284" width="150" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="459" y="306" font-size="12.5" font-weight="700" fill="#1b4f9c" text-anchor="middle">活跃并发数</text>
+  <text x="459" y="325" font-size="12.5" fill="#1f2d3d" text-anchor="middle">70</text>
+
+  <text x="552" y="304" font-size="11.5" fill="#64748b">线程数还需 ÷</text>
+  <text x="552" y="322" font-size="11.5" fill="#64748b">(1 - think 占比)</text>
+
+  <!-- think time -->
+  <rect x="24" y="356" width="632" height="52" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="378" font-size="12.5" font-weight="700" fill="#1f2d3d">带思考时间的线程数</text>
+  <text x="40" y="398" font-size="12.5" fill="#334155">线程数 = TPS × (响应时间 + think time) = 140 × (0.5 + 3) = 490 个虚拟用户</text>
+
+  <text x="20" y="440" font-size="11.5" fill="#64748b">注意：并发数不等于在线用户数。在线 10 万人，同一秒真正发请求的可能只有几百。</text>
+  <text x="20" y="458" font-size="11.5" fill="#64748b">模型只是起点，最终要用阶梯加压实测出拐点，再回头校准模型。</text>
+</svg>

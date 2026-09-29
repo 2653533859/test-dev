@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">并发导致的超卖 / 重复提交：检查与扣减不原子</text>
+
+  <!-- timeline -->
+  <line x1="150" y1="250" x2="650" y2="250" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="628" y="268" font-size="12" fill="#64748b">时间 →</text>
+
+  <text x="20" y="76" font-size="13" font-weight="700" fill="#1f2d3d">请求 R1</text>
+  <rect x="150" y="58" width="150" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="225" y="80" font-size="12" fill="#1a4a8f" text-anchor="middle">读库存 stock = 1</text>
+  <rect x="330" y="58" width="150" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="405" y="80" font-size="12" fill="#1a4a8f" text-anchor="middle">判断 1 &gt; 0 通过</text>
+  <rect x="510" y="58" width="150" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="585" y="80" font-size="12" fill="#8a4b00" text-anchor="middle">写 stock = 0，出单</text>
+  <line x1="300" y1="75" x2="328" y2="75" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="480" y1="75" x2="508" y2="75" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <text x="20" y="146" font-size="13" font-weight="700" fill="#1f2d3d">请求 R2</text>
+  <rect x="180" y="128" width="150" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="255" y="150" font-size="12" fill="#1a4a8f" text-anchor="middle">读库存 stock = 1</text>
+  <rect x="360" y="128" width="150" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="435" y="150" font-size="12" fill="#1a4a8f" text-anchor="middle">判断 1 &gt; 0 通过</text>
+  <rect x="530" y="128" width="130" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="595" y="150" font-size="12" font-weight="700" fill="#b3261e" text-anchor="middle">写 stock = 0，再出单</text>
+  <line x1="330" y1="145" x2="358" y2="145" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="510" y1="145" x2="528" y2="145" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <text x="20" y="216" font-size="13" font-weight="700" fill="#1f2d3d">数据库</text>
+  <rect x="150" y="198" width="330" height="34" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="315" y="220" font-size="12" fill="#1f2d3d" text-anchor="middle">stock = 1（两个请求看到的都是这个旧值）</text>
+  <rect x="510" y="198" width="150" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="585" y="220" font-size="12" font-weight="700" fill="#b3261e" text-anchor="middle">stock = 0 但卖了 2 件</text>
+
+  <line x1="255" y1="162" x2="255" y2="196" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="225" y1="92" x2="225" y2="196" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>
+
+  <rect x="150" y="276" width="510" height="30" rx="6" fill="#fff5ec" stroke="#d98324"/>
+  <text x="405" y="296" font-size="12.5" font-weight="700" fill="#8a4b00" text-anchor="middle">窗口期：从「读」到「写」之间，任何并发请求都能挤进来</text>
+
+  <!-- fixes -->
+  <text x="20" y="336" font-size="14" font-weight="700" fill="#1f2d3d">三类修复思路</text>
+
+  <rect x="20" y="348" width="205" height="76" rx="8" fill="#eef4ff" stroke="#2f6fd0"/>
+  <text x="122" y="369" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">① 数据库原子扣减</text>
+  <text x="122" y="388" font-size="11.5" fill="#31527a" text-anchor="middle">UPDATE ... SET stock=stock-1</text>
+  <text x="122" y="405" font-size="11.5" fill="#31527a" text-anchor="middle">WHERE id=? AND stock&gt;0</text>
+  <text x="122" y="419" font-size="11" fill="#64748b" text-anchor="middle">看影响行数判断是否成功</text>
+
+  <rect x="237" y="348" width="205" height="76" rx="8" fill="#eef4ff" stroke="#2f6fd0"/>
+  <text x="339" y="369" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">② 唯一索引兜底</text>
+  <text x="339" y="388" font-size="11.5" fill="#31527a" text-anchor="middle">(user_id, activity_id) 唯一</text>
+  <text x="339" y="405" font-size="11.5" fill="#31527a" text-anchor="middle">重复插入直接冲突失败</text>
+  <text x="339" y="419" font-size="11" fill="#64748b" text-anchor="middle">防「一人多领」最稳</text>
+
+  <rect x="454" y="348" width="206" height="76" rx="8" fill="#eef4ff" stroke="#2f6fd0"/>
+  <text x="557" y="369" font-size="12.5" font-weight="700" fill="#1a4a8f" text-anchor="middle">③ 分布式锁 / 幂等号</text>
+  <text x="557" y="388" font-size="11.5" fill="#31527a" text-anchor="middle">同 key 串行化</text>
+  <text x="557" y="405" font-size="11.5" fill="#31527a" text-anchor="middle">或客户端带 requestId 去重</text>
+  <text x="557" y="419" font-size="11" fill="#64748b" text-anchor="middle">注意锁超时与释放</text>
+
+  <text x="20" y="448" font-size="11.5" fill="#64748b">测试方法（测试环境）：把库存/额度调成 1，用少量线程同时发同一请求，断言「成功数 = 1」且账实一致；不要在生产压。</text>
+  <text x="20" y="464" font-size="11.5" fill="#64748b">这类缺陷偶发，必须多轮重复执行并每轮核对数据，一次通过不代表没问题。</text>
+</svg>

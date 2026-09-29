@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="al" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">控件定位策略优先级：从最稳到最脆</text>
+
+  <!-- ladder -->
+  <rect x="24" y="46" width="392" height="46" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="40" y="66" font-size="12.5" font-weight="700" fill="#2f5d3a">① accessibility id（content-desc / iOS label）</text>
+  <text x="40" y="83" font-size="11" fill="#2f5d3a">跨平台通用、语义稳定、还顺带提升无障碍可用性</text>
+  <text x="428" y="72" font-size="11.5" font-weight="700" fill="#2f5d3a">最稳 · 最快</text>
+
+  <line x1="220" y1="92" x2="220" y2="102" stroke="#475569" stroke-width="1.3" marker-end="url(#al)"/>
+
+  <rect x="24" y="104" width="392" height="46" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="40" y="124" font-size="12.5" font-weight="700" fill="#1b4a91">② resource-id（Android 的 AppiumBy.ID）</text>
+  <text x="40" y="141" font-size="11" fill="#1b4a91">底层直接查 idHash，不遍历树；但 RN / 混淆构建可能没有</text>
+  <text x="428" y="130" font-size="11.5" font-weight="700" fill="#1b4a91">首选</text>
+
+  <line x1="220" y1="150" x2="220" y2="160" stroke="#475569" stroke-width="1.3" marker-end="url(#al)"/>
+
+  <rect x="24" y="162" width="392" height="46" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="40" y="182" font-size="12.5" font-weight="700" fill="#1b4a91">③ UiAutomator2 定位器（-android uiautomator）</text>
+  <text x="40" y="199" font-size="11" fill="#1b4a91">在设备侧执行，支持 textContains / scrollIntoView，比 XPath 快一个量级</text>
+  <text x="428" y="188" font-size="11.5" font-weight="700" fill="#1b4a91">复杂条件用它</text>
+
+  <line x1="220" y1="208" x2="220" y2="218" stroke="#475569" stroke-width="1.3" marker-end="url(#al)"/>
+
+  <rect x="24" y="220" width="392" height="46" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="240" font-size="12.5" font-weight="700" fill="#8a4b0f">④ XPath（相对路径 + 属性过滤）</text>
+  <text x="40" y="257" font-size="11" fill="#8a4b0f">要把整棵控件树 dump 成 XML 再匹配，一次几百毫秒到数秒</text>
+  <text x="428" y="246" font-size="11.5" font-weight="700" fill="#8a4b0f">能不用就不用</text>
+
+  <line x1="220" y1="266" x2="220" y2="276" stroke="#475569" stroke-width="1.3" marker-end="url(#al)"/>
+
+  <rect x="24" y="278" width="392" height="46" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="40" y="298" font-size="12.5" font-weight="700" fill="#9c2b2b">⑤ 绝对路径 XPath / 坐标点击 tap(x, y)</text>
+  <text x="40" y="315" font-size="11" fill="#9c2b2b">换分辨率、换机型、UI 挪一行就全废</text>
+  <text x="428" y="304" font-size="11.5" font-weight="700" fill="#9c2b2b">最后手段</text>
+
+  <!-- right note -->
+  <rect x="428" y="338" width="228" height="0" fill="none"/>
+
+  <!-- bottom explanation -->
+  <rect x="24" y="338" width="316" height="118" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="358" font-size="12.5" font-weight="700" fill="#1f2d3d">为什么 XPath 这么慢</text>
+  <text x="40" y="378" font-size="11" fill="#334155">每次查找 = 遍历全部无障碍节点 → 拼 XML</text>
+  <text x="40" y="394" font-size="11" fill="#334155">→ 传回 PC → 用 XPath 引擎匹配</text>
+  <text x="40" y="414" font-size="11" fill="#334155">页面越复杂（长列表、嵌套 RecyclerView）</text>
+  <text x="40" y="430" font-size="11" fill="#334155">树越大，耗时呈线性增长</text>
+  <text x="40" y="448" font-size="11" fill="#9c2b2b">实测：同页面 ID 定位 30ms vs XPath 1.2s</text>
+
+  <rect x="356" y="338" width="300" height="118" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="372" y="358" font-size="12.5" font-weight="700" fill="#2f5d3a">治本方案：找开发要「测试锚点」</text>
+  <text x="372" y="378" font-size="11" fill="#2f5d3a">Android：给关键控件加 android:id 或</text>
+  <text x="372" y="394" font-size="11" fill="#2f5d3a">android:contentDescription="login-submit"</text>
+  <text x="372" y="414" font-size="11" fill="#2f5d3a">iOS：accessibilityIdentifier</text>
+  <text x="372" y="430" font-size="11" fill="#2f5d3a">React Native：testID（双端自动映射）</text>
+  <text x="372" y="448" font-size="11" fill="#2f5d3a">与 Web 端 data-testid 是同一套思路</text>
+</svg>

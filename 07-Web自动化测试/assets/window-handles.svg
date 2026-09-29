@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="wh" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">多窗口切换：句柄（handle）与当前窗口状态</text>
+
+  <!-- step 1 -->
+  <rect x="24" y="48" width="196" height="112" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="38" y="68" font-size="12.5" font-weight="700" fill="#1f2d3d">① 点击前</text>
+  <rect x="38" y="78" width="168" height="30" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="122" y="98" font-size="12" fill="#1b4a91" text-anchor="middle">窗口 A（列表页）</text>
+  <text x="38" y="126" font-size="11" fill="#334155">handles = [A]</text>
+  <text x="38" y="144" font-size="11" fill="#2f6fd0">current = A</text>
+
+  <!-- step 2 -->
+  <rect x="242" y="48" width="196" height="112" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="256" y="68" font-size="12.5" font-weight="700" fill="#1f2d3d">② 点了 target=_blank</text>
+  <rect x="256" y="78" width="168" height="26" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="340" y="96" font-size="11.5" fill="#1b4a91" text-anchor="middle">窗口 A（列表页）</text>
+  <rect x="256" y="108" width="168" height="26" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="340" y="126" font-size="11.5" fill="#8a4b0f" text-anchor="middle">窗口 B（详情页）新开</text>
+  <text x="256" y="152" font-size="11" fill="#9c2b2b">current 仍是 A ← 关键坑</text>
+
+  <!-- step 3 -->
+  <rect x="460" y="48" width="196" height="112" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="474" y="68" font-size="12.5" font-weight="700" fill="#1f2d3d">③ switch_to.window(B)</text>
+  <rect x="474" y="78" width="168" height="26" rx="5" fill="#e2e8f0" stroke="#94a3b8"/>
+  <text x="558" y="96" font-size="11.5" fill="#475569" text-anchor="middle">窗口 A（后台）</text>
+  <rect x="474" y="108" width="168" height="26" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="558" y="126" font-size="11.5" fill="#8a4b0f" text-anchor="middle">窗口 B（详情页）</text>
+  <text x="474" y="152" font-size="11" fill="#d98324">current = B，可定位元素</text>
+
+  <line x1="222" y1="104" x2="240" y2="104" stroke="#475569" stroke-width="1.5" marker-end="url(#wh)"/>
+  <line x1="440" y1="104" x2="458" y2="104" stroke="#475569" stroke-width="1.5" marker-end="url(#wh)"/>
+
+  <!-- code flow -->
+  <text x="24" y="196" font-size="13.5" font-weight="700" fill="#1b4a91">推荐流程：先记原句柄 → 等新窗口出现 → 切过去 → 用完关掉 → 切回来</text>
+
+  <rect x="24" y="210" width="140" height="46" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="94" y="230" font-size="12" fill="#1b4a91" text-anchor="middle">origin =</text>
+  <text x="94" y="246" font-size="11" fill="#1b4a91" text-anchor="middle">current_window_handle</text>
+
+  <rect x="186" y="210" width="150" height="46" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="261" y="230" font-size="12" fill="#8a4b0f" text-anchor="middle">wait.until(</text>
+  <text x="261" y="246" font-size="11" fill="#8a4b0f" text-anchor="middle">number_of_windows_to_be(2))</text>
+
+  <rect x="358" y="210" width="140" height="46" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="428" y="230" font-size="12" fill="#1b4a91" text-anchor="middle">switch_to.window(</text>
+  <text x="428" y="246" font-size="11" fill="#1b4a91" text-anchor="middle">新句柄)</text>
+
+  <rect x="520" y="210" width="136" height="46" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="588" y="230" font-size="12" fill="#2f5d3a" text-anchor="middle">close() 后</text>
+  <text x="588" y="246" font-size="11" fill="#2f5d3a" text-anchor="middle">switch_to.window(origin)</text>
+
+  <line x1="164" y1="233" x2="184" y2="233" stroke="#475569" stroke-width="1.5" marker-end="url(#wh)"/>
+  <line x1="336" y1="233" x2="356" y2="233" stroke="#475569" stroke-width="1.5" marker-end="url(#wh)"/>
+  <line x1="498" y1="233" x2="518" y2="233" stroke="#475569" stroke-width="1.5" marker-end="url(#wh)"/>
+
+  <!-- alert lane -->
+  <text x="24" y="292" font-size="13.5" font-weight="700" fill="#5b3fa8">alert 是浏览器级模态框：不在 DOM 里，只能用 switch_to.alert</text>
+  <rect x="24" y="304" width="200" height="60" rx="7" fill="#f3efff" stroke="#7c5cd6"/>
+  <text x="124" y="326" font-size="12" fill="#5b3fa8" text-anchor="middle">触发动作（click）</text>
+  <text x="124" y="346" font-size="11" fill="#5b3fa8" text-anchor="middle">alert 弹出，页面被冻结</text>
+
+  <rect x="248" y="304" width="200" height="60" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="348" y="326" font-size="12" fill="#8a4b0f" text-anchor="middle">未处理时任何 DOM 操作</text>
+  <text x="348" y="346" font-size="11" fill="#8a4b0f" text-anchor="middle">抛 UnexpectedAlertPresent</text>
+
+  <rect x="472" y="304" width="184" height="60" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="564" y="326" font-size="12" fill="#2f5d3a" text-anchor="middle">alert.accept() / dismiss()</text>
+  <text x="564" y="346" font-size="11" fill="#2f5d3a" text-anchor="middle">页面恢复可操作</text>
+
+  <line x1="224" y1="334" x2="246" y2="334" stroke="#475569" stroke-width="1.5" marker-end="url(#wh)"/>
+  <line x1="448" y1="334" x2="470" y2="334" stroke="#475569" stroke-width="1.5" marker-end="url(#wh)"/>
+
+  <!-- footer -->
+  <rect x="24" y="384" width="632" height="72" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="406" font-size="11.5" fill="#334155">句柄是随机字符串（如 CDwindow-4A6...），顺序不保证，永远用「差集」求新句柄，不要写 handles[-1]。</text>
+  <text x="40" y="426" font-size="11.5" fill="#334155">Playwright：用 with context.expect_page() 捕获新页面事件，用 page.on("dialog") 预先注册弹窗处理器。</text>
+  <text x="40" y="446" font-size="11.5" fill="#9c2b2b">红线：driver.close() 关掉当前窗口后必须立刻 switch_to 到别的句柄，否则后续操作抛 NoSuchWindowException。</text>
+</svg>

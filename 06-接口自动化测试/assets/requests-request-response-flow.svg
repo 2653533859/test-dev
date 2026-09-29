@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+    <marker id="arO" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#d98324"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">requests：一次调用如何变成 Response 对象</text>
+
+  <text x="45" y="52" font-size="12.5" font-weight="700" fill="#2f6fd0">请求侧（出）</text>
+  <text x="385" y="52" font-size="12.5" font-weight="700" fill="#d98324">响应侧（回）</text>
+
+  <!-- left column -->
+  <rect x="45" y="60" width="250" height="54" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="170" y="81" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">① requests.get(url, params=…)</text>
+  <text x="170" y="99" font-size="11.5" fill="#41546b" text-anchor="middle">顶层 API，内部临时建一个 Session</text>
+
+  <rect x="45" y="132" width="250" height="54" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="170" y="153" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">② Session.request()</text>
+  <text x="170" y="171" font-size="11.5" fill="#41546b" text-anchor="middle">合并会话级 headers / cookies / auth</text>
+
+  <rect x="45" y="204" width="250" height="54" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="170" y="225" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">③ prepare_request()</text>
+  <text x="170" y="243" font-size="11.5" fill="#41546b" text-anchor="middle">生成 PreparedRequest 不可变快照</text>
+
+  <rect x="45" y="276" width="250" height="54" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="170" y="297" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">④ URL 编码 / body 序列化</text>
+  <text x="170" y="315" font-size="11.5" fill="#41546b" text-anchor="middle">自动补 Content-Type、Content-Length</text>
+
+  <rect x="45" y="348" width="250" height="54" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="170" y="369" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">⑤ HTTPAdapter.send()</text>
+  <text x="170" y="387" font-size="11.5" fill="#41546b" text-anchor="middle">urllib3 连接池 → TCP → 服务端</text>
+
+  <!-- right column -->
+  <rect x="385" y="60" width="250" height="54" rx="6" fill="#e8eef5" stroke="#8a9bb0" stroke-dasharray="4 3"/>
+  <text x="510" y="81" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">⑩ 若 3xx：resolve_redirects</text>
+  <text x="510" y="99" font-size="11.5" fill="#41546b" text-anchor="middle">自动重跑 ①→⑨，痕迹在 r.history</text>
+
+  <rect x="385" y="132" width="250" height="54" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="510" y="153" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">⑨ status_code / headers</text>
+  <text x="510" y="171" font-size="11.5" fill="#41546b" text-anchor="middle">.text 按编码解码、.json() 再解析</text>
+
+  <rect x="385" y="204" width="250" height="54" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="510" y="225" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">⑧ r.content 全量读入内存</text>
+  <text x="510" y="243" font-size="11.5" fill="#41546b" text-anchor="middle">除非 stream=True 才惰性分块读</text>
+
+  <rect x="385" y="276" width="250" height="54" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="510" y="297" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">⑦ build_response()</text>
+  <text x="510" y="315" font-size="11.5" fill="#41546b" text-anchor="middle">把 urllib3 响应包成 Response 对象</text>
+
+  <rect x="385" y="348" width="250" height="54" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="510" y="369" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">⑥ 服务端返回原始报文</text>
+  <text x="510" y="387" font-size="11.5" fill="#41546b" text-anchor="middle">状态行 + 响应头 + 响应体</text>
+
+  <!-- down arrows (left) -->
+  <line x1="170" y1="114" x2="170" y2="130" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="170" y1="186" x2="170" y2="202" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="170" y1="258" x2="170" y2="274" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="170" y1="330" x2="170" y2="346" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- cross arrow -->
+  <line x1="297" y1="375" x2="383" y2="375" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- up arrows (right) -->
+  <line x1="510" y1="348" x2="510" y2="332" stroke="#d98324" stroke-width="1.5" marker-end="url(#arO)"/>
+  <line x1="510" y1="276" x2="510" y2="260" stroke="#d98324" stroke-width="1.5" marker-end="url(#arO)"/>
+  <line x1="510" y1="204" x2="510" y2="188" stroke="#d98324" stroke-width="1.5" marker-end="url(#arO)"/>
+  <line x1="510" y1="132" x2="510" y2="116" stroke="#d98324" stroke-width="1.5" marker-end="url(#arO)"/>
+
+  <!-- redirect loop back -->
+  <line x1="383" y1="87" x2="297" y2="87" stroke="#8a9bb0" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ar)"/>
+
+  <text x="20" y="432" font-size="11.5" fill="#41546b">要点：params 拼 query string、data / json 决定 body 与 Content-Type，全部在 ③④ 阶段定型，之后不可再改。</text>
+  <text x="20" y="452" font-size="11.5" fill="#41546b">r.json() 只是对 r.text 做 json.loads，不做结构校验；非 2xx 也不会抛异常，必须自己 raise_for_status()。</text>
+</svg>

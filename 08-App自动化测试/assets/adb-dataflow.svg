@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ad" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">adb 三段式数据流：Client → Server → Daemon</text>
+
+  <!-- PC side box -->
+  <rect x="24" y="44" width="300" height="230" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-dasharray="5 3"/>
+  <text x="40" y="64" font-size="12.5" font-weight="700" fill="#1f2d3d">PC 端（你的电脑）</text>
+
+  <rect x="40" y="76" width="268" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="56" y="96" font-size="12.5" font-weight="700" fill="#1b4a91">① adb Client（命令行进程）</text>
+  <text x="56" y="113" font-size="11" fill="#1b4a91">每敲一次 adb xxx 就新起一个进程，发完即退</text>
+  <text x="56" y="125" font-size="11" fill="#1b4a91">例：adb shell dumpsys meminfo com.demo</text>
+
+  <line x1="174" y1="128" x2="174" y2="146" stroke="#475569" stroke-width="1.4" marker-end="url(#ad)"/>
+  <text x="182" y="142" font-size="10.5" fill="#64748b">本机 TCP :5037</text>
+
+  <rect x="40" y="148" width="268" height="60" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="56" y="168" font-size="12.5" font-weight="700" fill="#8a4b0f">② adb Server（常驻后台，单例）</text>
+  <text x="56" y="185" font-size="11" fill="#8a4b0f">管理设备列表、多路复用连接</text>
+  <text x="56" y="198" font-size="11" fill="#8a4b0f">首次执行 adb 时自动 fork 出来</text>
+
+  <line x1="174" y1="208" x2="174" y2="226" stroke="#475569" stroke-width="1.4" marker-end="url(#ad)"/>
+
+  <rect x="40" y="228" width="268" height="34" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="56" y="249" font-size="11.5" fill="#334155">USB（AOA 协议）或 Wi-Fi（adb tcpip 5555）</text>
+
+  <!-- device side -->
+  <rect x="356" y="44" width="300" height="230" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-dasharray="5 3"/>
+  <text x="372" y="64" font-size="12.5" font-weight="700" fill="#1f2d3d">设备端（手机 / 模拟器）</text>
+
+  <rect x="372" y="76" width="268" height="52" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="388" y="96" font-size="12.5" font-weight="700" fill="#2f5d3a">③ adbd 守护进程（root 或 shell 权限）</text>
+  <text x="388" y="113" font-size="11" fill="#2f5d3a">开发者选项里的「USB 调试」就是开关它</text>
+  <text x="388" y="125" font-size="11" fill="#2f5d3a">首次连接弹 RSA 指纹授权框</text>
+
+  <line x1="506" y1="128" x2="506" y2="146" stroke="#475569" stroke-width="1.4" marker-end="url(#ad)"/>
+
+  <rect x="372" y="148" width="268" height="114" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="388" y="168" font-size="12.5" font-weight="700" fill="#1b4a91">④ adbd 代为执行系统能力</text>
+  <text x="388" y="186" font-size="11" fill="#1b4a91">pm  → 包管理：install / uninstall / list</text>
+  <text x="388" y="202" font-size="11" fill="#1b4a91">am  → 活动管理：start / force-stop / broadcast</text>
+  <text x="388" y="218" font-size="11" fill="#1b4a91">dumpsys → 系统服务快照：meminfo / gfxinfo</text>
+  <text x="388" y="234" font-size="11" fill="#1b4a91">logcat → 内核环形缓冲区日志</text>
+  <text x="388" y="250" font-size="11" fill="#1b4a91">input / screencap / screenrecord → 交互与取证</text>
+
+  <!-- horizontal link -->
+  <line x1="308" y1="245" x2="370" y2="180" stroke="#475569" stroke-width="1.4" marker-end="url(#ad)"/>
+
+  <!-- bottom: common failure -->
+  <rect x="24" y="288" width="316" height="120" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="40" y="308" font-size="12.5" font-weight="700" fill="#9c2b2b">devices 列表里的三种异常状态</text>
+  <text x="40" y="328" font-size="11" fill="#9c2b2b">unauthorized → 手机上没点「允许调试」</text>
+  <text x="40" y="345" font-size="11" fill="#9c2b2b">offline → 线松了 / adbd 挂了，kill-server 重来</text>
+  <text x="40" y="362" font-size="11" fill="#9c2b2b">列表为空 → 驱动缺失，或 5037 被占用</text>
+  <text x="40" y="382" font-size="11" fill="#9c2b2b">占用排查：adb kill-server 后重新 adb devices，</text>
+  <text x="40" y="397" font-size="11" fill="#9c2b2b">仍失败则查是不是 IDE 自带的另一个 adb 版本冲突</text>
+
+  <rect x="356" y="288" width="300" height="120" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="372" y="308" font-size="12.5" font-weight="700" fill="#1f2d3d">-s 与端口转发</text>
+  <text x="372" y="328" font-size="11" fill="#334155">多设备必须带 -s：adb -s emulator-5554 shell</text>
+  <text x="372" y="345" font-size="11" fill="#334155">不带 -s 会报 more than one device</text>
+  <text x="372" y="365" font-size="11" fill="#334155">adb forward tcp:8200 tcp:6790</text>
+  <text x="372" y="380" font-size="11" fill="#334155">PC:8200 → 设备:6790（Appium 靠它连 server apk）</text>
+  <text x="372" y="397" font-size="11" fill="#334155">adb reverse tcp:8080 tcp:8080 = 反向，设备访问 PC</text>
+
+  <text x="24" y="432" font-size="11.5" fill="#64748b">要点一：所有 adb 命令都经由 Server 中转，所以「设备状态诡异」的第一步永远是 adb kill-server 重置这个中间层。</text>
+  <text x="24" y="450" font-size="11.5" fill="#64748b">要点二：adb shell 后面跟的 pm / am / dumpsys 是 Android 系统自带命令，不是 adb 的子命令——这决定了它们的参数要查 AOSP 文档而非 adb 文档。</text>
+</svg>

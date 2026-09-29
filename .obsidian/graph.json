@@ -1,0 +1,119 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "path:01-Python基础",
+      "color": {
+        "a": 1,
+        "rgb": 3502757
+      }
+    },
+    {
+      "query": "path:02-Linux基础",
+      "color": {
+        "a": 1,
+        "rgb": 15291424
+      }
+    },
+    {
+      "query": "path:03-计算机网络",
+      "color": {
+        "a": 1,
+        "rgb": 38536
+      }
+    },
+    {
+      "query": "path:04-数据库",
+      "color": {
+        "a": 1,
+        "rgb": 3368849
+      }
+    },
+    {
+      "query": "path:05-自动化测试框架",
+      "color": {
+        "a": 1,
+        "rgb": 41952
+      }
+    },
+    {
+      "query": "path:06-接口自动化测试",
+      "color": {
+        "a": 1,
+        "rgb": 5025616
+      }
+    },
+    {
+      "query": "path:07-Web自动化测试",
+      "color": {
+        "a": 1,
+        "rgb": 15094016
+      }
+    },
+    {
+      "query": "path:08-App自动化测试",
+      "color": {
+        "a": 1,
+        "rgb": 4054148
+      }
+    },
+    {
+      "query": "path:09-性能测试-JMeter",
+      "color": {
+        "a": 1,
+        "rgb": 12720219
+      }
+    },
+    {
+      "query": "path:10-安全测试",
+      "color": {
+        "a": 1,
+        "rgb": 13840175
+      }
+    },
+    {
+      "query": "path:11-持续集成",
+      "color": {
+        "a": 1,
+        "rgb": 8068962
+      }
+    },
+    {
+      "query": "path:12-面试题",
+      "color": {
+        "a": 1,
+        "rgb": 16748288
+      }
+    },
+    {
+      "query": "path:13-项目实战",
+      "color": {
+        "a": 1,
+        "rgb": 1668818
+      }
+    },
+    {
+      "query": "path:14-WebSocket测试",
+      "color": {
+        "a": 1,
+        "rgb": 48340
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": true,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1.2,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": false,
+  "centerStrength": 0.5,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 220
+}

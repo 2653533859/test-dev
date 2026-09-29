@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="jarrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">JOIN 的四种结果集：驱动表 A 与被驱动表 B</text>
+
+  <!-- source tables -->
+  <rect x="30" y="50" width="130" height="96" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="95" y="70" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">A 表 user</text>
+  <text x="95" y="90" font-size="12" fill="#1f2d3d" text-anchor="middle">id=1 张三</text>
+  <text x="95" y="108" font-size="12" fill="#1f2d3d" text-anchor="middle">id=2 李四</text>
+  <text x="95" y="126" font-size="12" fill="#1f2d3d" text-anchor="middle">id=3 王五（无单）</text>
+
+  <rect x="200" y="50" width="150" height="96" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="275" y="70" font-size="13" font-weight="700" fill="#1f2d3d" text-anchor="middle">B 表 orders</text>
+  <text x="275" y="90" font-size="12" fill="#1f2d3d" text-anchor="middle">user_id=1 金额 100</text>
+  <text x="275" y="108" font-size="12" fill="#1f2d3d" text-anchor="middle">user_id=2 金额 300</text>
+  <text x="275" y="126" font-size="12" fill="#1f2d3d" text-anchor="middle">user_id=9 金额 50（孤儿）</text>
+
+  <text x="380" y="82" font-size="12" fill="#64748b">ON a.id = b.user_id</text>
+  <text x="380" y="104" font-size="12" fill="#64748b">匹配成功 → 拼成一行</text>
+  <text x="380" y="126" font-size="12" fill="#64748b">匹配不上 → 看 JOIN 类型</text>
+  <line x1="160" y1="98" x2="198" y2="98" stroke="#475569" stroke-width="1.5" marker-end="url(#jarrow)"/>
+
+  <line x1="20" y1="162" x2="660" y2="162" stroke="#cbd5e1" stroke-width="1"/>
+
+  <!-- INNER JOIN -->
+  <text x="30" y="188" font-size="13" font-weight="700" fill="#1f2d3d">INNER JOIN</text>
+  <text x="150" y="188" font-size="12" fill="#64748b">只保留两边都匹配上的行</text>
+  <rect x="30" y="198" width="300" height="26" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="180" y="216" font-size="12" fill="#1f2d3d" text-anchor="middle">张三 · 100　　李四 · 300</text>
+  <rect x="345" y="198" width="305" height="26" rx="5" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+  <text x="497" y="216" font-size="12" fill="#94a3b8" text-anchor="middle">王五被丢弃 · 孤儿单被丢弃</text>
+
+  <!-- LEFT JOIN -->
+  <text x="30" y="256" font-size="13" font-weight="700" fill="#1f2d3d">LEFT JOIN</text>
+  <text x="150" y="256" font-size="12" fill="#64748b">左表全保留，右表补 NULL</text>
+  <rect x="30" y="266" width="300" height="26" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="180" y="284" font-size="12" fill="#1f2d3d" text-anchor="middle">张三 · 100　　李四 · 300</text>
+  <rect x="345" y="266" width="150" height="26" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="420" y="284" font-size="12" fill="#1f2d3d" text-anchor="middle">王五 · NULL</text>
+  <rect x="505" y="266" width="145" height="26" rx="5" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+  <text x="577" y="284" font-size="12" fill="#94a3b8" text-anchor="middle">孤儿单丢弃</text>
+
+  <!-- RIGHT JOIN -->
+  <text x="30" y="324" font-size="13" font-weight="700" fill="#1f2d3d">RIGHT JOIN</text>
+  <text x="150" y="324" font-size="12" fill="#64748b">右表全保留，左表补 NULL</text>
+  <rect x="30" y="334" width="300" height="26" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="180" y="352" font-size="12" fill="#1f2d3d" text-anchor="middle">张三 · 100　　李四 · 300</text>
+  <rect x="345" y="334" width="150" height="26" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="420" y="352" font-size="12" fill="#1f2d3d" text-anchor="middle">NULL · 孤儿单 50</text>
+  <rect x="505" y="334" width="145" height="26" rx="5" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+  <text x="577" y="352" font-size="12" fill="#94a3b8" text-anchor="middle">王五丢弃</text>
+
+  <!-- FULL via UNION -->
+  <text x="30" y="392" font-size="13" font-weight="700" fill="#1f2d3d">FULL OUTER</text>
+  <text x="150" y="392" font-size="12" fill="#64748b">MySQL 不支持，用 LEFT UNION RIGHT 模拟</text>
+  <rect x="30" y="402" width="620" height="26" rx="5" fill="#e8f2e4" stroke="#5b8c4a"/>
+  <text x="340" y="420" font-size="12" fill="#1f2d3d" text-anchor="middle">张三 · 100　　李四 · 300　　王五 · NULL　　NULL · 孤儿单 50</text>
+
+  <text x="20" y="452" font-size="11.5" fill="#64748b">要点：LEFT JOIN 的右表条件写在 ON 里是「匹配条件」（左表仍全保留），写在 WHERE 里会过滤掉 NULL 行，退化成 INNER JOIN。</text>
+</svg>

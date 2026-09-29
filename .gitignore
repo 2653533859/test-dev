@@ -1,0 +1,9 @@
+.workbuddy/
+.obsidian/workspace.json
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage*
+allure-results/
+allure-report/
+reports/

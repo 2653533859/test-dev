@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  influxdb:
+    image: influxdb:1.8-alpine
+    container_name: jmeter-influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=jmeter
+      - INFLUXDB_HTTP_AUTH_ENABLED=false
+    volumes:
+      - influxdb-data:/var/lib/influxdb
+    networks:
+      - perf-net
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    container_name: jmeter-grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - influxdb
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - perf-net
+
+networks:
+  perf-net:
+    driver: bridge
+
+volumes:
+  influxdb-data:
+  grafana-data:

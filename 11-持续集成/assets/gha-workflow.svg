@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="agh" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">GitHub Actions 层级：event → workflow → job → step</text>
+
+  <!-- event -->
+  <rect x="18" y="52" width="132" height="96" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="84" y="74" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">event 触发事件</text>
+  <text x="84" y="94" font-size="10.5" fill="#b5762c" text-anchor="middle">push</text>
+  <text x="84" y="110" font-size="10.5" fill="#b5762c" text-anchor="middle">pull_request</text>
+  <text x="84" y="126" font-size="10.5" fill="#b5762c" text-anchor="middle">schedule (cron)</text>
+  <text x="84" y="142" font-size="10.5" fill="#b5762c" text-anchor="middle">workflow_dispatch</text>
+
+  <line x1="150" y1="100" x2="172" y2="100" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#agh)"/>
+
+  <!-- workflow -->
+  <rect x="176" y="52" width="486" height="248" rx="10" fill="#ffffff" stroke="#2f6fd0" stroke-width="1.6"/>
+  <text x="192" y="74" font-size="12.5" font-weight="700" fill="#2f6fd0">workflow：.github/workflows/ci.yml（一个文件一条流水线）</text>
+
+  <!-- job1 -->
+  <rect x="192" y="88" width="212" height="128" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="298" y="110" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">job: api-test</text>
+  <text x="298" y="126" font-size="10" fill="#5b7ea8" text-anchor="middle">runs-on: ubuntu-latest（独立虚拟机）</text>
+  <rect x="204" y="134" width="188" height="18" rx="3" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="298" y="147" font-size="9.5" fill="#1f2d3d" text-anchor="middle">step1 uses: actions/checkout@v4</text>
+  <rect x="204" y="156" width="188" height="18" rx="3" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="298" y="169" font-size="9.5" fill="#1f2d3d" text-anchor="middle">step2 uses: actions/setup-python@v5</text>
+  <rect x="204" y="178" width="188" height="18" rx="3" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="298" y="191" font-size="9.5" fill="#1f2d3d" text-anchor="middle">step3 run: pytest --alluredir=out</text>
+  <text x="298" y="210" font-size="9.5" fill="#5b7ea8" text-anchor="middle">step 顺序执行，共享同一工作目录</text>
+
+  <!-- job2 -->
+  <rect x="424" y="88" width="222" height="128" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="535" y="110" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">job: ui-test</text>
+  <text x="535" y="126" font-size="10" fill="#5b7ea8" text-anchor="middle">默认与 api-test 并行，环境完全隔离</text>
+  <rect x="436" y="134" width="198" height="18" rx="3" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="535" y="147" font-size="9.5" fill="#1f2d3d" text-anchor="middle">strategy.matrix: py 3.10 / 3.11 / 3.12</text>
+  <rect x="436" y="156" width="198" height="18" rx="3" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="535" y="169" font-size="9.5" fill="#1f2d3d" text-anchor="middle">→ 自动展开成 3 个并行子 job</text>
+  <text x="535" y="192" font-size="9.5" fill="#5b7ea8" text-anchor="middle">要串行就写 needs: [api-test]</text>
+  <text x="535" y="208" font-size="9.5" fill="#5b7ea8" text-anchor="middle">要传数据只能靠 artifact / outputs</text>
+
+  <!-- shared services -->
+  <rect x="192" y="230" width="212" height="54" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="298" y="250" font-size="11.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">secrets / vars</text>
+  <text x="298" y="268" font-size="10" fill="#64748b" text-anchor="middle">${{ secrets.TOKEN }} 日志中自动打码</text>
+
+  <rect x="424" y="230" width="222" height="54" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="535" y="250" font-size="11.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">cache / artifact</text>
+  <text x="535" y="268" font-size="10" fill="#64748b" text-anchor="middle">缓存依赖提速 · 上传报告供下载</text>
+
+  <!-- runner -->
+  <rect x="18" y="322" width="644" height="66" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="34" y="344" font-size="12.5" font-weight="700" fill="#1f2d3d">runner：每个 job 分到一台全新、用完即毁的机器</text>
+  <text x="34" y="364" font-size="11.5" fill="#475569">→ job 之间不共享文件系统、不共享 pip 缓存、不共享起好的服务容器；</text>
+  <text x="34" y="382" font-size="11.5" fill="#475569">→ 所以「上一个 job 装的依赖下一个 job 用不了」不是 bug，是设计。</text>
+
+  <text x="20" y="418" font-size="11.5" fill="#64748b">与 Jenkins 对照：workflow ≈ Jenkinsfile，job ≈ stage（但 job 有独立机器），step ≈ steps 里的一条。</text>
+  <text x="20" y="438" font-size="11.5" fill="#64748b">最大差异：Jenkins 的 stage 默认共享同一 workspace，GHA 的 job 默认互相隔离且并行。</text>
+  <text x="20" y="458" font-size="11.5" fill="#64748b">工作流文件必须放在默认分支的 .github/workflows/ 下，schedule 才会被识别。</text>
+</svg>

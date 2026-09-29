@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <!-- 背景 -->
+  <rect x="0" y="0" width="680" height="470" fill="#ffffff"/>
+
+  <!-- 标题 -->
+  <text x="24" y="34" font-size="17" font-weight="700" fill="#1f2d3d">多线程 vs 多进程 vs 协程：时序对比</text>
+  <text x="24" y="58" font-size="12.5" fill="#5a6b7b">场景：3 个任务，每个任务 = 1 单位 CPU 计算 + 2 单位 I/O 等待（横轴为时间，单位 u）</text>
+
+  <!-- 图例 -->
+  <rect x="24" y="76" width="20" height="14" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1"/>
+  <text x="50" y="87" font-size="12" fill="#3a4a5a">CPU 计算（受 GIL 约束）</text>
+  <rect x="240" y="76" width="20" height="14" fill="#ffe0c2" stroke="#d98324" stroke-width="1"/>
+  <text x="266" y="87" font-size="12" fill="#3a4a5a">I/O 等待（阻塞时释放 GIL）</text>
+
+  <!-- 时间轴 -->
+  <line x1="140" y1="112" x2="620" y2="112" stroke="#9aa7b4" stroke-width="1"/>
+  <g font-size="10.5" fill="#6b7886" text-anchor="middle">
+    <line x1="140" y1="107" x2="140" y2="117" stroke="#9aa7b4"/>
+    <line x1="193.3" y1="107" x2="193.3" y2="117" stroke="#9aa7b4"/>
+    <line x1="246.7" y1="107" x2="246.7" y2="117" stroke="#9aa7b4"/>
+    <line x1="300" y1="107" x2="300" y2="117" stroke="#9aa7b4"/>
+    <line x1="353.3" y1="107" x2="353.3" y2="117" stroke="#9aa7b4"/>
+    <line x1="406.7" y1="107" x2="406.7" y2="117" stroke="#9aa7b4"/>
+    <line x1="460" y1="107" x2="460" y2="117" stroke="#9aa7b4"/>
+    <line x1="513.3" y1="107" x2="513.3" y2="117" stroke="#9aa7b4"/>
+    <line x1="566.7" y1="107" x2="566.7" y2="117" stroke="#9aa7b4"/>
+    <line x1="620" y1="107" x2="620" y2="117" stroke="#9aa7b4"/>
+    <text x="140" y="128">0</text>
+    <text x="193.3" y="128">1</text>
+    <text x="246.7" y="128">2</text>
+    <text x="300" y="128">3</text>
+    <text x="353.3" y="128">4</text>
+    <text x="406.7" y="128">5</text>
+    <text x="460" y="128">6</text>
+    <text x="513.3" y="128">7</text>
+    <text x="566.7" y="128">8</text>
+    <text x="620" y="128">9</text>
+  </g>
+
+  <!-- 行1：串行 -->
+  <text x="128" y="152" font-size="12.5" font-weight="600" fill="#2a3947" text-anchor="end">串行</text>
+  <text x="128" y="166" font-size="10" fill="#8a96a3" text-anchor="end">baseline</text>
+  <g>
+    <rect x="140" y="134" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="193.3" y="134" width="106.7" height="34" fill="#ffe0c2" stroke="#d98324"/>
+    <rect x="300" y="134" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="353.3" y="134" width="106.7" height="34" fill="#ffe0c2" stroke="#d98324"/>
+    <rect x="460" y="134" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="513.3" y="134" width="106.7" height="34" fill="#ffe0c2" stroke="#d98324"/>
+    <text x="166.6" y="155" font-size="11" fill="#274a73" text-anchor="middle">C1</text>
+    <text x="246.6" y="155" font-size="11" fill="#8a5212" text-anchor="middle">I1</text>
+    <text x="326.6" y="155" font-size="11" fill="#274a73" text-anchor="middle">C2</text>
+    <text x="406.6" y="155" font-size="11" fill="#8a5212" text-anchor="middle">I2</text>
+    <text x="486.6" y="155" font-size="11" fill="#274a73" text-anchor="middle">C3</text>
+    <text x="566.6" y="155" font-size="11" fill="#8a5212" text-anchor="middle">I3</text>
+  </g>
+
+  <!-- 行2：多线程 -->
+  <text x="128" y="207" font-size="12.5" font-weight="600" fill="#2a3947" text-anchor="end">多线程</text>
+  <text x="128" y="221" font-size="10" fill="#8a96a3" text-anchor="end">threading</text>
+  <g>
+    <rect x="140" y="189" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="193.3" y="189" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="246.7" y="189" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="300" y="189" width="106.7" height="34" fill="#ffe0c2" stroke="#d98324"/>
+    <text x="166.6" y="210" font-size="11" fill="#274a73" text-anchor="middle">C1</text>
+    <text x="219.9" y="210" font-size="11" fill="#274a73" text-anchor="middle">C2</text>
+    <text x="273.3" y="210" font-size="11" fill="#274a73" text-anchor="middle">C3</text>
+    <text x="353.3" y="210" font-size="11" fill="#8a5212" text-anchor="middle">3× I/O 并发（GIL 释放）</text>
+  </g>
+
+  <!-- 行3：多进程 -->
+  <text x="128" y="262" font-size="12.5" font-weight="600" fill="#2a3947" text-anchor="end">多进程</text>
+  <text x="128" y="276" font-size="10" fill="#8a96a3" text-anchor="end">multiprocessing</text>
+  <g>
+    <rect x="140" y="244" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="193.3" y="244" width="106.7" height="34" fill="#ffe0c2" stroke="#d98324"/>
+    <text x="166.6" y="265" font-size="11" fill="#274a73" text-anchor="middle">3× CPU 真并行（多核绕过 GIL）</text>
+    <text x="246.6" y="265" font-size="11" fill="#8a5212" text-anchor="middle">3× I/O 并行</text>
+  </g>
+
+  <!-- 行4：协程 -->
+  <text x="128" y="317" font-size="12.5" font-weight="600" fill="#2a3947" text-anchor="end">协程</text>
+  <text x="128" y="331" font-size="10" fill="#8a96a3" text-anchor="end">asyncio</text>
+  <g>
+    <rect x="140" y="299" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="193.3" y="299" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="246.7" y="299" width="53.3" height="34" fill="#d3e5ff" stroke="#2f6fd0"/>
+    <rect x="300" y="299" width="106.7" height="34" fill="#ffe0c2" stroke="#d98324"/>
+    <text x="166.6" y="320" font-size="11" fill="#274a73" text-anchor="middle">C1</text>
+    <text x="219.9" y="320" font-size="11" fill="#274a73" text-anchor="middle">C2</text>
+    <text x="273.3" y="320" font-size="11" fill="#274a73" text-anchor="middle">C3</text>
+    <text x="353.3" y="320" font-size="11" fill="#8a5212" text-anchor="middle">3× I/O 重叠（单线程 await 让出）</text>
+  </g>
+
+  <!-- 底部结论 -->
+  <line x1="24" y1="356" x2="656" y2="356" stroke="#e3e8ee" stroke-width="1"/>
+  <text x="24" y="382" font-size="12.5" font-weight="600" fill="#1f2d3d">总耗时（相对单位 u）：</text>
+  <text x="24" y="404" font-size="12" fill="#3a4a5a">串行 <tspan font-weight="700" fill="#c0392b">9</tspan>　·　多线程 <tspan font-weight="700" fill="#2f6fd0">5</tspan>　·　多进程 <tspan font-weight="700" fill="#27ae60">3</tspan>　·　协程 <tspan font-weight="700" fill="#8e44ad">5</tspan></text>
+  <text x="24" y="430" font-size="12" fill="#5a6b7b">结论：CPU 密集 → 多进程最快（真并行）；I/O 密集 → 多线程/协程接近（5u），</text>
+  <text x="24" y="448" font-size="12" fill="#5a6b7b">但协程单线程、内存更低、可支撑数千连接；纯 CPU 用多线程不会加速（GIL 限制）。</text>
+</svg>

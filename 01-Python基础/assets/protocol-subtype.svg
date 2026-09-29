@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar19" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="320" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">Protocol：结构化子类型（鸭子类型类型化）</text>
+
+  <!-- protocol -->
+  <rect x="40" y="60" width="220" height="60" rx="6" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="56" y="84" font-size="12" fill="#5b21b6">class Sized(Protocol):</text>
+  <text x="68" y="104" font-size="12" fill="#5b21b6">    def __len__(self): ...</text>
+
+  <!-- list -->
+  <rect x="40" y="170" width="200" height="40" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="60" y="195" font-size="12" fill="#1e40af">list</text>
+  <text x="120" y="195" font-size="10.5" fill="#1e40af">有 __len__</text>
+
+  <!-- str -->
+  <rect x="260" y="170" width="200" height="40" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="280" y="195" font-size="12" fill="#1e40af">str</text>
+  <text x="330" y="195" font-size="10.5" fill="#1e40af">有 __len__</text>
+
+  <!-- custom -->
+  <rect x="480" y="170" width="200" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="500" y="195" font-size="12" fill="#166534">MyBox</text>
+  <text x="560" y="195" font-size="10.5" fill="#166534">实现 __len__</text>
+
+  <!-- satisfy lines -->
+  <line x1="250" y1="98" x2="118" y2="168" stroke="#16a34a" stroke-width="1.5" marker-end="url(#ar19)"/>
+  <line x1="260" y1="98" x2="338" y2="168" stroke="#16a34a" stroke-width="1.5" marker-end="url(#ar19)"/>
+  <line x1="270" y1="98" x2="558" y2="168" stroke="#16a34a" stroke-width="1.5" marker-end="url(#ar19)"/>
+
+  <text x="40" y="250" font-size="12" fill="#334155">def count(x: Sized) -> int: return len(x)</text>
+  <text x="40" y="272" font-size="11.5" fill="#64748b">list / str / MyBox 都不继承 Sized，只因「实现了 __len__」就类型兼容。</text>
+
+  <rect x="40" y="286" width="620" height="26" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+  <text x="54" y="304" font-size="11.5" fill="#166534">无需显式继承：只要结构（方法/属性）满足，就是「鸭子」——这是动态哲学与静态类型检查的结合。</text>
+</svg>

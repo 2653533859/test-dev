@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+    <marker id="arrowO" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#d98324"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#0f172a">TCP 三次握手（建连）与四次挥手（断连）</text>
+
+  <!-- lifelines -->
+  <rect x="60" y="44" width="110" height="28" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="115" y="63" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">客户端</text>
+  <rect x="510" y="44" width="110" height="28" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="565" y="63" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">服务端</text>
+  <line x1="115" y1="72" x2="115" y2="440" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <line x1="565" y1="72" x2="565" y2="440" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+
+  <!-- handshake -->
+  <text x="20" y="96" font-size="13" font-weight="700" fill="#2f6fd0">三次握手</text>
+  <line x1="118" y1="112" x2="560" y2="112" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="106" font-size="12" fill="#1f2d3d" text-anchor="middle">1. SYN=1, seq=x</text>
+  <text x="128" y="130" font-size="11" fill="#64748b">SYN_SENT</text>
+  <text x="470" y="130" font-size="11" fill="#64748b">SYN_RCVD</text>
+
+  <line x1="562" y1="152" x2="120" y2="152" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="146" font-size="12" fill="#1f2d3d" text-anchor="middle">2. SYN=1, ACK=1, seq=y, ack=x+1</text>
+
+  <line x1="118" y1="192" x2="560" y2="192" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="186" font-size="12" fill="#1f2d3d" text-anchor="middle">3. ACK=1, seq=x+1, ack=y+1</text>
+  <text x="128" y="210" font-size="11" fill="#16a34a">ESTABLISHED</text>
+  <text x="470" y="210" font-size="11" fill="#16a34a">ESTABLISHED</text>
+
+  <rect x="200" y="222" width="280" height="26" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="340" y="240" font-size="11.5" fill="#166534" text-anchor="middle">双向可靠通道就绪，开始收发数据</text>
+
+  <!-- waves -->
+  <text x="20" y="278" font-size="13" font-weight="700" fill="#d98324">四次挥手</text>
+  <line x1="118" y1="294" x2="560" y2="294" stroke="#d98324" stroke-width="1.8" marker-end="url(#arrowO)"/>
+  <text x="340" y="288" font-size="12" fill="#1f2d3d" text-anchor="middle">1. FIN=1, seq=u（我没数据要发了）</text>
+  <text x="128" y="312" font-size="11" fill="#64748b">FIN_WAIT_1</text>
+
+  <line x1="562" y1="330" x2="120" y2="330" stroke="#d98324" stroke-width="1.8" marker-end="url(#arrowO)"/>
+  <text x="340" y="324" font-size="12" fill="#1f2d3d" text-anchor="middle">2. ACK=1, ack=u+1</text>
+  <text x="470" y="348" font-size="11" fill="#d98324">CLOSE_WAIT（应用还在收尾）</text>
+
+  <line x1="562" y1="372" x2="120" y2="372" stroke="#d98324" stroke-width="1.8" marker-end="url(#arrowO)"/>
+  <text x="340" y="366" font-size="12" fill="#1f2d3d" text-anchor="middle">3. FIN=1, seq=w（我也发完了）</text>
+
+  <line x1="118" y1="404" x2="560" y2="404" stroke="#d98324" stroke-width="1.8" marker-end="url(#arrowO)"/>
+  <text x="340" y="398" font-size="12" fill="#1f2d3d" text-anchor="middle">4. ACK=1, ack=w+1</text>
+  <rect x="20" y="414" width="180" height="24" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="110" y="431" font-size="11.5" fill="#1f2d3d" text-anchor="middle">TIME_WAIT 2MSL 后关闭</text>
+
+  <text x="230" y="431" font-size="11.5" fill="#64748b">关键：第 2、3 步不能合并，因为服务端收到 FIN 只能先 ACK，</text>
+  <text x="230" y="448" font-size="11.5" fill="#64748b">要等自己的数据发完才发 FIN——TCP 是全双工，两个方向各关一次。</text>
+</svg>

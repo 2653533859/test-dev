@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">chrome://inspect：WebView 调试链路与 CDP 通道</text>
+
+  <!-- ① 通信原理 -->
+  <rect x="16" y="44" width="648" height="134" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="66" font-size="14" font-weight="700" fill="#2f6fd0">① 通信原理：WebView 内核 = Chromium，走 CDP 协议</text>
+
+  <rect x="32" y="80" width="124" height="40" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="94" y="98" font-size="11" fill="#1e3a8a" text-anchor="middle">App 进程</text>
+  <text x="94" y="113" font-size="10" fill="#1e3a8a" text-anchor="middle">WebView 实例</text>
+
+  <line x1="156" y1="100" x2="174" y2="100" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="176" y="80" width="168" height="40" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="260" y="98" font-size="11" fill="#8a4b08" text-anchor="middle">unix domain socket</text>
+  <text x="260" y="113" font-size="10" fill="#8a4b08" text-anchor="middle">@webview_devtools_remote_&lt;pid&gt;</text>
+
+  <line x1="344" y1="100" x2="362" y2="100" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="364" y="80" width="116" height="40" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="422" y="98" font-size="11" fill="#1b5e20" text-anchor="middle">adb forward</text>
+  <text x="422" y="113" font-size="10" fill="#1b5e20" text-anchor="middle">tcp:9222 → socket</text>
+
+  <line x1="480" y1="100" x2="498" y2="100" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="500" y="80" width="148" height="40" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="574" y="98" font-size="11" fill="#1e3a8a" text-anchor="middle">PC Chrome</text>
+  <text x="574" y="113" font-size="10" fill="#1e3a8a" text-anchor="middle">CDP 协议通信</text>
+
+  <text x="32" y="142" font-size="11.5" fill="#dc2626">关键推论：Appium 切 WebView 上下文走的是同一条通道 → chrome://inspect 能看到 = Appium 也能切进去</text>
+  <text x="32" y="162" font-size="11.5" fill="#475569">前提：开发必须调 WebView.setWebContentsDebuggingEnabled(true)，release 包通常关着 → 测试包要写进准入标准</text>
+
+  <!-- ② 标准调试流程 -->
+  <rect x="16" y="188" width="392" height="172" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="210" font-size="14" font-weight="700" fill="#d98324">② 标准调试流程</text>
+
+  <rect x="32" y="224" width="360" height="28" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="44" y="242" font-size="11" fill="#9c2b2b">1. adb shell cat /proc/net/unix | grep devtools</text>
+  <text x="350" y="242" font-size="10" fill="#9c2b2b">有输出才继续</text>
+
+  <line x1="212" y1="252" x2="212" y2="262" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="32" y="264" width="360" height="28" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="44" y="282" font-size="11" fill="#8a4b08">2. PC Chrome → chrome://inspect/#devices</text>
+  <text x="350" y="282" font-size="10" fill="#8a4b08">勾选 USB devices</text>
+
+  <line x1="212" y1="292" x2="212" y2="302" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="32" y="304" width="360" height="28" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="44" y="322" font-size="11" fill="#1e3a8a">3. 列表里点 inspect → 弹 DevTools 窗口</text>
+  <text x="350" y="322" font-size="10" fill="#1e3a8a">和调 PC 网页一样</text>
+
+  <line x1="212" y1="332" x2="212" y2="342" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="32" y="344" width="360" height="14" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="44" y="355" font-size="10.5" fill="#1b5e20">4. Elements / Console / Network / Sources 全可用</text>
+
+  <!-- ③ DevTools 能做什么 -->
+  <rect x="424" y="188" width="240" height="172" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="440" y="210" font-size="14" font-weight="700" fill="#28a745">③ DevTools 高价值用法</text>
+
+  <rect x="440" y="224" width="208" height="30" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="448" y="243" font-size="11" fill="#1b5e20">Console 验证选择器（2 秒一轮）</text>
+
+  <rect x="440" y="258" width="208" height="30" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="448" y="277" font-size="11" fill="#1e3a8a">Network 判断前后端责任归属</text>
+
+  <rect x="440" y="292" width="208" height="30" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="448" y="311" font-size="11" fill="#8a4b08">Sources 打断点单步调试 JS</text>
+
+  <rect x="440" y="326" width="208" height="30" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="448" y="345" font-size="11" fill="#9c2b2b">Elements 看实时 DOM（手机高亮）</text>
+
+  <!-- ④ 分而治之 -->
+  <rect x="16" y="368" width="648" height="88" rx="8" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="32" y="390" font-size="14" font-weight="700" fill="#9c2b2b">④ 分而治之：Appium 切不进 WebView 怎么办</text>
+  <text x="32" y="412" font-size="11.5" fill="#9c2b2b">先用 chrome://inspect 试一下 ↓</text>
+  <text x="32" y="430" font-size="11.5" fill="#9c2b2b">Chrome 也看不到 → App 没开调试开关 / 设备用了非标准内核（X5）→ 找开发，跟 Appium 无关</text>
+  <text x="32" y="448" font-size="11.5" fill="#9c2b2b">Chrome 能看到但 Appium 看不到 → chromedriver 版本不匹配 → 用 chromedriverExecutableDir 指定</text>
+</svg>

@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">App 专项测试矩阵：四类场景与验证要点</text>
+
+  <!-- 矩阵表格 -->
+  <rect x="16" y="44" width="648" height="306" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+
+  <!-- 表头 -->
+  <rect x="32" y="58" width="100" height="36" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="82" y="80" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">维度</text>
+
+  <rect x="136" y="58" width="160" height="36" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="216" y="80" font-size="12" font-weight="700" fill="#1e3a8a" text-anchor="middle">弱网测试</text>
+
+  <rect x="300" y="58" width="160" height="36" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="380" y="80" font-size="12" font-weight="700" fill="#8a4b08" text-anchor="middle">中断/来电</text>
+
+  <rect x="464" y="58" width="180" height="36" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="554" y="80" font-size="12" font-weight="700" fill="#1b5e20" text-anchor="middle">安装/卸载/升级</text>
+
+  <!-- 兼容性行 -->
+  <rect x="32" y="100" width="100" height="80" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="82" y="134" font-size="11" font-weight="700" fill="#9c2b2b" text-anchor="middle">兼容性</text>
+  <text x="82" y="152" font-size="10" fill="#9c2b2b" text-anchor="middle">系统/ROM</text>
+  <text x="82" y="166" font-size="10" fill="#9c2b2b" text-anchor="middle">分辨率/架构</text>
+
+  <rect x="136" y="100" width="160" height="80" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="146" y="120" font-size="10.5" fill="#475569">· 各档网络 × 机型</text>
+  <text x="146" y="138" font-size="10.5" fill="#475569">· 老系统弱网下崩溃</text>
+  <text x="146" y="156" font-size="10.5" fill="#475569">· 厂商 ROM 后台杀</text>
+  <text x="146" y="174" font-size="10.5" fill="#475569">· 无 GMS 降级路径</text>
+
+  <rect x="300" y="100" width="160" height="80" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="310" y="120" font-size="10.5" fill="#475569">· 来电中断业务流</text>
+  <text x="310" y="138" font-size="10.5" fill="#475569">· 系统弹窗遮挡</text>
+  <text x="310" y="156" font-size="10.5" fill="#475569">· 切后台再回前台</text>
+  <text x="310" y="174" font-size="10.5" fill="#475569">· 厂商保活差异</text>
+
+  <rect x="464" y="100" width="180" height="80" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="474" y="120" font-size="10.5" fill="#475569">· 老系统覆盖升级</text>
+  <text x="464" y="138" font-size="10.5" fill="#475569">· 32/64 位 ABI 包</text>
+  <text x="474" y="156" font-size="10.5" fill="#475569">· 挖孔/折叠屏适配</text>
+  <text x="474" y="174" font-size="10.5" fill="#475569">· 卸载残留检查</text>
+
+  <!-- 验证要点行 -->
+  <rect x="32" y="186" width="100" height="80" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="82" y="220" font-size="11" font-weight="700" fill="#334155" text-anchor="middle">验证要点</text>
+  <text x="82" y="238" font-size="10" fill="#64748b" text-anchor="middle">断言目标</text>
+
+  <rect x="136" y="186" width="160" height="80" rx="5" fill="#d3e5ff" stroke="#2f6fd0" opacity="0.5"/>
+  <text x="146" y="206" font-size="10.5" fill="#1e3a8a">不崩 · 有 loading</text>
+  <text x="146" y="224" font-size="10.5" fill="#1e3a8a">有重试按钮</text>
+  <text x="146" y="242" font-size="10.5" fill="#1e3a8a">有友好文案</text>
+  <text x="146" y="260" font-size="10.5" fill="#1e3a8a">断网恢复后自动重连</text>
+
+  <rect x="300" y="186" width="160" height="80" rx="5" fill="#ffe0c2" stroke="#d98324" opacity="0.5"/>
+  <text x="310" y="206" font-size="10.5" fill="#8a4b08">中断后状态不乱</text>
+  <text x="310" y="224" font-size="10.5" fill="#8a4b08">回前台能恢复</text>
+  <text x="310" y="242" font-size="10.5" fill="#8a4b08">数据不丢</text>
+  <text x="310" y="260" font-size="10.5" fill="#8a4b08">无 ANR / 闪退</text>
+
+  <rect x="464" y="186" width="180" height="80" rx="5" fill="#d4edda" stroke="#28a745" opacity="0.5"/>
+  <text x="474" y="206" font-size="10.5" fill="#1b5e20">升级后 DB 迁移正确</text>
+  <text x="474" y="224" font-size="10.5" fill="#1b5e20">登录态保留</text>
+  <text x="474" y="242" font-size="10.5" fill="#1b5e20">缓存文件可读</text>
+  <text x="474" y="260" font-size="10.5" fill="#1b5e20">卸载后无残留</text>
+
+  <!-- 工具/方法行 -->
+  <rect x="32" y="272" width="100" height="64" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="82" y="300" font-size="11" font-weight="700" fill="#334155" text-anchor="middle">工具/方法</text>
+
+  <rect x="136" y="272" width="160" height="64" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="146" y="292" font-size="10.5" fill="#475569">Charles Throttle</text>
+  <text x="146" y="310" font-size="10.5" fill="#475569">toxiproxy 损伤注入</text>
+  <text x="146" y="328" font-size="10.5" fill="#475569">tc netem (root)</text>
+
+  <rect x="300" y="272" width="160" height="64" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="310" y="292" font-size="10.5" fill="#475569">adb 模拟来电/短信</text>
+  <text x="310" y="310" font-size="10.5" fill="#475569">adb am start 拉起</text>
+  <text x="310" y="328" font-size="10.5" fill="#475569">keyevent Home/Power</text>
+
+  <rect x="464" y="272" width="180" height="64" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="474" y="292" font-size="10.5" fill="#475569">adb install -r/-d</text>
+  <text x="474" y="310" font-size="10.5" fill="#475569">先装旧版→覆盖新版</text>
+  <text x="474" y="328" font-size="10.5" fill="#475569">pm clear / uninstall</text>
+
+  <!-- 底部要点 -->
+  <rect x="16" y="360" width="648" height="96" rx="8" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="32" y="382" font-size="14" font-weight="700" fill="#9c2b2b">专项测试三条铁律</text>
+  <text x="32" y="404" font-size="11.5" fill="#9c2b2b">1. 弱网档超时阈值要单独放大（RTT 2000ms 时 3 秒 timeout 必红），等待阈值 ≠ 正常网络</text>
+  <text x="32" y="422" font-size="11.5" fill="#9c2b2b">2. 升级测试最关键：先装旧版跑数据 → 覆盖新版 → 断言 DB 迁移 + 登录态 + 缓存可读，install 命令必须校验 Success</text>
+  <text x="32" y="440" font-size="11.5" fill="#9c2b2b">3. 兼容性不能只看功能断言：必须附关键页面截图人工抽检渲染问题（控件重叠、文字截断）</text>
+  <text x="32" y="456" font-size="11" fill="#475569">选机型矩阵：用户画像 Top 机型 + 2~3 个老系统 + 1 台无 GMS 华为 + 1 台折叠/挖孔特殊形态</text>
+</svg>

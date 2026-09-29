@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="larrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">联合索引 (a, b, c)：最左前缀匹配规则</text>
+
+  <!-- sorted order illustration -->
+  <text x="20" y="58" font-size="12.5" font-weight="700" fill="#1f2d3d">索引叶子节点的排序方式：先按 a 排，a 相同再按 b 排，b 相同再按 c 排</text>
+
+  <rect x="30" y="70" width="620" height="70" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="42"  y="82" width="96" height="24" rx="4" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="90"  y="99" font-size="11.5" fill="#1f2d3d" text-anchor="middle">a=1 b=1 c=1</text>
+  <rect x="146" y="82" width="96" height="24" rx="4" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="194" y="99" font-size="11.5" fill="#1f2d3d" text-anchor="middle">a=1 b=1 c=9</text>
+  <rect x="250" y="82" width="96" height="24" rx="4" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="298" y="99" font-size="11.5" fill="#1f2d3d" text-anchor="middle">a=1 b=2 c=3</text>
+  <rect x="354" y="82" width="96" height="24" rx="4" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="402" y="99" font-size="11.5" fill="#1f2d3d" text-anchor="middle">a=2 b=1 c=5</text>
+  <rect x="458" y="82" width="96" height="24" rx="4" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="506" y="99" font-size="11.5" fill="#1f2d3d" text-anchor="middle">a=2 b=3 c=1</text>
+  <rect x="562" y="82" width="76" height="24" rx="4" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="600" y="99" font-size="11.5" fill="#1f2d3d" text-anchor="middle">a=3 ...</text>
+
+  <text x="42" y="128" font-size="11.5" fill="#64748b">a 列全局有序 ✅　　b 列只在同一个 a 内部有序 ⚠️　　c 列只在同一个 (a, b) 内部有序 ⚠️</text>
+  <text x="42" y="128" font-size="11.5" fill="#64748b"></text>
+
+  <line x1="20" y1="152" x2="660" y2="152" stroke="#cbd5e1"/>
+
+  <!-- cases -->
+  <text x="30" y="176" font-size="13" font-weight="700" fill="#1f2d3d">查询条件</text>
+  <text x="330" y="176" font-size="13" font-weight="700" fill="#1f2d3d">用到的索引列</text>
+  <text x="560" y="176" font-size="13" font-weight="700" fill="#1f2d3d">结论</text>
+
+  <rect x="30" y="186" width="620" height="30" rx="5" fill="#e8f2e4" stroke="#5b8c4a"/>
+  <text x="42" y="206" font-size="12" fill="#1f2d3d">WHERE a = 1 AND b = 2 AND c = 3</text>
+  <text x="330" y="206" font-size="12" fill="#1f2d3d">a · b · c</text>
+  <text x="560" y="206" font-size="12" font-weight="700" fill="#5b8c4a">全部命中</text>
+
+  <rect x="30" y="220" width="620" height="30" rx="5" fill="#e8f2e4" stroke="#5b8c4a"/>
+  <text x="42" y="240" font-size="12" fill="#1f2d3d">WHERE b = 2 AND a = 1（顺序颠倒）</text>
+  <text x="330" y="240" font-size="12" fill="#1f2d3d">a · b</text>
+  <text x="560" y="240" font-size="12" font-weight="700" fill="#5b8c4a">命中，优化器会重排</text>
+
+  <rect x="30" y="254" width="620" height="30" rx="5" fill="#fff4e6" stroke="#d98324"/>
+  <text x="42" y="274" font-size="12" fill="#1f2d3d">WHERE a = 1 AND c = 3（跳过 b）</text>
+  <text x="330" y="274" font-size="12" fill="#1f2d3d">仅 a（c 只能做条件过滤）</text>
+  <text x="560" y="274" font-size="12" font-weight="700" fill="#d98324">部分命中</text>
+
+  <rect x="30" y="288" width="620" height="30" rx="5" fill="#fff4e6" stroke="#d98324"/>
+  <text x="42" y="308" font-size="12" fill="#1f2d3d">WHERE a = 1 AND b &gt; 5 AND c = 3</text>
+  <text x="330" y="308" font-size="12" fill="#1f2d3d">a · b（范围后 c 断裂）</text>
+  <text x="560" y="308" font-size="12" font-weight="700" fill="#d98324">部分命中</text>
+
+  <rect x="30" y="322" width="620" height="30" rx="5" fill="#fde8e8" stroke="#c0392b"/>
+  <text x="42" y="342" font-size="12" fill="#1f2d3d">WHERE b = 2 AND c = 3（不含 a）</text>
+  <text x="330" y="342" font-size="12" fill="#1f2d3d">无</text>
+  <text x="560" y="342" font-size="12" font-weight="700" fill="#c0392b">失效，全表扫</text>
+
+  <rect x="30" y="356" width="620" height="30" rx="5" fill="#fde8e8" stroke="#c0392b"/>
+  <text x="42" y="376" font-size="12" fill="#1f2d3d">WHERE a LIKE '%x' 或 WHERE fn(a) = 1</text>
+  <text x="330" y="376" font-size="12" fill="#1f2d3d">无</text>
+  <text x="560" y="376" font-size="12" font-weight="700" fill="#c0392b">失效，全表扫</text>
+
+  <!-- why -->
+  <rect x="30" y="398" width="620" height="46" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="42" y="418" font-size="12" fill="#1f2d3d">为什么？B+ 树只能「从最左列开始定位」。少了 a，b 在整棵树里是散乱的，无法二分；</text>
+  <text x="42" y="437" font-size="12" fill="#1f2d3d">b 用了范围条件后，满足条件的多个 b 区间内 c 各自独立排序，c 同样无法继续二分定位。</text>
+
+  <text x="20" y="462" font-size="11.5" fill="#64748b">要点：等值条件可以一路往右延伸，遇到第一个范围条件（&gt; &lt; BETWEEN LIKE 'x%'）就停止；把等值列放索引左侧、范围列放右侧。</text>
+</svg>

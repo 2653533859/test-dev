@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">测试框架分层：依赖只能自上而下，下层不认识上层</text>
+
+  <!-- layers -->
+  <rect x="20" y="48" width="430" height="52" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="36" y="70" font-size="13.5" font-weight="700" fill="#166534">① 用例层 testcases/</text>
+  <text x="36" y="90" font-size="11.5" fill="#14532d">只写「给什么数据 → 调哪个业务 → 断言什么」，不出现 requests / driver</text>
+
+  <rect x="20" y="110" width="430" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="36" y="132" font-size="13.5" font-weight="700" fill="#1e40af">② 业务层 business/ · flows/</text>
+  <text x="36" y="152" font-size="11.5" fill="#1e40af">把多个原子接口/页面动作编排成业务动作：下单 = 登录+加购+结算</text>
+
+  <rect x="20" y="172" width="430" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="36" y="194" font-size="13.5" font-weight="700" fill="#1e40af">③ 接口层 api/ · 页面层 pages/</text>
+  <text x="36" y="214" font-size="11.5" fill="#1e40af">一个接口/一个页面一个类，一个方法只做一次交互，返回原始响应</text>
+
+  <rect x="20" y="234" width="430" height="52" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="36" y="256" font-size="13.5" font-weight="700" fill="#8a4b06">④ 核心层 core/</text>
+  <text x="36" y="276" font-size="11.5" fill="#8a4b06">请求封装（重试/鉴权/日志）、driver 工厂、断言封装、异常定义</text>
+
+  <rect x="20" y="296" width="210" height="52" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="36" y="318" font-size="13.5" font-weight="700" fill="#8a4b06">⑤ 配置层 config/</text>
+  <text x="36" y="336" font-size="11.5" fill="#8a4b06">多环境 yaml、--env 切换</text>
+
+  <rect x="240" y="296" width="210" height="52" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="256" y="318" font-size="13.5" font-weight="700" fill="#8a4b06">⑥ 数据层 data/</text>
+  <text x="256" y="336" font-size="11.5" fill="#8a4b06">yaml/excel 用例数据、造数工具</text>
+
+  <rect x="20" y="358" width="430" height="46" rx="8" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="36" y="380" font-size="13.5" font-weight="700" fill="#1f2d3d">⑦ 工具层 utils/</text>
+  <text x="36" y="398" font-size="11.5" fill="#1f2d3d">日志、加解密、时间、文件、DB/Redis 客户端 —— 不依赖任何上层</text>
+
+  <!-- arrows down -->
+  <g stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="235" y1="100" x2="235" y2="108"/>
+    <line x1="235" y1="162" x2="235" y2="170"/>
+    <line x1="235" y1="224" x2="235" y2="232"/>
+    <line x1="235" y1="286" x2="235" y2="294"/>
+    <line x1="235" y1="348" x2="235" y2="356"/>
+  </g>
+
+  <!-- side: cross-cutting -->
+  <rect x="466" y="48" width="194" height="150" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="482" y="70" font-size="13" font-weight="700" fill="#1f2d3d">横切：conftest.py</text>
+  <text x="482" y="92" font-size="11.5" fill="#1f2d3d">· --env 命令行参数</text>
+  <text x="482" y="112" font-size="11.5" fill="#1f2d3d">· session 级登录态 fixture</text>
+  <text x="482" y="132" font-size="11.5" fill="#1f2d3d">· 失败截图 / 日志挂载 hook</text>
+  <text x="482" y="152" font-size="11.5" fill="#1f2d3d">· 自定义 marker 注册</text>
+  <text x="482" y="176" font-size="11" fill="#64748b">它是唯一被允许「往上看」的地方</text>
+
+  <rect x="466" y="208" width="194" height="140" rx="8" fill="#eff6ff" stroke="#2f6fd0"/>
+  <text x="482" y="230" font-size="13" font-weight="700" fill="#1e40af">分层要回答的问题</text>
+  <text x="482" y="252" font-size="11.5" fill="#1e40af">接口路径变了改几处？→ 1 处</text>
+  <text x="482" y="272" font-size="11.5" fill="#1e40af">换个环境跑要改代码吗？→ 不改</text>
+  <text x="482" y="292" font-size="11.5" fill="#1e40af">新人加一条用例要懂几层？→ 1 层</text>
+  <text x="482" y="312" font-size="11.5" fill="#1e40af">加个鉴权头影响多少用例？→ 0 条</text>
+  <text x="482" y="334" font-size="11" fill="#64748b">答不上来，说明层没分对</text>
+
+  <rect x="466" y="358" width="194" height="46" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="482" y="380" font-size="12.5" font-weight="700" fill="#991b1b">反向依赖 = 环形引用</text>
+  <text x="482" y="398" font-size="11" fill="#7f1d1d">utils 里 import api → 迟早炸</text>
+
+  <rect x="20" y="416" width="640" height="36" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="1.2"/>
+  <text x="36" y="440" font-size="12.5" fill="#1f2d3d">判断标准不是「层够不够多」，而是「一次需求变更的改动是否被限制在一层内」——这才是面试要讲的取舍</text>
+</svg>

@@ -1,0 +1,126 @@
+// 声明式流水线：Checkout -> Lint -> Deploy -> Test -> Gate -> Report -> 通知与清理
+// 设计说明见笔记《Jenkinsfile 多阶段流水线设计》
+
+pipeline {
+    agent {
+        docker {
+            image 'registry.internal/qa/pytest-runner:3.11'   // 锁具体版本，绝不用 latest
+            // 挂 docker.sock 让容器内可操作宿主机 Docker；pip 缓存挂 volume 省 2 分钟
+            args '-v /var/run/docker.sock:/var/run/docker.sock -v pip-cache:/root/.cache/pip'
+        }
+    }
+
+    options {
+        timeout(time: 60, unit: 'MINUTES')                    // 兜底，防止 hang 死占用 agent
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+        disableConcurrentBuilds(abortPrevious: true)          // 同分支新构建自动取消旧的
+        timestamps()
+        ansiColor('xterm')
+    }
+
+    parameters {
+        choice(name: 'ENV', choices: ['test', 'staging'], description: '运行环境')
+        booleanParam(name: 'FULL_RUN', defaultValue: false, description: '强制跑全量')
+    }
+
+    environment {
+        TZ = 'Asia/Shanghai'
+        TEST_ENV = "${params.ENV}"
+        TEST_PASSWORD = credentials('qa-test-account-password')   // 凭据注入，日志自动掩码
+        WECOM_WEBHOOK = credentials('qa-wecom-webhook')
+    }
+
+    triggers {
+        // H 会把任务散列到该小时内的随机分钟，避免整点惊群把 master 压垮
+        cron(env.BRANCH_NAME == 'main' ? 'H 2 * * *' : '')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                sh 'pip install -q -r requirements.txt'
+                sh 'python -V && pytest --version'
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh 'ruff check .'
+                sh 'python scripts/check_case_naming.py'      // 用例命名规范自检
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'docker compose -f deploy/docker-compose.test.yml up -d --wait'
+                sh 'python scripts/wait_health.py --timeout 120'   // 轮询健康检查，不用 sleep
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    // 分层触发：PR 跑冒烟保反馈速度，主干跑接口全量，定时跑全部
+                    def scope = params.FULL_RUN ? ''
+                              : env.CHANGE_ID ? "-m smoke"
+                              : (env.BRANCH_NAME == 'main' ? "-m 'smoke or api'" : '')
+
+                    // 注意：不要加 `|| true`，否则退出码永远是 0，门禁完全失效
+                    sh """
+                        pytest ${scope} \
+                            -n 4 --dist loadfile \
+                            --reruns 1 --reruns-delay 2 \
+                            --env=${TEST_ENV} \
+                            --alluredir=allure-results \
+                            --junitxml=reports/junit.xml
+                    """
+                }
+            }
+        }
+
+        stage('Gate') {
+            steps {
+                sh '''
+                    python scripts/gate.py \
+                        --junit reports/junit.xml \
+                        --min-pass-rate 98 \
+                        --max-p0-failures 0
+                '''
+            }
+        }
+
+        stage('Report') {
+            steps {
+                allure includeProperties: false,
+                       jdk: '',
+                       results: [[path: 'allure-results']]
+            }
+        }
+    }
+
+    post {
+        always {
+            // 清理与通知必须无条件执行，放普通 stage 里一旦前面抛异常就会静默跳过
+            sh 'docker compose -f deploy/docker-compose.test.yml down -v || true'
+            script {
+                try {
+                    sh """
+                        python scripts/notify.py \
+                            --status ${currentBuild.currentResult} \
+                            --junit reports/junit.xml
+                    """
+                } catch (err) {
+                    echo "通知发送失败（不影响构建结论）：${err}"
+                }
+            }
+            cleanWs()
+        }
+        failure {
+            echo '构建失败，已推送企微通知并阻断合入'
+        }
+        fixed {
+            echo '构建从失败恢复为成功'
+        }
+    }
+}

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="marrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+    <marker id="mgreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5b8c4a"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">MVCC：undo log 版本链 + ReadView 可见性判断</text>
+
+  <!-- version chain -->
+  <text x="20" y="58" font-size="12.5" font-weight="700" fill="#1f2d3d">① 每次 UPDATE 都在 undo log 里留一个旧版本，用回滚指针串成链</text>
+
+  <rect x="30" y="70" width="176" height="66" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="2"/>
+  <text x="118" y="90" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">当前版本（聚簇索引）</text>
+  <text x="118" y="109" font-size="11.5" fill="#1f2d3d" text-anchor="middle">balance = 300</text>
+  <text x="118" y="127" font-size="11.5" fill="#2f6fd0" text-anchor="middle">DB_TRX_ID = 30</text>
+
+  <line x1="206" y1="103" x2="243" y2="103" stroke="#475569" stroke-width="1.5" marker-end="url(#marrow)"/>
+  <text x="224" y="95" font-size="10.5" fill="#64748b" text-anchor="middle">roll_ptr</text>
+
+  <rect x="245" y="70" width="176" height="66" rx="8" fill="#e2e8f0" stroke="#94a3b8"/>
+  <text x="333" y="90" font-size="12" fill="#1f2d3d" text-anchor="middle">undo 版本 2</text>
+  <text x="333" y="109" font-size="11.5" fill="#1f2d3d" text-anchor="middle">balance = 200</text>
+  <text x="333" y="127" font-size="11.5" fill="#64748b" text-anchor="middle">DB_TRX_ID = 20</text>
+
+  <line x1="421" y1="103" x2="458" y2="103" stroke="#475569" stroke-width="1.5" marker-end="url(#marrow)"/>
+  <text x="439" y="95" font-size="10.5" fill="#64748b" text-anchor="middle">roll_ptr</text>
+
+  <rect x="460" y="70" width="176" height="66" rx="8" fill="#e8f2e4" stroke="#5b8c4a" stroke-width="2"/>
+  <text x="548" y="90" font-size="12" fill="#1f2d3d" text-anchor="middle">undo 版本 1</text>
+  <text x="548" y="109" font-size="11.5" fill="#1f2d3d" text-anchor="middle">balance = 100</text>
+  <text x="548" y="127" font-size="11.5" fill="#5b8c4a" text-anchor="middle">DB_TRX_ID = 10</text>
+
+  <!-- readview -->
+  <text x="20" y="172" font-size="12.5" font-weight="700" fill="#1f2d3d">② 事务发起快照读时生成 ReadView，记录「此刻还有哪些事务没提交」</text>
+
+  <rect x="30" y="184" width="290" height="112" rx="8" fill="#ffffff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="44" y="205" font-size="12.5" font-weight="700" fill="#2f6fd0">事务 25 的 ReadView</text>
+  <text x="44" y="226" font-size="11.5" fill="#1f2d3d">m_ids       = [20, 30]　活跃未提交事务</text>
+  <text x="44" y="245" font-size="11.5" fill="#1f2d3d">min_trx_id  = 20　　　最小活跃 ID</text>
+  <text x="44" y="264" font-size="11.5" fill="#1f2d3d">max_trx_id  = 31　　　下一个待分配 ID</text>
+  <text x="44" y="283" font-size="11.5" fill="#1f2d3d">creator_trx_id = 25　 本事务 ID</text>
+
+  <rect x="336" y="184" width="320" height="112" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="350" y="205" font-size="12.5" font-weight="700" fill="#1f2d3d">可见性判断规则（对某版本的 DB_TRX_ID）</text>
+  <text x="350" y="226" font-size="11.5" fill="#5b8c4a">&lt; min_trx_id　　　　→ 早已提交，可见</text>
+  <text x="350" y="245" font-size="11.5" fill="#c0392b">≥ max_trx_id　　　　→ 本事务之后开启，不可见</text>
+  <text x="350" y="264" font-size="11.5" fill="#c0392b">在 m_ids 中　　　　 → 仍未提交，不可见</text>
+  <text x="350" y="283" font-size="11.5" fill="#5b8c4a">在区间内但不在 m_ids → 已提交，可见</text>
+
+  <!-- walk -->
+  <text x="20" y="326" font-size="12.5" font-weight="700" fill="#1f2d3d">③ 沿版本链从新到旧逐个判断，返回第一个可见的版本</text>
+
+  <rect x="30" y="338" width="180" height="42" rx="6" fill="#fde8e8" stroke="#c0392b"/>
+  <text x="120" y="356" font-size="11.5" fill="#1f2d3d" text-anchor="middle">trx_id=30 在 m_ids 中</text>
+  <text x="120" y="373" font-size="11.5" font-weight="700" fill="#c0392b" text-anchor="middle">不可见 → 顺链后退</text>
+
+  <line x1="210" y1="359" x2="243" y2="359" stroke="#475569" stroke-width="1.5" marker-end="url(#marrow)"/>
+
+  <rect x="245" y="338" width="180" height="42" rx="6" fill="#fde8e8" stroke="#c0392b"/>
+  <text x="335" y="356" font-size="11.5" fill="#1f2d3d" text-anchor="middle">trx_id=20 在 m_ids 中</text>
+  <text x="335" y="373" font-size="11.5" font-weight="700" fill="#c0392b" text-anchor="middle">不可见 → 顺链后退</text>
+
+  <line x1="425" y1="359" x2="458" y2="359" stroke="#5b8c4a" stroke-width="2" marker-end="url(#mgreen)"/>
+
+  <rect x="460" y="338" width="180" height="42" rx="6" fill="#e8f2e4" stroke="#5b8c4a" stroke-width="2"/>
+  <text x="550" y="356" font-size="11.5" fill="#1f2d3d" text-anchor="middle">trx_id=10 &lt; min_trx_id</text>
+  <text x="550" y="373" font-size="11.5" font-weight="700" fill="#5b8c4a" text-anchor="middle">可见 → 返回 100</text>
+
+  <rect x="30" y="394" width="610" height="42" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="44" y="413" font-size="11.8" fill="#1f2d3d">RC 与 RR 的唯一区别：RC 每次 SELECT 都重新生成 ReadView（所以能读到别人新提交的数据）；</text>
+  <text x="44" y="431" font-size="11.8" fill="#1f2d3d">RR 只在事务内第一次 SELECT 时生成一次并全程复用，因此整个事务看到的是同一个快照。</text>
+
+  <text x="20" y="458" font-size="11.5" fill="#64748b">要点：MVCC 只作用于快照读（普通 SELECT）；当前读（FOR UPDATE / UPDATE / DELETE）永远读最新版本并加锁。</text>
+</svg>

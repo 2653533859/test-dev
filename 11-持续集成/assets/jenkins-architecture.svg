@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="aja" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">Jenkins Controller / Agent 架构与任务分发</text>
+
+  <!-- triggers -->
+  <rect x="18" y="58" width="140" height="120" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="88" y="80" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">触发源</text>
+  <rect x="30" y="92" width="116" height="24" rx="4" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="88" y="108" font-size="11" fill="#1f2d3d" text-anchor="middle">Git Webhook</text>
+  <rect x="30" y="122" width="116" height="24" rx="4" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="88" y="138" font-size="11" fill="#1f2d3d" text-anchor="middle">定时 cron</text>
+  <rect x="30" y="152" width="116" height="24" rx="4" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="88" y="168" font-size="11" fill="#1f2d3d" text-anchor="middle">手动 / 上游 Job</text>
+
+  <!-- controller -->
+  <rect x="200" y="58" width="180" height="200" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.8"/>
+  <text x="290" y="82" font-size="13.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">Controller（主节点）</text>
+  <text x="290" y="102" font-size="10.5" fill="#5b7ea8" text-anchor="middle">只做调度，别在上面跑构建</text>
+  <rect x="214" y="114" width="152" height="24" rx="4" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="290" y="130" font-size="11" fill="#1f2d3d" text-anchor="middle">解析 Jenkinsfile</text>
+  <rect x="214" y="144" width="152" height="24" rx="4" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="290" y="160" font-size="11" fill="#1f2d3d" text-anchor="middle">队列 + 节点分配</text>
+  <rect x="214" y="174" width="152" height="24" rx="4" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="290" y="190" font-size="11" fill="#1f2d3d" text-anchor="middle">凭据 / 插件 / 权限</text>
+  <rect x="214" y="204" width="152" height="24" rx="4" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="290" y="220" font-size="11" fill="#1f2d3d" text-anchor="middle">归档产物 + 展示报告</text>
+  <text x="290" y="246" font-size="10.5" fill="#5b7ea8" text-anchor="middle">JENKINS_HOME 存全部配置</text>
+
+  <line x1="158" y1="118" x2="198" y2="118" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#aja)"/>
+
+  <!-- agents -->
+  <rect x="430" y="58" width="230" height="60" rx="8" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="545" y="80" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">Agent: linux-api</text>
+  <text x="545" y="100" font-size="10.5" fill="#64748b" text-anchor="middle">label 'api' · 跑 pytest 接口用例</text>
+
+  <rect x="430" y="128" width="230" height="60" rx="8" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="545" y="150" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">Agent: win-ui</text>
+  <text x="545" y="170" font-size="10.5" fill="#64748b" text-anchor="middle">label 'ui' · 有浏览器与显卡，跑 Selenium</text>
+
+  <rect x="430" y="198" width="230" height="60" rx="8" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="545" y="220" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">Agent: docker-pool</text>
+  <text x="545" y="240" font-size="10.5" fill="#64748b" text-anchor="middle">label 'docker' · 每次构建起一次性容器</text>
+
+  <line x1="380" y1="88"  x2="428" y2="88"  stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#aja)"/>
+  <line x1="380" y1="158" x2="428" y2="158" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#aja)"/>
+  <line x1="380" y1="228" x2="428" y2="228" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#aja)"/>
+  <text x="404" y="80" font-size="10" fill="#5b7ea8" text-anchor="middle">按 label</text>
+
+  <!-- freestyle vs pipeline -->
+  <rect x="18" y="284" width="320" height="132" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="34" y="308" font-size="13" font-weight="700" fill="#64748b">Freestyle 自由风格</text>
+  <text x="34" y="330" font-size="11.5" fill="#475569">配置存在 Jenkins 界面 / config.xml</text>
+  <text x="34" y="350" font-size="11.5" fill="#475569">改配置无版本记录，不能 code review</text>
+  <text x="34" y="370" font-size="11.5" fill="#475569">串行单段，难表达并行与条件</text>
+  <text x="34" y="392" font-size="11.5" fill="#94a3b8">适合：一次性小任务、临时验证</text>
+
+  <rect x="352" y="284" width="310" height="132" rx="8" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="368" y="308" font-size="13" font-weight="700" fill="#2f6fd0">Pipeline（Jenkinsfile）</text>
+  <text x="368" y="330" font-size="11.5" fill="#475569">配置随代码进仓库，可 diff 可回滚</text>
+  <text x="368" y="350" font-size="11.5" fill="#475569">stage 可视化、支持并行 / 条件 / post</text>
+  <text x="368" y="370" font-size="11.5" fill="#475569">Controller 重启后能续跑（durable）</text>
+  <text x="368" y="392" font-size="11.5" fill="#2f6fd0">默认选它：Pipeline as Code</text>
+
+  <text x="20" y="444" font-size="11.5" fill="#64748b">要点：Controller 只调度不干活；构建全部下沉到 Agent，靠 label 把「需要浏览器 / 需要 Docker」的活分到对的机器。</text>
+</svg>

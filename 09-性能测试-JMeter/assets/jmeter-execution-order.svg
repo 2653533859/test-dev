@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arw4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">JMeter 组件执行顺序（每个采样器一轮）</text>
+  <text x="20" y="50" font-size="12" fill="#64748b">配置元件 → 前置处理器 → 定时器 → 采样器 → 后置处理器 → 断言 → 监听器</text>
+
+  <!-- lane background -->
+  <rect x="24" y="66" width="632" height="46" rx="8" fill="#e8eefc" stroke="#2f6fd0" stroke-dasharray="4 3"/>
+  <text x="40" y="86" font-size="12.5" font-weight="700" fill="#1b4f9c">0. 测试计划启动时（只跑一次）</text>
+  <text x="40" y="104" font-size="12" fill="#334155">setUp 线程组 → 全局配置元件初始化（CSV Data Set / 用户定义变量 / JDBC 连接池）</text>
+
+  <!-- step boxes -->
+  <rect x="24" y="128" width="150" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="99" y="150" font-size="12.5" font-weight="700" fill="#1b4f9c" text-anchor="middle">1 配置元件</text>
+  <text x="99" y="169" font-size="11.5" fill="#1f2d3d" text-anchor="middle">HTTP 头 / Cookie / CSV</text>
+
+  <line x1="174" y1="154" x2="204" y2="154" stroke="#475569" stroke-width="1.5" marker-end="url(#arw4)"/>
+
+  <rect x="206" y="128" width="150" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="281" y="150" font-size="12.5" font-weight="700" fill="#1b4f9c" text-anchor="middle">2 前置处理器</text>
+  <text x="281" y="169" font-size="11.5" fill="#1f2d3d" text-anchor="middle">JSR223 PreProcessor</text>
+
+  <line x1="356" y1="154" x2="386" y2="154" stroke="#475569" stroke-width="1.5" marker-end="url(#arw4)"/>
+
+  <rect x="388" y="128" width="150" height="52" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="463" y="150" font-size="12.5" font-weight="700" fill="#96560f" text-anchor="middle">3 定时器</text>
+  <text x="463" y="169" font-size="11.5" fill="#1f2d3d" text-anchor="middle">think time / 集合点</text>
+
+  <line x1="538" y1="154" x2="568" y2="154" stroke="#475569" stroke-width="1.5" marker-end="url(#arw4)"/>
+  <text x="600" y="150" font-size="12" fill="#64748b">发出</text>
+  <text x="600" y="168" font-size="12" fill="#64748b">请求 ↓</text>
+
+  <!-- sampler -->
+  <rect x="206" y="200" width="332" height="48" rx="8" fill="#2f6fd0"/>
+  <text x="372" y="230" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">4 采样器 Sampler（HTTP 请求，唯一真正发流量的组件）</text>
+
+  <line x1="372" y1="248" x2="372" y2="272" stroke="#475569" stroke-width="1.5" marker-end="url(#arw4)"/>
+
+  <rect x="24" y="276" width="150" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="99" y="298" font-size="12.5" font-weight="700" fill="#1b4f9c" text-anchor="middle">5 后置处理器</text>
+  <text x="99" y="317" font-size="11.5" fill="#1f2d3d" text-anchor="middle">正则 / JSON 提取器</text>
+
+  <rect x="206" y="276" width="150" height="52" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="281" y="298" font-size="12.5" font-weight="700" fill="#96560f" text-anchor="middle">6 断言</text>
+  <text x="281" y="317" font-size="11.5" fill="#1f2d3d" text-anchor="middle">响应断言 / JSON 断言</text>
+
+  <rect x="388" y="276" width="150" height="52" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="463" y="298" font-size="12.5" font-weight="700" fill="#1b4f9c" text-anchor="middle">7 监听器</text>
+  <text x="463" y="317" font-size="11.5" fill="#1f2d3d" text-anchor="middle">聚合报告 / 结果树</text>
+
+  <line x1="174" y1="302" x2="204" y2="302" stroke="#475569" stroke-width="1.5" marker-end="url(#arw4)"/>
+  <line x1="356" y1="302" x2="386" y2="302" stroke="#475569" stroke-width="1.5" marker-end="url(#arw4)"/>
+
+  <!-- loop back -->
+  <path d="M556,302 L600,302 L600,110 L99,110 L99,126" fill="none" stroke="#94a3b8" stroke-width="1.4"
+        stroke-dasharray="4 4" marker-end="url(#arw4)"/>
+  <text x="608" y="216" font-size="11.5" fill="#64748b" transform="rotate(90 608 216)">下一次循环</text>
+
+  <!-- teardown -->
+  <rect x="24" y="348" width="632" height="42" rx="8" fill="#e8eefc" stroke="#2f6fd0" stroke-dasharray="4 3"/>
+  <text x="40" y="374" font-size="12.5" font-weight="700" fill="#1b4f9c">8. 全部线程组结束后：tearDown 线程组（清理测试数据、回收环境）</text>
+
+  <!-- notes -->
+  <rect x="24" y="402" width="632" height="52" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="422" font-size="11.5" fill="#334155">作用域规则：配置元件 / 断言 / 定时器等「非采样器组件」对同层级及所有子层级的采样器生效，与前后位置无关。</text>
+  <text x="40" y="442" font-size="11.5" fill="#334155">同层多个同类组件才按上下顺序执行；把定时器放在采样器下面，它依然在请求「之前」等待。</text>
+</svg>

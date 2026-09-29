@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">pytest-xdist：主控分发 + 多 worker 进程各自跑一遍 fixture</text>
+
+  <!-- master -->
+  <rect x="240" y="46" width="200" height="56" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="340" y="70" font-size="13" font-weight="700" fill="#8a4b06" text-anchor="middle">主控进程 master</text>
+  <text x="340" y="90" font-size="11.5" fill="#8a4b06" text-anchor="middle">收集用例 → 按 --dist 策略分发 → 汇总报告</text>
+
+  <!-- workers -->
+  <rect x="30" y="150" width="180" height="150" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="120" y="172" font-size="12.5" font-weight="700" fill="#1e40af" text-anchor="middle">worker gw0（独立进程）</text>
+  <rect x="46" y="182" width="148" height="26" rx="5" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="120" y="200" font-size="11.5" fill="#1e40af" text-anchor="middle">session fixture 执行一次</text>
+  <rect x="46" y="216" width="148" height="24" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="120" y="233" font-size="11.5" fill="#166534" text-anchor="middle">test_a</text>
+  <rect x="46" y="246" width="148" height="24" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="120" y="263" font-size="11.5" fill="#166534" text-anchor="middle">test_d</text>
+  <text x="120" y="288" font-size="11" fill="#1e40af" text-anchor="middle">拿到 PYTEST_XDIST_WORKER=gw0</text>
+
+  <rect x="250" y="150" width="180" height="150" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="340" y="172" font-size="12.5" font-weight="700" fill="#1e40af" text-anchor="middle">worker gw1（独立进程）</text>
+  <rect x="266" y="182" width="148" height="26" rx="5" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="340" y="200" font-size="11.5" fill="#1e40af" text-anchor="middle">session fixture 又执行一次</text>
+  <rect x="266" y="216" width="148" height="24" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="340" y="233" font-size="11.5" fill="#166534" text-anchor="middle">test_b</text>
+  <rect x="266" y="246" width="148" height="24" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="340" y="263" font-size="11.5" fill="#166534" text-anchor="middle">test_e</text>
+  <text x="340" y="288" font-size="11" fill="#1e40af" text-anchor="middle">进程间内存不共享</text>
+
+  <rect x="470" y="150" width="180" height="150" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="560" y="172" font-size="12.5" font-weight="700" fill="#1e40af" text-anchor="middle">worker gw2（独立进程）</text>
+  <rect x="486" y="182" width="148" height="26" rx="5" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="560" y="200" font-size="11.5" fill="#1e40af" text-anchor="middle">session fixture 第三次</text>
+  <rect x="486" y="216" width="148" height="24" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="560" y="233" font-size="11.5" fill="#166534" text-anchor="middle">test_c</text>
+  <rect x="486" y="246" width="148" height="24" rx="5" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="560" y="263" font-size="11.5" fill="#991b1b" text-anchor="middle">test_f  FAILED</text>
+  <text x="560" y="288" font-size="11" fill="#1e40af" text-anchor="middle">失败回传 master 汇总</text>
+
+  <g stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="290" y1="102" x2="140" y2="146"/>
+    <line x1="340" y1="102" x2="340" y2="146"/>
+    <line x1="390" y1="102" x2="540" y2="146"/>
+  </g>
+
+  <!-- dist modes -->
+  <text x="20" y="330" font-size="14" font-weight="700" fill="#0f172a">--dist 分发策略</text>
+  <rect x="20" y="342" width="207" height="62" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="36" y="362" font-size="12.5" font-weight="700" fill="#1f2d3d">load（默认）</text>
+  <text x="36" y="382" font-size="11.5" fill="#1f2d3d">谁空闲发给谁，负载最均衡</text>
+  <text x="36" y="398" font-size="11.5" fill="#64748b">同类用例可能被打散到不同进程</text>
+
+  <rect x="237" y="342" width="207" height="62" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="253" y="362" font-size="12.5" font-weight="700" fill="#1f2d3d">loadfile</text>
+  <text x="253" y="382" font-size="11.5" fill="#1f2d3d">同一文件的用例发同一 worker</text>
+  <text x="253" y="398" font-size="11.5" fill="#64748b">module fixture 不会重复建</text>
+
+  <rect x="454" y="342" width="206" height="62" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="470" y="362" font-size="12.5" font-weight="700" fill="#1f2d3d">loadscope</text>
+  <text x="470" y="382" font-size="11.5" fill="#1f2d3d">同一 class/module 绑同一 worker</text>
+  <text x="470" y="398" font-size="11.5" fill="#64748b">有类内共享状态时选它</text>
+
+  <rect x="20" y="414" width="640" height="38" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="36" y="440" font-size="12.5" fill="#991b1b">并行前提：用例必须互相独立。共享账号、固定手机号、写同一张表 → 必然偶发失败，先做数据隔离再开 -n</text>
+</svg>

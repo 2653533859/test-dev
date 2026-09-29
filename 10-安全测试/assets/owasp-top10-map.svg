@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">OWASP Top 10 (2021) 十项归三类：谁来测、怎么测</text>
+
+  <!-- group 1 -->
+  <rect x="16" y="44" width="648" height="124" rx="10" fill="#eef4ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="30" y="66" font-size="14" font-weight="700" fill="#1a4a8f">A｜业务语义类 —— 扫描器扫不出，测试人员价值最高</text>
+
+  <rect x="30" y="76" width="150" height="46" rx="6" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="105" y="95" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A01 失效的访问控制</text>
+  <text x="105" y="113" font-size="11" fill="#31527a" text-anchor="middle">越权 / IDOR</text>
+
+  <rect x="192" y="76" width="150" height="46" rx="6" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="267" y="95" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A04 不安全设计</text>
+  <text x="267" y="113" font-size="11" fill="#31527a" text-anchor="middle">缺风控 / 缺限流</text>
+
+  <rect x="354" y="76" width="150" height="46" rx="6" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="429" y="95" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A07 身份认证失败</text>
+  <text x="429" y="113" font-size="11" fill="#31527a" text-anchor="middle">会话 / 弱口令</text>
+
+  <rect x="516" y="76" width="148" height="46" rx="6" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="590" y="95" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A10 SSRF</text>
+  <text x="590" y="113" font-size="11" fill="#31527a" text-anchor="middle">服务端代抓 URL</text>
+
+  <text x="30" y="141" font-size="11.5" fill="#31527a">测法：多角色账号交叉重放、改 id 改金额、抓包看服务端是否重新校验；SSRF 看所有「填个 URL 让后端去拉」的功能。</text>
+  <text x="30" y="159" font-size="11.5" fill="#31527a">这一类必须写进功能测试用例集，随需求迭代一起回归。</text>
+
+  <!-- group 2 -->
+  <rect x="16" y="180" width="648" height="124" rx="10" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="30" y="202" font-size="14" font-weight="700" fill="#8a4b00">B｜输入与输出处理类 —— 有固定模式，工具 + 人工都能覆盖</text>
+
+  <rect x="30" y="212" width="200" height="46" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="130" y="231" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A03 注入</text>
+  <text x="130" y="249" font-size="11" fill="#8a4b00" text-anchor="middle">SQL / 命令 / XSS / 模板</text>
+
+  <rect x="242" y="212" width="200" height="46" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="342" y="231" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A02 加密失败</text>
+  <text x="342" y="249" font-size="11" fill="#8a4b00" text-anchor="middle">明文传输 / 明文存密码</text>
+
+  <rect x="454" y="212" width="210" height="46" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="559" y="231" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A08 软件与数据完整性</text>
+  <text x="559" y="249" font-size="11" fill="#8a4b00" text-anchor="middle">不可信更新 / 反序列化</text>
+
+  <text x="30" y="277" font-size="11.5" fill="#8a4b00">测法：对每个入参逐一探测（先看是否有异常回显 → 再确认是否真的进了解释器）；抓包看敏感字段是否明文、响应是否多返字段。</text>
+  <text x="30" y="295" font-size="11.5" fill="#8a4b00">防御统一思路：输入做白名单校验，输出按上下文编码，密码用慢哈希，全站 HTTPS + HSTS。</text>
+
+  <!-- group 3 -->
+  <rect x="16" y="316" width="648" height="104" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="30" y="338" font-size="14" font-weight="700" fill="#1f2d3d">C｜配置与运维类 —— 适合做成流水线自动检查</text>
+
+  <rect x="30" y="348" width="200" height="46" rx="6" fill="#ffffff" stroke="#64748b"/>
+  <text x="130" y="367" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A05 安全配置错误</text>
+  <text x="130" y="385" font-size="11" fill="#475569" text-anchor="middle">默认口令 / 目录列出 / 调试开</text>
+
+  <rect x="242" y="348" width="200" height="46" rx="6" fill="#ffffff" stroke="#64748b"/>
+  <text x="342" y="367" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A06 脆弱与过时组件</text>
+  <text x="342" y="385" font-size="11" fill="#475569" text-anchor="middle">SCA 扫依赖与镜像</text>
+
+  <rect x="454" y="348" width="210" height="46" rx="6" fill="#ffffff" stroke="#64748b"/>
+  <text x="559" y="367" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">A09 日志与监控不足</text>
+  <text x="559" y="385" font-size="11" fill="#475569" text-anchor="middle">出事后查不出来</text>
+
+  <text x="30" y="412" font-size="11.5" fill="#475569">测法：核对配置基线清单 + 流水线跑 SCA/配置扫描 + 造一次异常行为看告警有没有触发、日志有没有记全（且不含明文密码）。</text>
+
+  <text x="20" y="444" font-size="12" font-weight="700" fill="#1f2d3d">拿到一个新功能时的通用提问：谁能访问它？输入去了哪里？输出给了谁？出事了能不能查到？</text>
+  <text x="20" y="462" font-size="11.5" fill="#64748b">所有验证均在授权测试环境与靶场完成；Top 10 是「风险类别」不是「漏洞清单」，重在建立排查视角。</text>
+</svg>

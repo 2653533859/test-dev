@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="pm" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">App 专项性能指标：数据从哪来、怎么算</text>
+
+  <!-- source layer -->
+  <rect x="24" y="44" width="632" height="30" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="340" y="64" font-size="12.5" font-weight="700" fill="#1b4a91" text-anchor="middle">数据源：Android 系统服务（dumpsys）+ proc 文件系统 + logcat 事件</text>
+
+  <line x1="340" y1="74" x2="340" y2="88" stroke="#475569" stroke-width="1.4" marker-end="url(#pm)"/>
+
+  <!-- 5 metric columns -->
+  <rect x="24" y="90" width="122" height="150" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="85" y="110" font-size="12" font-weight="700" fill="#8a4b0f" text-anchor="middle">启动耗时</text>
+  <text x="34" y="130" font-size="10.5" fill="#8a4b0f">am start -W</text>
+  <text x="34" y="146" font-size="10.5" fill="#8a4b0f">看 TotalTime</text>
+  <text x="34" y="166" font-size="10.5" fill="#8a4b0f">或 logcat 抓</text>
+  <text x="34" y="181" font-size="10.5" fill="#8a4b0f">Displayed 事件</text>
+  <text x="34" y="201" font-size="10.5" fill="#8a4b0f">冷启 &lt; 1.5s</text>
+  <text x="34" y="216" font-size="10.5" fill="#8a4b0f">温启 &lt; 0.8s</text>
+  <text x="34" y="232" font-size="10.5" fill="#9c2b2b">首帧≠可用</text>
+
+  <rect x="152" y="90" width="122" height="150" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="213" y="110" font-size="12" font-weight="700" fill="#8a4b0f" text-anchor="middle">内存</text>
+  <text x="162" y="130" font-size="10.5" fill="#8a4b0f">dumpsys meminfo</text>
+  <text x="162" y="146" font-size="10.5" fill="#8a4b0f">取 TOTAL PSS</text>
+  <text x="162" y="166" font-size="10.5" fill="#8a4b0f">PSS = 私有内存</text>
+  <text x="162" y="181" font-size="10.5" fill="#8a4b0f">+ 按比例分摊的</text>
+  <text x="162" y="196" font-size="10.5" fill="#8a4b0f">共享内存</text>
+  <text x="162" y="216" font-size="10.5" fill="#9c2b2b">泄漏看趋势线</text>
+  <text x="162" y="232" font-size="10.5" fill="#9c2b2b">而非单点值</text>
+
+  <rect x="280" y="90" width="122" height="150" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="341" y="110" font-size="12" font-weight="700" fill="#8a4b0f" text-anchor="middle">CPU</text>
+  <text x="290" y="130" font-size="10.5" fill="#8a4b0f">top -p PID</text>
+  <text x="290" y="146" font-size="10.5" fill="#8a4b0f">或 dumpsys cpuinfo</text>
+  <text x="290" y="166" font-size="10.5" fill="#8a4b0f">注意：多核下</text>
+  <text x="290" y="181" font-size="10.5" fill="#8a4b0f">可能超过 100%</text>
+  <text x="290" y="201" font-size="10.5" fill="#8a4b0f">静置时应趋近 0</text>
+  <text x="290" y="220" font-size="10.5" fill="#9c2b2b">后台仍高 CPU</text>
+  <text x="290" y="234" font-size="10.5" fill="#9c2b2b">= 定时器没停</text>
+
+  <rect x="408" y="90" width="122" height="150" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="469" y="110" font-size="12" font-weight="700" fill="#8a4b0f" text-anchor="middle">流畅度 FPS</text>
+  <text x="418" y="130" font-size="10.5" fill="#8a4b0f">dumpsys gfxinfo</text>
+  <text x="418" y="146" font-size="10.5" fill="#8a4b0f">--framestats</text>
+  <text x="418" y="166" font-size="10.5" fill="#8a4b0f">看 Janky frames</text>
+  <text x="418" y="181" font-size="10.5" fill="#8a4b0f">占比与 P90/P99</text>
+  <text x="418" y="201" font-size="10.5" fill="#8a4b0f">单帧 &gt; 16.7ms</text>
+  <text x="418" y="216" font-size="10.5" fill="#8a4b0f">即掉帧</text>
+  <text x="418" y="234" font-size="10.5" fill="#9c2b2b">卡顿率 &lt; 5%</text>
+
+  <rect x="536" y="90" width="120" height="150" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="596" y="110" font-size="12" font-weight="700" fill="#8a4b0f" text-anchor="middle">流量 / 耗电</text>
+  <text x="546" y="130" font-size="10.5" fill="#8a4b0f">流量：读取</text>
+  <text x="546" y="145" font-size="10.5" fill="#8a4b0f">/proc/uid_stat</text>
+  <text x="546" y="160" font-size="10.5" fill="#8a4b0f">或 dumpsys netstats</text>
+  <text x="546" y="180" font-size="10.5" fill="#8a4b0f">耗电：batterystats</text>
+  <text x="546" y="195" font-size="10.5" fill="#8a4b0f">+ Battery Historian</text>
+  <text x="546" y="215" font-size="10.5" fill="#9c2b2b">先 reset 再跑</text>
+  <text x="546" y="231" font-size="10.5" fill="#9c2b2b">否则数据混入历史</text>
+
+  <line x1="340" y1="240" x2="340" y2="256" stroke="#475569" stroke-width="1.4" marker-end="url(#pm)"/>
+
+  <!-- pipeline -->
+  <rect x="24" y="258" width="632" height="86" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="40" y="278" font-size="12.5" font-weight="700" fill="#2f5d3a">采集流水线：别手敲命令，做成可回归的脚本</text>
+  <text x="40" y="298" font-size="11" fill="#2f5d3a">① 场景脚本（Appium 驱动 App 走固定路径）  →  ② 采集线程每 1s 打点一次 adb 命令  →  ③ 解析成 CSV/JSON</text>
+  <text x="40" y="316" font-size="11" fill="#2f5d3a">④ 计算统计量（均值 / P90 / 最大值 / 增长斜率）  →  ⑤ 与基线版本对比，超阈值则 CI 失败  →  ⑥ 出趋势图存档</text>
+  <text x="40" y="336" font-size="11" fill="#2f5d3a">核心思想与接口性能测试一致：单次数值没有意义，可对比的基线 + 稳定的场景 才有意义。</text>
+
+  <!-- rules -->
+  <rect x="24" y="356" width="316" height="102" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="376" font-size="12.5" font-weight="700" fill="#1f2d3d">让数据可信的控制变量</text>
+  <text x="40" y="396" font-size="11" fill="#334155">同一台设备、同一 ROM、同一电量区间</text>
+  <text x="40" y="412" font-size="11" fill="#334155">关掉后台应用与自动同步，固定亮度</text>
+  <text x="40" y="428" font-size="11" fill="#334155">每轮重复 5 次取中位数，丢掉首次（预热）</text>
+  <text x="40" y="446" font-size="11" fill="#334155">Release 包测，Debug 包性能不具参考性</text>
+
+  <rect x="356" y="356" width="300" height="102" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="372" y="376" font-size="12.5" font-weight="700" fill="#9c2b2b">最常见的错误结论</text>
+  <text x="372" y="396" font-size="11" fill="#9c2b2b">「内存涨了 20MB，一定泄漏」→ 可能只是缓存</text>
+  <text x="372" y="412" font-size="11" fill="#9c2b2b">正确姿势：反复进出同一页面 10 次，</text>
+  <text x="372" y="428" font-size="11" fill="#9c2b2b">主动 GC 后看 PSS 能否回落到基线</text>
+  <text x="372" y="446" font-size="11" fill="#9c2b2b">回不去且单调上升，才是泄漏</text>
+</svg>

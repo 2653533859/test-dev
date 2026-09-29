@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="wk" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">弱网测试：在链路的哪一段注入损伤</text>
+
+  <!-- chain -->
+  <rect x="24" y="48" width="110" height="56" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="79" y="72" font-size="12" fill="#1b4a91" text-anchor="middle">手机 App</text>
+  <text x="79" y="90" font-size="10.5" fill="#1b4a91" text-anchor="middle">被测对象</text>
+
+  <line x1="134" y1="76" x2="156" y2="76" stroke="#475569" stroke-width="1.4" marker-end="url(#wk)"/>
+
+  <rect x="158" y="48" width="130" height="56" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="223" y="68" font-size="12" fill="#8a4b0f" text-anchor="middle">注入点 A：设备侧</text>
+  <text x="223" y="85" font-size="10.5" fill="#8a4b0f" text-anchor="middle">开发者选项限速</text>
+  <text x="223" y="99" font-size="10.5" fill="#8a4b0f" text-anchor="middle">飞行模式 / 断网切换</text>
+
+  <line x1="288" y1="76" x2="310" y2="76" stroke="#475569" stroke-width="1.4" marker-end="url(#wk)"/>
+
+  <rect x="312" y="48" width="150" height="56" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="387" y="68" font-size="12" fill="#8a4b0f" text-anchor="middle">注入点 B：代理层</text>
+  <text x="387" y="85" font-size="10.5" fill="#8a4b0f" text-anchor="middle">Charles Throttle</text>
+  <text x="387" y="99" font-size="10.5" fill="#8a4b0f" text-anchor="middle">延迟 / 丢包 / 限带宽</text>
+
+  <line x1="462" y1="76" x2="484" y2="76" stroke="#475569" stroke-width="1.4" marker-end="url(#wk)"/>
+
+  <rect x="486" y="48" width="170" height="56" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="571" y="68" font-size="12" fill="#1b4a91" text-anchor="middle">注入点 C：服务端 Mock</text>
+  <text x="571" y="85" font-size="10.5" fill="#1b4a91" text-anchor="middle">超时 / 502 / 慢响应</text>
+  <text x="571" y="99" font-size="10.5" fill="#1b4a91" text-anchor="middle">最可控、最易自动化</text>
+
+  <!-- profiles -->
+  <rect x="24" y="122" width="316" height="150" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="142" font-size="12.5" font-weight="700" fill="#1f2d3d">常用弱网档位（Charles Throttle 预设）</text>
+  <text x="40" y="164" font-size="11" fill="#334155">2G/GPRS ：带宽 20 kbps ，RTT 500 ms</text>
+  <text x="40" y="182" font-size="11" fill="#334155">EDGE   ：带宽 100 kbps，RTT 300 ms</text>
+  <text x="40" y="200" font-size="11" fill="#334155">3G    ：带宽 750 kbps，RTT 100 ms</text>
+  <text x="40" y="218" font-size="11" fill="#334155">高延迟 ：带宽正常，RTT 2000 ms（最能暴露超时设计）</text>
+  <text x="40" y="236" font-size="11" fill="#334155">丢包  ：随机丢 10%（暴露重试与幂等问题）</text>
+  <text x="40" y="256" font-size="11" fill="#9c2b2b">最狠的一档不是「慢」，是「时断时续」——</text>
+  <text x="40" y="268" font-size="11" fill="#9c2b2b">请求发出后立刻断网，考验的是状态机而非超时值</text>
+
+  <rect x="356" y="122" width="300" height="150" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="372" y="142" font-size="12.5" font-weight="700" fill="#2f5d3a">要验证的是「表现」不是「能不能连上」</text>
+  <text x="372" y="164" font-size="11" fill="#2f5d3a">· 有没有 loading 与骨架屏，还是白屏假死</text>
+  <text x="372" y="182" font-size="11" fill="#2f5d3a">· 超时后有没有可读的错误提示与重试入口</text>
+  <text x="372" y="200" font-size="11" fill="#2f5d3a">· 有没有本地缓存兜底（离线可看历史数据）</text>
+  <text x="372" y="218" font-size="11" fill="#2f5d3a">· 重复点击提交会不会产生重复订单（幂等）</text>
+  <text x="372" y="236" font-size="11" fill="#2f5d3a">· 网络恢复后能否自动重连、断点续传</text>
+  <text x="372" y="256" font-size="11" fill="#2f5d3a">· 弱网下会不会 ANR / 崩溃（主线程做了网络请求）</text>
+
+  <!-- automation -->
+  <rect x="24" y="290" width="632" height="80" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="40" y="310" font-size="12.5" font-weight="700" fill="#1b4a91">怎么把弱网测试自动化（关键在于「可编程地切网」）</text>
+  <text x="40" y="330" font-size="11" fill="#1b4a91">Android：adb shell svc data disable / enable  —— 开关移动数据，最稳</text>
+  <text x="40" y="347" font-size="11" fill="#1b4a91">Appium：driver.set_network_connection(0/1/2/4/6) —— 需要 io.appium.settings，部分机型受限</text>
+  <text x="40" y="363" font-size="11" fill="#1b4a91">代理层：Charles 走命令行不便，改用 mitmproxy 脚本或 Toxiproxy，能在用例里按需注入延迟</text>
+
+  <rect x="24" y="382" width="632" height="76" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="40" y="402" font-size="12.5" font-weight="700" fill="#9c2b2b">踩坑提醒</text>
+  <text x="40" y="421" font-size="11" fill="#9c2b2b">1. 弱网下 Appium 自身的命令也会变慢（截图、page_source 走同一条 USB？不会，但 WebView 上下文走网络会）</text>
+  <text x="40" y="437" font-size="11" fill="#9c2b2b">2. 限速要只针对被测域名，否则 Appium 与埋点上报一起被拖慢，日志时间线全部失真</text>
+  <text x="40" y="453" font-size="11" fill="#9c2b2b">3. HTTPS 抓包需在设备装 CA 证书；Android 7+ 起用户证书默认不被 App 信任，要开发出一个 debug 包配 networkSecurityConfig</text>
+</svg>

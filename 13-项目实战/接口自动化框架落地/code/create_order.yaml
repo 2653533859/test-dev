@@ -1,0 +1,57 @@
+# 用例数据示例：只描述「一次调用的输入与期望输出」，不描述控制流。
+# 规范：所有字符串值加引号，规避 YAML 1.1 的 on/yes/no 被解析成布尔值的坑。
+
+- name: "正常下单-普通商品"
+  marks: ["smoke", "p0"]
+  payload:
+    skuId: "${sku_id}"          # ${} 从上下文变量池取值，整串是变量时保留原始类型
+    quantity: 1
+    couponId: null
+  expect:
+    status_code: 200
+    schema: "order_create"      # 对应 schemas/order_create.json
+    fields:
+      code: 0
+      data.status: "WAIT_PAY"
+      data.payAmount: 99.00     # 浮点比较内部转 Decimal，避免精度误差
+  extract:
+    order_id: "$.data.orderId"  # 提取回写，供后续串联用例使用
+
+- name: "正常下单-多件商品金额累加"
+  marks: ["smoke"]
+  payload:
+    skuId: "${sku_id}"
+    quantity: 3
+  expect:
+    status_code: 200
+    schema: "order_create"
+    fields:
+      data.payAmount: 297.00
+
+- name: "库存不足-下单失败"
+  payload:
+    skuId: "${sku_id}"
+    quantity: 99999
+  expect:
+    status_code: 200            # 业务失败仍返回 200，靠 code 区分
+    fields:
+      code: 40010
+      message: "库存不足"
+
+- name: "数量为零-参数校验拦截"
+  payload:
+    skuId: "${sku_id}"
+    quantity: 0
+  expect:
+    status_code: 400
+    fields:
+      code: 40001
+
+- name: "商品不存在-返回业务错误码"
+  payload:
+    skuId: "SKU-NOT-EXIST-999"  # 加引号，否则前导零或特殊值可能被误解析
+    quantity: 1
+  expect:
+    status_code: 200
+    fields:
+      code: 40004

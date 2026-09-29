@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">Capabilities：从配置到 driver 到设备的路由</text>
+
+  <!-- ① 四类字段 -->
+  <rect x="16" y="44" width="648" height="142" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="66" font-size="14" font-weight="700" fill="#2f6fd0">① 四类字段各管一件事（W3C 标准字段无前缀，其余必须 appium:）</text>
+
+  <rect x="32" y="80" width="148" height="44" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="106" y="98" font-size="11.5" font-weight="700" fill="#1e3a8a" text-anchor="middle">通用</text>
+  <text x="106" y="114" font-size="10" fill="#1e3a8a" text-anchor="middle">platformName</text>
+  <text x="106" y="125" font-size="10" fill="#1e3a8a" text-anchor="middle">automationName / udid</text>
+
+  <rect x="188" y="80" width="148" height="44" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="262" y="98" font-size="11.5" font-weight="700" fill="#8a4b08" text-anchor="middle">App 定位</text>
+  <text x="262" y="114" font-size="10" fill="#8a4b08" text-anchor="middle">app / appPackage</text>
+  <text x="262" y="125" font-size="10" fill="#8a4b08" text-anchor="middle">appActivity / bundleId</text>
+
+  <rect x="344" y="80" width="148" height="44" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="418" y="98" font-size="11.5" font-weight="700" fill="#1b5e20" text-anchor="middle">会话行为</text>
+  <text x="418" y="114" font-size="10" fill="#1b5e20" text-anchor="middle">noReset / fullReset</text>
+  <text x="418" y="125" font-size="10" fill="#1b5e20" text-anchor="middle">newCommandTimeout</text>
+
+  <rect x="500" y="80" width="148" height="44" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="574" y="98" font-size="11.5" font-weight="700" fill="#9c2b2b" text-anchor="middle">平台特有</text>
+  <text x="574" y="114" font-size="10" fill="#9c2b2b" text-anchor="middle">systemPort (Android)</text>
+  <text x="574" y="125" font-size="10" fill="#9c2b2b" text-anchor="middle">wdaLocalPort (iOS)</text>
+
+  <text x="32" y="146" font-size="11.5" fill="#dc2626">deviceName 在 Android 上只是标签，真正决定连哪台设备的是 udid</text>
+  <text x="32" y="166" font-size="11.5" fill="#475569">漏 appium: 前缀 → 报 Bad parameters；用 Options 对象自动加前缀，不要手写 dict</text>
+
+  <!-- ② 路由流程 -->
+  <rect x="16" y="194" width="648" height="118" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="216" font-size="14" font-weight="700" fill="#d98324">② POST /session 路由：capabilities → 选 driver → 连设备 → 起 App</text>
+
+  <rect x="32" y="230" width="108" height="36" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="86" y="248" font-size="10.5" fill="#1e3a8a" text-anchor="middle">platformName</text>
+  <text x="86" y="261" font-size="10.5" fill="#1e3a8a" text-anchor="middle">= Android / iOS</text>
+  <line x1="140" y1="248" x2="158" y2="248" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="160" y="230" width="124" height="36" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="222" y="248" font-size="10.5" fill="#8a4b08" text-anchor="middle">automationName</text>
+  <text x="222" y="261" font-size="10.5" fill="#8a4b08" text-anchor="middle">选 UiA2 / XCUITest</text>
+  <line x1="284" y1="248" x2="302" y2="248" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="304" y="230" width="108" height="36" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="358" y="248" font-size="10.5" fill="#1b5e20" text-anchor="middle">udid</text>
+  <text x="358" y="261" font-size="10.5" fill="#1b5e20" text-anchor="middle">adb connect 设备</text>
+  <line x1="412" y1="248" x2="430" y2="248" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="432" y="230" width="100" height="36" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="482" y="248" font-size="10.5" fill="#9c2b2b" text-anchor="middle">app / package</text>
+  <text x="482" y="261" font-size="10.5" fill="#9c2b2b" text-anchor="middle">装包 / 起页</text>
+  <line x1="532" y1="248" x2="550" y2="248" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="552" y="230" width="96" height="36" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="600" y="253" font-size="10.5" fill="#1e3a8a" text-anchor="middle">session 建立</text>
+
+  <text x="32" y="286" font-size="11.5" fill="#dc2626">capabilities 是一次性的：session 建立后不能改，想改行为只能 quit() 后重建</text>
+  <text x="32" y="304" font-size="11.5" fill="#475569">appActivity 相对路径要带点：.ui.MainActivity 对，ui.MainActivity 错（报 ActivityNotFound）</text>
+
+  <!-- ③ 重置策略三分支 -->
+  <rect x="16" y="322" width="648" height="134" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="344" font-size="14" font-weight="700" fill="#28a745">③ 重置策略三分支：决定用例隔离级别（noReset 与 fullReset 不能同时 True）</text>
+
+  <rect x="32" y="358" width="196" height="42" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="130" y="376" font-size="11" fill="#334155" text-anchor="middle">默认（都 false）</text>
+  <text x="130" y="392" font-size="10" fill="#64748b" text-anchor="middle">清数据不重装 · 常规回归</text>
+
+  <rect x="236" y="358" width="196" height="42" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="334" y="376" font-size="11" fill="#1b5e20" text-anchor="middle">noReset=true</text>
+  <text x="334" y="392" font-size="10" fill="#1b5e20" text-anchor="middle">什么都不做 · 调试/已登录</text>
+
+  <rect x="440" y="358" width="208" height="42" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="544" y="376" font-size="11" fill="#9c2b2b" text-anchor="middle">fullReset=true</text>
+  <text x="544" y="392" font-size="10" fill="#9c2b2b" text-anchor="middle">卸载重装 · 结束再卸 · 首装流程</text>
+
+  <text x="32" y="420" font-size="11.5" fill="#475569">实践：本地调试 noReset=true（最快，保留登录态）；CI 回归用默认；首次安装引导用例 fullReset</text>
+  <text x="32" y="438" font-size="11.5" fill="#475569">提速：本地用 appPackage+appActivity 而非 app 路径 → session 建立 40s 降到 8s</text>
+  <text x="32" y="454" font-size="11.5" fill="#dc2626">autoGrantPermissions 跳过权限框省心，但测权限逻辑的用例必须关掉它</text>
+</svg>

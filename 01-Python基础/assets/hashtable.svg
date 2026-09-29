@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar13" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="340" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">dict 哈希表：插入、冲突与扩容（rehash）</text>
+
+  <!-- hash computation -->
+  <text x="30" y="60" font-size="12.5" font-weight="700" fill="#0f172a">插入 d["k"] = v</text>
+  <rect x="30" y="72" width="200" height="32" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="130" y="93" font-size="11.5" fill="#1e40af" text-anchor="middle">hash("k") → 槽位 i</text>
+
+  <!-- slots -->
+  <text x="30" y="135" font-size="12.5" font-weight="700" fill="#0f172a">哈希表槽位（数组）</text>
+  <g font-size="10.5">
+    <rect x="30" y="146" width="110" height="30" rx="5" fill="#e2e8f0" stroke="#94a3b8"/>
+    <text x="85" y="165" fill="#334155" text-anchor="middle">0: 空</text>
+    <rect x="150" y="146" width="110" height="30" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="205" y="165" fill="#166534" text-anchor="middle">1: k→v</text>
+    <rect x="270" y="146" width="110" height="30" rx="5" fill="#fef3c7" stroke="#d97706"/>
+    <text x="325" y="165" fill="#92400e" text-anchor="middle">2: 冲突↓</text>
+    <rect x="390" y="146" width="110" height="30" rx="5" fill="#e2e8f0" stroke="#94a3b8"/>
+    <text x="445" y="165" fill="#334155" text-anchor="middle">3: 空</text>
+    <rect x="510" y="146" width="110" height="30" rx="5" fill="#e2e8f0" stroke="#94a3b8"/>
+    <text x="565" y="165" fill="#334155" text-anchor="middle">4: 空</text>
+  </g>
+  <line x1="130" y1="104" x2="205" y2="144" stroke="#475569" stroke-width="1.5" marker-end="url(#ar13)"/>
+
+  <!-- collision chain -->
+  <line x1="230" y1="161" x2="268" y2="161" stroke="#d97706" stroke-width="1.5" marker-end="url(#ar13)"/>
+  <text x="205" y="200" font-size="10.5" fill="#92400e" text-anchor="middle">同槽 → 开放寻址/链表挂接</text>
+
+  <!-- resize -->
+  <rect x="30" y="220" width="620" height="40" rx="6" fill="#fffbeb" stroke="#d97706"/>
+  <text x="44" y="245" font-size="11.5" fill="#92400e">负载因子过高（约 2/3）→ 申请更大表，把所有 (k,v) 重新 hash 到新槽位（rehash），保序（3.7+）。</text>
+
+  <rect x="30" y="270" width="620" height="46" rx="6" fill="#ecfdf5" stroke="#16a34a"/>
+  <text x="44" y="292" font-size="11.5" fill="#166534">查找/插入平均 O(1)；键必须可哈希（不可变）。compact dict 用「索引+Entries」分离存储，省内存且保留插入顺序。</text>
+  <text x="44" y="310" font-size="11.5" fill="#166534">set 同理是「只有键的哈希表」；frozenset 是不可变版本，可当 dict 键。</text>
+</svg>

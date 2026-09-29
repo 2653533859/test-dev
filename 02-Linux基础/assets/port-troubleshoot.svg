@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">端口排查两条链路：谁占了端口 / 为什么连不上</text>
+
+  <!-- 链路 A -->
+  <rect x="16" y="42" width="648" height="170" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="30" y="64" font-size="13.5" font-weight="700" fill="#dc2626">A. 启动报 Address already in use —— 端口被谁占了</text>
+
+  <rect x="30" y="80" width="140" height="48" rx="6" fill="#fdeaea" stroke="#dc2626"/>
+  <text x="100" y="100" font-size="12" fill="#991b1b" text-anchor="middle">服务启动失败</text>
+  <text x="100" y="117" font-size="11.5" fill="#991b1b" text-anchor="middle">bind: 8080</text>
+
+  <line x1="172" y1="104" x2="204" y2="104" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="208" y="80" width="164" height="48" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="290" y="100" font-size="12" font-weight="700" fill="#1e3a8a" text-anchor="middle">ss -lntp | grep :8080</text>
+  <text x="290" y="117" font-size="11.5" fill="#1e3a8a" text-anchor="middle">拿到 pid 与进程名</text>
+
+  <line x1="374" y1="104" x2="406" y2="104" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="410" y="80" width="150" height="48" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="485" y="100" font-size="12" fill="#1e3a8a" text-anchor="middle">ps -p PID -o cmd</text>
+  <text x="485" y="117" font-size="11.5" fill="#1e3a8a" text-anchor="middle">确认是谁、能不能停</text>
+
+  <line x1="562" y1="104" x2="592" y2="104" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="596" y="80" width="58" height="48" rx="6" fill="#eaf7ee" stroke="#3f9d5a"/>
+  <text x="625" y="109" font-size="12" fill="#1d6b36" text-anchor="middle">处置</text>
+
+  <text x="30" y="152" font-size="12" fill="#475569">没有 pid 却占着 → TIME_WAIT 残留：ss -tan state time-wait '( sport = :8080 )'，等 2MSL 或给服务加 SO_REUSEADDR。</text>
+  <text x="30" y="172" font-size="12" fill="#475569">看不到 pid → 没加 sudo。root 才能看到别人的进程；容器内端口要进容器 netns 看。</text>
+  <text x="30" y="192" font-size="12" fill="#475569">备选命令：lsof -i :8080 -sTCP:LISTEN　/　netstat -lntp（旧系统）　/　fuser -n tcp 8080</text>
+
+  <!-- 链路 B -->
+  <rect x="16" y="224" width="648" height="230" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="30" y="246" font-size="13.5" font-weight="700" fill="#2f6fd0">B. 接口连不上 —— 由内向外逐层收敛</text>
+
+  <rect x="30" y="262" width="184" height="46" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="122" y="281" font-size="12" font-weight="700" fill="#1e3a8a" text-anchor="middle">① 本机 curl 127.0.0.1:8080</text>
+  <text x="122" y="299" font-size="11.5" fill="#1e3a8a" text-anchor="middle">通不通？</text>
+
+  <line x1="216" y1="285" x2="246" y2="285" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="231" y="278" font-size="10.5" fill="#64748b" text-anchor="middle">通</text>
+
+  <rect x="250" y="262" width="184" height="46" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="342" y="281" font-size="12" font-weight="700" fill="#1e3a8a" text-anchor="middle">② ss -lntp 看监听地址</text>
+  <text x="342" y="299" font-size="11.5" fill="#1e3a8a" text-anchor="middle">127.0.0.1 还是 0.0.0.0？</text>
+
+  <line x1="436" y1="285" x2="466" y2="285" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="451" y="278" font-size="10.5" fill="#64748b" text-anchor="middle">0.0.0.0</text>
+
+  <rect x="470" y="262" width="184" height="46" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="562" y="281" font-size="12" font-weight="700" fill="#1e3a8a" text-anchor="middle">③ 远端 telnet / nc -zv</text>
+  <text x="562" y="299" font-size="11.5" fill="#1e3a8a" text-anchor="middle">三次握手能否建立</text>
+
+  <line x1="122" y1="310" x2="122" y2="338" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="132" y="328" font-size="10.5" fill="#dc2626">不通</text>
+  <line x1="342" y1="310" x2="342" y2="338" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="352" y="328" font-size="10.5" fill="#dc2626">127.0.0.1</text>
+  <line x1="562" y1="310" x2="562" y2="338" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="572" y="328" font-size="10.5" fill="#dc2626">不通</text>
+
+  <rect x="30" y="342" width="184" height="66" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="122" y="362" font-size="12" font-weight="700" fill="#8a4b08" text-anchor="middle">服务本身没起来</text>
+  <text x="122" y="380" font-size="11.5" fill="#8a4b08" text-anchor="middle">systemctl status</text>
+  <text x="122" y="397" font-size="11.5" fill="#8a4b08" text-anchor="middle">journalctl -u xxx</text>
+
+  <rect x="250" y="342" width="184" height="66" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="342" y="362" font-size="12" font-weight="700" fill="#8a4b08" text-anchor="middle">只绑了回环地址</text>
+  <text x="342" y="380" font-size="11.5" fill="#8a4b08" text-anchor="middle">外部永远连不上</text>
+  <text x="342" y="397" font-size="11.5" fill="#8a4b08" text-anchor="middle">改配置 bind 0.0.0.0</text>
+
+  <rect x="470" y="342" width="184" height="66" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="562" y="362" font-size="12" font-weight="700" fill="#8a4b08" text-anchor="middle">被网络层拦住</text>
+  <text x="562" y="380" font-size="11.5" fill="#8a4b08" text-anchor="middle">firewalld / iptables</text>
+  <text x="562" y="397" font-size="11.5" fill="#8a4b08" text-anchor="middle">云安全组 / 中间设备</text>
+
+  <text x="30" y="432" font-size="12" fill="#475569">现象辨别：connection refused = 包到了但没人监听（服务没起 / 端口写错）；</text>
+  <text x="30" y="448" font-size="12" fill="#475569">connection timeout = 包被丢弃，多半是防火墙或安全组 —— 两者指向完全不同的方向。</text>
+</svg>

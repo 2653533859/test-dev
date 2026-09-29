@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="barrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+    <marker id="bred" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#d98324"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">B+ 树索引：查找 id = 30 只需 3 次页 I/O</text>
+
+  <!-- root -->
+  <text x="20" y="72" font-size="12" fill="#64748b">根页</text>
+  <rect x="250" y="55" width="180" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="2"/>
+  <line x1="310" y1="55" x2="310" y2="89" stroke="#2f6fd0"/>
+  <line x1="370" y1="55" x2="370" y2="89" stroke="#2f6fd0"/>
+  <text x="280" y="77" font-size="13" fill="#1f2d3d" text-anchor="middle">1</text>
+  <text x="340" y="77" font-size="13" fill="#1f2d3d" text-anchor="middle">21</text>
+  <text x="400" y="77" font-size="13" fill="#1f2d3d" text-anchor="middle">51</text>
+  <text x="445" y="77" font-size="11.5" fill="#64748b">只存键 + 页号</text>
+
+  <!-- internal -->
+  <text x="20" y="162" font-size="12" fill="#64748b">中间页</text>
+  <rect x="70" y="145" width="150" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <line x1="120" y1="145" x2="120" y2="179" stroke="#2f6fd0"/>
+  <line x1="170" y1="145" x2="170" y2="179" stroke="#2f6fd0"/>
+  <text x="95"  y="167" font-size="12" fill="#1f2d3d" text-anchor="middle">1</text>
+  <text x="145" y="167" font-size="12" fill="#1f2d3d" text-anchor="middle">8</text>
+  <text x="195" y="167" font-size="12" fill="#1f2d3d" text-anchor="middle">15</text>
+
+  <rect x="265" y="145" width="150" height="34" rx="6" fill="#ffe0c2" stroke="#d98324" stroke-width="2"/>
+  <line x1="315" y1="145" x2="315" y2="179" stroke="#d98324"/>
+  <line x1="365" y1="145" x2="365" y2="179" stroke="#d98324"/>
+  <text x="290" y="167" font-size="12" fill="#1f2d3d" text-anchor="middle">21</text>
+  <text x="340" y="167" font-size="12" fill="#1f2d3d" text-anchor="middle">30</text>
+  <text x="390" y="167" font-size="12" fill="#1f2d3d" text-anchor="middle">42</text>
+
+  <rect x="460" y="145" width="150" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <line x1="510" y1="145" x2="510" y2="179" stroke="#2f6fd0"/>
+  <line x1="560" y1="145" x2="560" y2="179" stroke="#2f6fd0"/>
+  <text x="485" y="167" font-size="12" fill="#1f2d3d" text-anchor="middle">51</text>
+  <text x="535" y="167" font-size="12" fill="#1f2d3d" text-anchor="middle">63</text>
+  <text x="585" y="167" font-size="12" fill="#1f2d3d" text-anchor="middle">77</text>
+
+  <line x1="280" y1="89" x2="150" y2="143" stroke="#475569" stroke-width="1.3" marker-end="url(#barrow)"/>
+  <line x1="340" y1="89" x2="340" y2="143" stroke="#d98324" stroke-width="2" marker-end="url(#bred)"/>
+  <line x1="400" y1="89" x2="530" y2="143" stroke="#475569" stroke-width="1.3" marker-end="url(#barrow)"/>
+
+  <!-- leaves -->
+  <text x="20" y="262" font-size="12" fill="#64748b">叶子页</text>
+  <text x="20" y="280" font-size="11" fill="#94a3b8">存全部数据</text>
+
+  <rect x="70" y="240" width="130" height="46" rx="6" fill="#e8f2e4" stroke="#5b8c4a"/>
+  <text x="135" y="258" font-size="11.5" fill="#1f2d3d" text-anchor="middle">1 · 5 · 8</text>
+  <text x="135" y="276" font-size="11" fill="#5b8c4a" text-anchor="middle">行数据</text>
+
+  <rect x="215" y="240" width="130" height="46" rx="6" fill="#e8f2e4" stroke="#5b8c4a"/>
+  <text x="280" y="258" font-size="11.5" fill="#1f2d3d" text-anchor="middle">15 · 18 · 21</text>
+  <text x="280" y="276" font-size="11" fill="#5b8c4a" text-anchor="middle">行数据</text>
+
+  <rect x="360" y="240" width="130" height="46" rx="6" fill="#ffe0c2" stroke="#d98324" stroke-width="2"/>
+  <text x="425" y="258" font-size="11.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">30 · 35 · 42</text>
+  <text x="425" y="276" font-size="11" fill="#d98324" text-anchor="middle">命中 id = 30</text>
+
+  <rect x="505" y="240" width="130" height="46" rx="6" fill="#e8f2e4" stroke="#5b8c4a"/>
+  <text x="570" y="258" font-size="11.5" fill="#1f2d3d" text-anchor="middle">51 · 63 · 77</text>
+  <text x="570" y="276" font-size="11" fill="#5b8c4a" text-anchor="middle">行数据</text>
+
+  <line x1="120" y1="179" x2="130" y2="238" stroke="#475569" stroke-width="1.3" marker-end="url(#barrow)"/>
+  <line x1="200" y1="179" x2="270" y2="238" stroke="#475569" stroke-width="1.3" marker-end="url(#barrow)"/>
+  <line x1="315" y1="179" x2="415" y2="238" stroke="#d98324" stroke-width="2" marker-end="url(#bred)"/>
+  <line x1="560" y1="179" x2="565" y2="238" stroke="#475569" stroke-width="1.3" marker-end="url(#barrow)"/>
+
+  <!-- leaf linked list -->
+  <line x1="200" y1="300" x2="213" y2="300" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#barrow)"/>
+  <line x1="345" y1="300" x2="358" y2="300" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#barrow)"/>
+  <line x1="490" y1="300" x2="503" y2="300" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#barrow)"/>
+  <line x1="135" y1="286" x2="135" y2="300" stroke="#2f6fd0" stroke-width="1.5"/>
+  <line x1="135" y1="300" x2="200" y2="300" stroke="#2f6fd0" stroke-width="1.5"/>
+  <line x1="280" y1="286" x2="280" y2="300" stroke="#2f6fd0" stroke-width="1.5"/>
+  <line x1="280" y1="300" x2="345" y2="300" stroke="#2f6fd0" stroke-width="1.5"/>
+  <line x1="425" y1="286" x2="425" y2="300" stroke="#2f6fd0" stroke-width="1.5"/>
+  <line x1="425" y1="300" x2="490" y2="300" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="240" y="318" font-size="11.5" fill="#2f6fd0">叶子层双向链表 → 范围查询 BETWEEN / ORDER BY 顺序扫描不用回根</text>
+
+  <!-- steps -->
+  <rect x="30" y="340" width="620" height="76" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="45" y="362" font-size="12.5" font-weight="700" fill="#1f2d3d">查找 id = 30 的过程</text>
+  <text x="45" y="382" font-size="12" fill="#1f2d3d">① 读根页 → 30 落在 [21, 51) 区间，取中间页指针</text>
+  <text x="45" y="402" font-size="12" fill="#1f2d3d">② 读中间页 → 30 落在 [30, 42) 区间，取叶子页指针　③ 读叶子页 → 页内二分找到 30，返回整行</text>
+
+  <text x="20" y="443" font-size="11.5" fill="#64748b">要点：非叶节点只存键，一个 16KB 页能放上千个键 → 树高 3 层即可索引约 2000 万行，所以查一行只要 3 次 I/O。</text>
+  <text x="20" y="461" font-size="11.5" fill="#64748b">对比 B 树：B 树的非叶节点也存数据，扇出小、树更高；哈希索引不支持范围与排序。</text>
+</svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">参数化：叠加装饰器 = 笛卡尔积，一行代码放大用例数</text>
+
+  <!-- source -->
+  <rect x="20" y="46" width="300" height="120" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="36" y="68" font-size="12.5" font-weight="700" fill="#1f2d3d">写法</text>
+  <text x="36" y="92" font-size="12" fill="#2f6fd0">@pytest.mark.parametrize("browser", ["chrome", "firefox"])</text>
+  <text x="36" y="112" font-size="12" fill="#d98324">@pytest.mark.parametrize("role", ["admin", "guest"])</text>
+  <text x="36" y="132" font-size="12" fill="#1f2d3d">def test_login(role, browser):</text>
+  <text x="36" y="152" font-size="12" fill="#1f2d3d">    ...</text>
+
+  <!-- sets -->
+  <rect x="344" y="46" width="140" height="56" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="414" y="70" font-size="12.5" font-weight="700" fill="#1e40af" text-anchor="middle">browser</text>
+  <text x="414" y="90" font-size="11.5" fill="#1e40af" text-anchor="middle">chrome / firefox</text>
+
+  <rect x="344" y="110" width="140" height="56" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="414" y="134" font-size="12.5" font-weight="700" fill="#8a4b06" text-anchor="middle">role</text>
+  <text x="414" y="154" font-size="11.5" fill="#8a4b06" text-anchor="middle">admin / guest</text>
+
+  <text x="512" y="112" font-size="26" font-weight="700" fill="#475569">×</text>
+  <text x="540" y="106" font-size="13" fill="#1f2d3d">2 × 2 = 4</text>
+  <text x="540" y="126" font-size="13" fill="#1f2d3d">条独立用例</text>
+
+  <line x1="484" y1="74" x2="506" y2="98" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="484" y1="138" x2="506" y2="122" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- matrix -->
+  <text x="20" y="196" font-size="14" font-weight="700" fill="#0f172a">生成的 nodeid（注意 id 拼接顺序：最靠近函数的装饰器在前）</text>
+
+  <rect x="20" y="210" width="315" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="36" y="235" font-size="12" fill="#166534">test_login[admin-chrome]</text>
+
+  <rect x="345" y="210" width="315" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="361" y="235" font-size="12" fill="#166534">test_login[guest-chrome]</text>
+
+  <rect x="20" y="256" width="315" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="36" y="281" font-size="12" fill="#166534">test_login[admin-firefox]</text>
+
+  <rect x="345" y="256" width="315" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="361" y="281" font-size="12" fill="#166534">test_login[guest-firefox]</text>
+
+  <!-- ids -->
+  <rect x="20" y="312" width="315" height="86" rx="8" fill="#eff6ff" stroke="#2f6fd0" stroke-width="1.2"/>
+  <text x="36" y="334" font-size="12.5" font-weight="700" fill="#1e40af">用 ids 让报告可读</text>
+  <text x="36" y="356" font-size="11.5" fill="#1e40af">ids=["管理员", "游客"] → test_login[管理员]</text>
+  <text x="36" y="376" font-size="11.5" fill="#1e40af">或 ids=lambda v: f"role-{v}" 动态生成</text>
+  <text x="36" y="392" font-size="11.5" fill="#64748b">dict / 对象作参数时默认 id 是 param0/1，必须显式给</text>
+
+  <rect x="345" y="312" width="315" height="86" rx="8" fill="#ffe0c2" stroke="#d98324" stroke-width="1.2"/>
+  <text x="361" y="334" font-size="12.5" font-weight="700" fill="#8a4b06">单条打标记 / 预期失败</text>
+  <text x="361" y="356" font-size="11.5" fill="#8a4b06">pytest.param(0, marks=pytest.mark.xfail)</text>
+  <text x="361" y="376" font-size="11.5" fill="#8a4b06">pytest.param(9, id="边界9", marks=pytest.mark.slow)</text>
+  <text x="361" y="392" font-size="11.5" fill="#8a4b06">只跳这一条，不影响同组其它数据</text>
+
+  <rect x="20" y="410" width="640" height="42" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2"/>
+  <text x="36" y="428" font-size="12.5" fill="#991b1b">组合爆炸：3 个装饰器各 5 个值 = 125 条。多字段组合别硬乘，用正交表或 pytest.param 精选组合</text>
+  <text x="36" y="446" font-size="12.5" fill="#991b1b">参数列表里禁止放「运行时才确定」的值（如 fixture 返回值）——parametrize 在收集阶段就求值了</text>
+</svg>

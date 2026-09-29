@@ -1,0 +1,5 @@
+# CI 流水线依赖。gate.py 只用标准库；notify.py 用 requests；test_demo.py 用 pytest。
+# 安装：pip install -r requirements.txt
+
+requests==2.32.3
+pytest==8.3.4

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ew" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">WebDriverWait 轮询机制：条件成立即返回，超时才失败</text>
+
+  <!-- loop box -->
+  <rect x="24" y="48" width="230" height="42" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="139" y="66" font-size="12.5" font-weight="700" fill="#1b4a91" text-anchor="middle">WebDriverWait(driver, 10, 0.5)</text>
+  <text x="139" y="82" font-size="11" fill="#1b4a91" text-anchor="middle">timeout=10s · poll=0.5s</text>
+
+  <rect x="24" y="106" width="230" height="42" rx="7" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="139" y="124" font-size="12" fill="#1f2d3d" text-anchor="middle">记录 end = now + timeout</text>
+  <text x="139" y="140" font-size="11" fill="#64748b" text-anchor="middle">进入轮询循环</text>
+
+  <rect x="24" y="164" width="230" height="52" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="139" y="184" font-size="12.5" font-weight="700" fill="#8a4b0f" text-anchor="middle">调用条件函数 method(driver)</text>
+  <text x="139" y="202" font-size="11" fill="#8a4b0f" text-anchor="middle">一次 find_element = 一次 HTTP 往返</text>
+
+  <!-- decision -->
+  <rect x="24" y="232" width="230" height="46" rx="7" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="139" y="253" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">返回值为真？</text>
+  <text x="139" y="270" font-size="10.5" fill="#64748b" text-anchor="middle">None / False / 空 视为未成立</text>
+
+  <!-- success -->
+  <rect x="320" y="228" width="150" height="54" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="395" y="250" font-size="12.5" font-weight="700" fill="#2f5d3a" text-anchor="middle">是 → 立即返回</text>
+  <text x="395" y="268" font-size="11" fill="#2f5d3a" text-anchor="middle">返回条件函数的返回值</text>
+
+  <!-- retry -->
+  <rect x="24" y="296" width="230" height="46" rx="7" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="139" y="316" font-size="12" fill="#1f2d3d" text-anchor="middle">否 → sleep(poll) 后重试</text>
+  <text x="139" y="332" font-size="10.5" fill="#64748b" text-anchor="middle">ignored_exceptions 内的异常被吞掉继续轮询</text>
+
+  <!-- timeout -->
+  <rect x="320" y="296" width="150" height="54" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="395" y="318" font-size="12.5" font-weight="700" fill="#9c2b2b" text-anchor="middle">now &gt; end → 超时</text>
+  <text x="395" y="336" font-size="11" fill="#9c2b2b" text-anchor="middle">抛 TimeoutException</text>
+
+  <line x1="139" y1="90" x2="139" y2="104" stroke="#475569" stroke-width="1.5" marker-end="url(#ew)"/>
+  <line x1="139" y1="148" x2="139" y2="162" stroke="#475569" stroke-width="1.5" marker-end="url(#ew)"/>
+  <line x1="139" y1="216" x2="139" y2="230" stroke="#475569" stroke-width="1.5" marker-end="url(#ew)"/>
+  <line x1="254" y1="255" x2="318" y2="255" stroke="#4b8b5a" stroke-width="1.6" marker-end="url(#ew)"/>
+  <line x1="139" y1="278" x2="139" y2="294" stroke="#475569" stroke-width="1.5" marker-end="url(#ew)"/>
+  <line x1="254" y1="319" x2="318" y2="319" stroke="#c94a4a" stroke-width="1.6" marker-end="url(#ew)"/>
+  <path d="M24,319 L12,319 L12,188 L22,188" fill="none" stroke="#475569" stroke-width="1.5" marker-end="url(#ew)"/>
+
+  <!-- right: contrast -->
+  <text x="500" y="66" font-size="13" font-weight="700" fill="#1f2d3d">对比 sleep(10)</text>
+  <rect x="500" y="76" width="156" height="120" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="512" y="98" font-size="11.5" fill="#9c2b2b">元素 1 秒就绪：</text>
+  <text x="512" y="116" font-size="11.5" fill="#9c2b2b">仍白等 9 秒</text>
+  <text x="512" y="140" font-size="11.5" fill="#9c2b2b">元素 12 秒才到：</text>
+  <text x="512" y="158" font-size="11.5" fill="#9c2b2b">直接失败，且报错</text>
+  <text x="512" y="176" font-size="11.5" fill="#9c2b2b">是 NoSuchElement，</text>
+  <text x="512" y="190" font-size="11.5" fill="#9c2b2b">看不出是时序问题</text>
+
+  <rect x="500" y="210" width="156" height="140" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="512" y="232" font-size="11.5" font-weight="700" fill="#2f5d3a">显式等待</text>
+  <text x="512" y="252" font-size="11.5" fill="#2f5d3a">元素 1 秒就绪：</text>
+  <text x="512" y="268" font-size="11.5" fill="#2f5d3a">约 1 秒即返回</text>
+  <text x="512" y="292" font-size="11.5" fill="#2f5d3a">元素 12 秒才到：</text>
+  <text x="512" y="308" font-size="11.5" fill="#2f5d3a">抛 TimeoutException，</text>
+  <text x="512" y="324" font-size="11.5" fill="#2f5d3a">message 里能写清</text>
+  <text x="512" y="340" font-size="11.5" fill="#2f5d3a">等的是什么</text>
+
+  <!-- footer -->
+  <rect x="24" y="372" width="632" height="84" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="394" font-size="12" font-weight="700" fill="#1f2d3d">选对条件比设长超时更重要：</text>
+  <text x="40" y="414" font-size="11.5" fill="#334155">presence_of_element_located（只在 DOM 里）→ 能读属性，但可能不可见、点不到</text>
+  <text x="40" y="432" font-size="11.5" fill="#334155">visibility_of_element_located（可见且尺寸&gt;0）→ 能读文本</text>
+  <text x="40" y="450" font-size="11.5" fill="#334155">element_to_be_clickable（可见 + enabled）→ 才是点击前该等的条件（仍不保证未被遮挡）</text>
+</svg>

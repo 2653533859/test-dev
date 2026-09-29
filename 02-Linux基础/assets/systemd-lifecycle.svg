@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">systemd：unit 生命周期与 target 依赖</text>
+
+  <!-- ① start / reload / stop 三条路径 -->
+  <rect x="16" y="44" width="648" height="200" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="66" font-size="14" font-weight="700" fill="#2f6fd0">① start / reload / stop 三条路径</text>
+
+  <!-- start 路径 -->
+  <rect x="32" y="80" width="116" height="32" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="90" y="100" font-size="11.5" fill="#1b5e20" text-anchor="middle">systemctl start</text>
+  <line x1="148" y1="96" x2="166" y2="96" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="168" y="80" width="116" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="226" y="100" font-size="11.5" fill="#1e3a8a" text-anchor="middle">解析依赖关系</text>
+  <text x="226" y="110" font-size="9.5" fill="#1e3a8a" text-anchor="middle">After / Requires / Wants</text>
+  <line x1="284" y1="96" x2="302" y2="96" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="304" y="80" width="116" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="362" y="100" font-size="11.5" fill="#1e3a8a" text-anchor="middle">fork ExecStart</text>
+  <text x="362" y="110" font-size="9.5" fill="#1e3a8a" text-anchor="middle">绝对路径，不经 shell</text>
+  <line x1="420" y1="96" x2="438" y2="96" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="440" y="80" width="208" height="32" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="544" y="100" font-size="11.5" fill="#1b5e20" text-anchor="middle">active (running) · 纳入 cgroup</text>
+
+  <!-- reload 路径 -->
+  <rect x="32" y="124" width="116" height="32" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="90" y="144" font-size="11.5" fill="#8a4b08" text-anchor="middle">systemctl reload</text>
+  <line x1="148" y1="140" x2="166" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="168" y="124" width="248" height="32" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="292" y="144" font-size="11.5" fill="#8a4b08" text-anchor="middle">发 SIGHUP（ExecReload=）</text>
+  <line x1="416" y1="140" x2="434" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="436" y="124" width="212" height="32" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="542" y="144" font-size="11.5" fill="#1b5e20" text-anchor="middle">重载配置 · 进程不死 · 零中断</text>
+
+  <!-- stop 路径 -->
+  <rect x="32" y="168" width="116" height="32" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="90" y="188" font-size="11.5" fill="#9c2b2b" text-anchor="middle">systemctl stop</text>
+  <line x1="148" y1="184" x2="166" y2="184" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="168" y="168" width="116" height="32" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="226" y="188" font-size="11.5" fill="#9c2b2b" text-anchor="middle">SIGTERM</text>
+  <line x1="284" y1="184" x2="302" y2="184" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="304" y="168" width="116" height="32" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="362" y="188" font-size="11.5" fill="#8a4b08" text-anchor="middle">等 TimeoutStopSec</text>
+  <line x1="420" y1="184" x2="438" y2="184" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="440" y="168" width="208" height="32" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="544" y="188" font-size="11.5" fill="#9c2b2b" text-anchor="middle">SIGKILL · 清整个 cgroup</text>
+
+  <text x="32" y="226" font-size="11.5" fill="#dc2626">高频坑：改了 unit 文件必须先 daemon-reload 再 restart，否则生效的还是旧配置</text>
+
+  <!-- ② target 依赖层级 -->
+  <rect x="16" y="254" width="648" height="118" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="276" font-size="14" font-weight="700" fill="#d98324">② target 层级：enable 时挂到哪个 target 下</text>
+
+  <rect x="32" y="290" width="180" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="122" y="310" font-size="11.5" fill="#1e3a8a" text-anchor="middle">multi-user.target</text>
+  <text x="122" y="320" font-size="9.5" fill="#1e3a8a" text-anchor="middle">命令行多用户</text>
+
+  <rect x="240" y="290" width="180" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="330" y="310" font-size="11.5" fill="#1e3a8a" text-anchor="middle">graphical.target</text>
+  <text x="330" y="320" font-size="9.5" fill="#1e3a8a" text-anchor="middle">图形界面（依赖 multi-user）</text>
+
+  <rect x="448" y="290" width="196" height="32" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="546" y="310" font-size="11.5" fill="#1b5e20" text-anchor="middle">timers.target</text>
+  <text x="546" y="320" font-size="9.5" fill="#1b5e20" text-anchor="middle">所有 .timer 单元</text>
+
+  <line x1="122" y1="322" x2="122" y2="338" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="330" y1="322" x2="330" y2="338" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="32" y="340" width="180" height="26" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="122" y="358" font-size="11" fill="#8a4b08" text-anchor="middle">nginx.service (WantedBy=)</text>
+
+  <rect x="240" y="340" width="180" height="26" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="330" y="358" font-size="11" fill="#8a4b08" text-anchor="middle">mock-server.service</text>
+
+  <text x="448" y="358" font-size="11" fill="#475569">enable = 在 target.wants/ 建符号链接</text>
+
+  <!-- ③ enable vs start -->
+  <rect x="16" y="382" width="648" height="72" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="404" font-size="14" font-weight="700" fill="#1f2d3d">③ enable 与 start 是两件独立的事</text>
+  <text x="32" y="424" font-size="11.5" fill="#475569">start = 现在跑起来（作用于当前运行状态，重启后没了）</text>
+  <text x="32" y="442" font-size="11.5" fill="#475569">enable = 注册开机自启（在 target.wants/ 建符号链接，只影响下次开机）</text>
+  <text x="32" y="458" font-size="11.5" fill="#28a745" font-weight="700">→ 部署时一步到位：systemctl enable --now xxx</text>
+</svg>

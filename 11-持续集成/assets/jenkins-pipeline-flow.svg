@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ajp" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+    <marker id="ajr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">Declarative Pipeline 的 stage 流转与 post 兜底</text>
+
+  <!-- pipeline container -->
+  <rect x="18" y="48" width="644" height="230" rx="10" fill="#ffffff" stroke="#2f6fd0" stroke-width="1.6"/>
+  <text x="34" y="70" font-size="12" font-weight="700" fill="#2f6fd0">pipeline { agent { label 'api' } · options · environment · parameters }</text>
+
+  <!-- stages -->
+  <rect x="34" y="88" width="108" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="88" y="110" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">Checkout</text>
+  <text x="88" y="128" font-size="10" fill="#5b7ea8" text-anchor="middle">拉代码 / 打印分支</text>
+
+  <rect x="162" y="88" width="108" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="216" y="110" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">Build Env</text>
+  <text x="216" y="128" font-size="10" fill="#5b7ea8" text-anchor="middle">venv / pip install</text>
+
+  <rect x="290" y="88" width="108" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="344" y="110" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">Deploy</text>
+  <text x="344" y="128" font-size="10" fill="#5b7ea8" text-anchor="middle">起测试环境容器</text>
+
+  <!-- parallel stage -->
+  <rect x="418" y="80" width="120" height="68" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="478" y="98" font-size="11.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">Test（parallel）</text>
+  <rect x="428" y="106" width="100" height="16" rx="3" fill="#ffffff" stroke="#d98324"/>
+  <text x="478" y="118" font-size="9.5" fill="#1f2d3d" text-anchor="middle">smoke 用例</text>
+  <rect x="428" y="126" width="100" height="16" rx="3" fill="#ffffff" stroke="#d98324"/>
+  <text x="478" y="138" font-size="9.5" fill="#1f2d3d" text-anchor="middle">regression 用例</text>
+
+  <rect x="558" y="88" width="88" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="602" y="110" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">Gate</text>
+  <text x="602" y="128" font-size="10" fill="#5b7ea8" text-anchor="middle">阈值判定</text>
+
+  <line x1="142" y1="114" x2="160" y2="114" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ajp)"/>
+  <line x1="270" y1="114" x2="288" y2="114" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ajp)"/>
+  <line x1="398" y1="114" x2="416" y2="114" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ajp)"/>
+  <line x1="538" y1="114" x2="556" y2="114" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ajp)"/>
+
+  <!-- steps inside stage -->
+  <text x="34" y="176" font-size="11.5" font-weight="700" fill="#64748b">每个 stage 内部：steps { ... } 顺序执行，任一 step 非零退出 → 整个 stage 失败</text>
+  <rect x="34" y="188" width="140" height="28" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="104" y="207" font-size="10.5" fill="#1f2d3d" text-anchor="middle">sh 'pytest ...'</text>
+  <rect x="190" y="188" width="140" height="28" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="260" y="207" font-size="10.5" fill="#1f2d3d" text-anchor="middle">exit code != 0 ?</text>
+  <rect x="346" y="188" width="150" height="28" rx="5" fill="#fecaca" stroke="#dc2626"/>
+  <text x="421" y="207" font-size="10.5" fill="#1f2d3d" text-anchor="middle">stage FAILED · 中断</text>
+  <line x1="174" y1="202" x2="188" y2="202" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#ajp)"/>
+  <line x1="330" y1="202" x2="344" y2="202" stroke="#dc2626" stroke-width="1.5" marker-end="url(#ajr)"/>
+  <text x="512" y="200" font-size="10.5" fill="#64748b">用 catchError 或</text>
+  <text x="512" y="215" font-size="10.5" fill="#64748b">|| true 可放行不中断</text>
+
+  <text x="34" y="248" font-size="11.5" fill="#475569">when { branch 'main' } / when { expression { ... } } 控制某个 stage 跳过还是执行；</text>
+  <text x="34" y="266" font-size="11.5" fill="#475569">input { message '确认发布？' } 插入人工审批，把持续部署降级成持续交付。</text>
+
+  <!-- post -->
+  <rect x="18" y="298" width="644" height="120" rx="10" fill="#ffffff" stroke="#d98324" stroke-width="1.6"/>
+  <text x="34" y="322" font-size="13" font-weight="700" fill="#d98324">post { }：无论成功失败都会跑，收尾全靠它</text>
+
+  <rect x="34" y="336" width="118" height="30" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="93" y="356" font-size="11" fill="#1f2d3d" text-anchor="middle">always</text>
+  <rect x="168" y="336" width="118" height="30" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="227" y="356" font-size="11" fill="#1f2d3d" text-anchor="middle">success</text>
+  <rect x="302" y="336" width="118" height="30" rx="5" fill="#fecaca" stroke="#dc2626"/>
+  <text x="361" y="356" font-size="11" fill="#1f2d3d" text-anchor="middle">failure</text>
+  <rect x="436" y="336" width="100" height="30" rx="5" fill="#fef3c7" stroke="#d98324"/>
+  <text x="486" y="356" font-size="11" fill="#1f2d3d" text-anchor="middle">unstable</text>
+  <rect x="552" y="336" width="94" height="30" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="599" y="356" font-size="11" fill="#1f2d3d" text-anchor="middle">cleanup</text>
+
+  <text x="34" y="390" font-size="11.5" fill="#475569">always：生成 Allure 报告、归档 artifact、docker compose down（清环境必须放这里，否则失败时容器泄漏）</text>
+  <text x="34" y="408" font-size="11.5" fill="#475569">failure：钉钉 / 企业微信 / 邮件通知责任人，附带构建号与报告链接</text>
+
+  <text x="20" y="446" font-size="11.5" fill="#64748b">要点：stage 负责「分段可视化 + 快速定位失败在哪一步」，post 负责「无论如何都要做的收尾」，两者缺一不可。</text>
+</svg>

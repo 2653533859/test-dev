@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#0f172a">从输入 URL 到页面渲染的完整链路（含各环节排查手段）</text>
+
+  <!-- step boxes -->
+  <rect x="30" y="46" width="180" height="40" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="120" y="63" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">1. URL 解析与预处理</text>
+  <text x="120" y="79" font-size="10.5" fill="#475569" text-anchor="middle">补协议、HSTS 强制 HTTPS</text>
+
+  <rect x="250" y="46" width="180" height="40" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="340" y="63" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">2. DNS 解析</text>
+  <text x="340" y="79" font-size="10.5" fill="#475569" text-anchor="middle">缓存 → hosts → 递归查询</text>
+
+  <rect x="470" y="46" width="180" height="40" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="560" y="63" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">3. TCP 三次握手</text>
+  <text x="560" y="79" font-size="10.5" fill="#475569" text-anchor="middle">SYN / SYN+ACK / ACK</text>
+
+  <line x1="212" y1="66" x2="246" y2="66" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="432" y1="66" x2="466" y2="66" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="560" y1="88" x2="560" y2="112" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="470" y="114" width="180" height="40" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="560" y="131" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">4. TLS 握手</text>
+  <text x="560" y="147" font-size="10.5" fill="#475569" text-anchor="middle">验证书、协商会话密钥</text>
+
+  <rect x="250" y="114" width="180" height="40" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="340" y="131" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">5. 发送 HTTP 请求</text>
+  <text x="340" y="147" font-size="10.5" fill="#475569" text-anchor="middle">请求行 + 头 + Cookie</text>
+
+  <rect x="30" y="114" width="180" height="40" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="120" y="131" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">6. 服务端处理</text>
+  <text x="120" y="147" font-size="10.5" fill="#475569" text-anchor="middle">Nginx → 应用 → DB/缓存</text>
+
+  <line x1="466" y1="134" x2="434" y2="134" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="246" y1="134" x2="214" y2="134" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="120" y1="156" x2="120" y2="180" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="182" width="180" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="120" y="199" font-size="12" font-weight="700" fill="#166534" text-anchor="middle">7. 返回 HTTP 响应</text>
+  <text x="120" y="215" font-size="10.5" fill="#475569" text-anchor="middle">状态码 + 响应头 + HTML</text>
+
+  <rect x="250" y="182" width="180" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="340" y="199" font-size="12" font-weight="700" fill="#166534" text-anchor="middle">8. 解析 HTML → DOM</text>
+  <text x="340" y="215" font-size="10.5" fill="#475569" text-anchor="middle">遇到子资源继续发请求</text>
+
+  <rect x="470" y="182" width="180" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="560" y="199" font-size="12" font-weight="700" fill="#166534" text-anchor="middle">9. CSSOM + 渲染树</text>
+  <text x="560" y="215" font-size="10.5" fill="#475569" text-anchor="middle">布局 Layout → 绘制 Paint</text>
+
+  <line x1="212" y1="202" x2="246" y2="202" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="432" y1="202" x2="466" y2="202" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="560" y1="224" x2="560" y2="248" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="440" y="250" width="210" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="545" y="271" font-size="12" fill="#1f2d3d" text-anchor="middle">10. 页面可见 · JS 执行 · 连接复用或关闭</text>
+
+  <!-- troubleshooting table -->
+  <line x1="20" y1="300" x2="660" y2="300" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="20" y="322" font-size="13" font-weight="700" fill="#1e293b">哪一步慢/坏，用什么查</text>
+
+  <rect x="30" y="334" width="200" height="112" rx="8" fill="#eef6ff" stroke="#2f6fd0"/>
+  <text x="45" y="353" font-size="11.5" font-weight="700" fill="#1f2d3d">DNS 环节</text>
+  <text x="45" y="371" font-size="11" fill="#475569">dig +trace / nslookup</text>
+  <text x="45" y="388" font-size="11" fill="#475569">现象：解析慢、解析到旧 IP</text>
+  <text x="45" y="410" font-size="11.5" font-weight="700" fill="#1f2d3d">TCP 环节</text>
+  <text x="45" y="428" font-size="11" fill="#475569">telnet / nc -zv / ss -s</text>
+  <text x="45" y="443" font-size="11" fill="#475569">现象：Connection refused、超时</text>
+
+  <rect x="240" y="334" width="200" height="112" rx="8" fill="#fff4e6" stroke="#d98324"/>
+  <text x="255" y="353" font-size="11.5" font-weight="700" fill="#1f2d3d">TLS 环节</text>
+  <text x="255" y="371" font-size="11" fill="#475569">openssl s_client -connect</text>
+  <text x="255" y="388" font-size="11" fill="#475569">现象：证书过期/域名不匹配</text>
+  <text x="255" y="410" font-size="11.5" font-weight="700" fill="#1f2d3d">HTTP 环节</text>
+  <text x="255" y="428" font-size="11" fill="#475569">curl -v -w 各阶段耗时</text>
+  <text x="255" y="443" font-size="11" fill="#475569">现象：4xx/5xx、响应体不对</text>
+
+  <rect x="450" y="334" width="200" height="112" rx="8" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="465" y="353" font-size="11.5" font-weight="700" fill="#1f2d3d">服务端环节</text>
+  <text x="465" y="371" font-size="11" fill="#475569">Nginx access.log、应用日志</text>
+  <text x="465" y="388" font-size="11" fill="#475569">现象：502/504、慢 SQL</text>
+  <text x="465" y="410" font-size="11.5" font-weight="700" fill="#1f2d3d">渲染环节</text>
+  <text x="465" y="428" font-size="11" fill="#475569">DevTools Performance / 瀑布图</text>
+  <text x="465" y="443" font-size="11" fill="#475569">现象：接口快但白屏</text>
+</svg>

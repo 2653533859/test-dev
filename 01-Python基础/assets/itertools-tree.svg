@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 330" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar20" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="330" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">itertools 组合生成器：笛卡尔积 / 排列 / 组合</text>
+
+  <!-- product -->
+  <text x="30" y="62" font-size="12.5" font-weight="700" fill="#2563eb">product("AB", repeat=2) → 3²=9</text>
+  <g font-size="10.5" fill="#334155">
+    <rect x="30" y="74" width="84" height="26" rx="5" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="72" y="91" text-anchor="middle">AA AB AC</text>
+    <rect x="124" y="74" width="84" height="26" rx="5" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="166" y="91" text-anchor="middle">BA BB BC</text>
+    <rect x="218" y="74" width="84" height="26" rx="5" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="260" y="91" text-anchor="middle">CA CB CC</text>
+  </g>
+
+  <!-- permutations -->
+  <text x="30" y="142" font-size="12.5" font-weight="700" fill="#7c3aed">permutations("ABC",2) → 3·2=6（看顺序）</text>
+  <g font-size="10.5" fill="#334155">
+    <rect x="30" y="154" width="120" height="26" rx="5" fill="#ede9fe" stroke="#7c3aed"/>
+    <text x="90" y="171" text-anchor="middle">AB AC BA BC CA CB</text>
+  </g>
+
+  <!-- combinations -->
+  <text x="30" y="222" font-size="12.5" font-weight="700" fill="#16a34a">combinations("ABC",2) → 3（不看顺序）</text>
+  <g font-size="10.5" fill="#334155">
+    <rect x="30" y="234" width="100" height="26" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="80" y="251" text-anchor="middle">AB AC BC</text>
+  </g>
+
+  <!-- comb with replacement -->
+  <text x="30" y="294" font-size="12.5" font-weight="700" fill="#d97706">combinations_with_replacement → 6（允许同元素）</text>
+  <g font-size="10.5" fill="#334155">
+    <rect x="30" y="300" width="120" height="22" rx="5" fill="#fef3c7" stroke="#d97706"/>
+    <text x="90" y="315" text-anchor="middle">AA AB AC BB BC CC</text>
+  </g>
+
+  <text x="380" y="80" font-size="11" fill="#64748b" text-anchor="middle">均为惰性迭代器</text>
+  <text x="380" y="98" font-size="11" fill="#64748b" text-anchor="middle">边产边消费</text>
+  <text x="380" y="116" font-size="11" fill="#b91c1c" text-anchor="middle">勿 list() 展开</text>
+  <text x="380" y="134" font-size="11" fill="#b91c1c" text-anchor="middle">海量组合会爆内存</text>
+
+  <text x="380" y="160" font-size="11" fill="#64748b" text-anchor="middle">规模参考</text>
+  <text x="380" y="178" font-size="11" fill="#334155" text-anchor="middle">product: n^r</text>
+  <text x="380" y="196" font-size="11" fill="#334155" text-anchor="middle">perm: n!/(n-r)!</text>
+
+  <text x="380" y="240" font-size="11" fill="#64748b" text-anchor="middle">groupby 注意</text>
+  <text x="380" y="258" font-size="11" fill="#334155" text-anchor="middle">先按 key 排序！</text>
+  <text x="380" y="276" font-size="11" fill="#334155" text-anchor="middle">否则相同 key 被拆散</text>
+</svg>

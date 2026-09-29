@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="-apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <text x="24" y="34" font-size="17" font-weight="700" fill="#1f2d3d">文件上传 / 下载接口流转</text>
+  <text x="24" y="56" font-size="12" fill="#5b6b7c">multipart 上传、stream 下载、落盘校验三段式</text>
+
+  <!-- 上传链 -->
+  <rect x="24" y="90" width="300" height="200" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="44" y="116" font-size="14" font-weight="700" fill="#1f2d3d">上传（multipart/form-data）</text>
+
+  <rect x="44" y="138" width="260" height="38" rx="6" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="58" y="162" font-size="12" fill="#1f2d3d">① requests.post(files=(name, fp))</text>
+
+  <rect x="44" y="184" width="260" height="38" rx="6" fill="#ffe9d6" stroke="#d98324"/>
+  <text x="58" y="208" font-size="12" fill="#1f2d3d">② boundary 分割多个 part</text>
+
+  <rect x="44" y="230" width="260" height="38" rx="6" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="58" y="254" font-size="12" fill="#1f2d3d">③ 服务端存盘返回 file_id</text>
+
+  <line x1="324" y1="207" x2="360" y2="207" stroke="#9fb3c8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 下载链 -->
+  <rect x="360" y="90" width="296" height="200" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="380" y="116" font-size="14" font-weight="700" fill="#1f2d3d">下载（stream=True）</text>
+
+  <rect x="380" y="138" width="256" height="38" rx="6" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="394" y="162" font-size="12" fill="#1f2d3d">④ r = requests.get(url, stream=True)</text>
+
+  <rect x="380" y="184" width="256" height="38" rx="6" fill="#ffe9d6" stroke="#d98324"/>
+  <text x="394" y="208" font-size="12" fill="#1f2d3d">⑤ 按 1KB 块迭代写入本地</text>
+
+  <rect x="380" y="230" width="256" height="38" rx="6" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="394" y="254" font-size="12" fill="#1f2d3d">⑥ md5 比对 + 断言文件大小</text>
+
+  <!-- 断言链 -->
+  <rect x="24" y="312" width="632" height="90" rx="8" fill="#eef2f7" stroke="#9fb3c8"/>
+  <text x="44" y="338" font-size="13" font-weight="700" fill="#1f2d3d">断言落点</text>
+  <text x="44" y="362" font-size="12" fill="#5b6b7c">⑦ os.path.exists(path) and os.path.getsize(path) == Content-Length</text>
+  <text x="44" y="386" font-size="12" fill="#5b6b7c">⑧ file_id 能再查到 / 能作为下游接口入参</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+  </defs>
+</svg>

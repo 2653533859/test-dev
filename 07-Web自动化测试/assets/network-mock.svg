@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <defs>
+    <marker id="ar4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+    <marker id="arO4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#d98324"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="30" font-size="17" font-weight="bold" fill="#1f2d3d">Playwright 网络拦截（route）流程</text>
+
+  <!-- 用例 -->
+  <rect x="40" y="70" width="150" height="50" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="115" y="98" font-size="13" text-anchor="middle" fill="#1f2d3d">测试代码</text>
+
+  <!-- page.route 注册 -->
+  <rect x="40" y="160" width="170" height="50" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="125" y="188" font-size="13" text-anchor="middle" fill="#1f2d3d">page.route(URL, handler)</text>
+
+  <!-- 页面发起请求 -->
+  <rect x="270" y="160" width="160" height="50" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="350" y="182" font-size="12" text-anchor="middle" fill="#1f2d3d">页面发起请求</text>
+  <text x="350" y="200" font-size="11" text-anchor="middle" fill="#5b6b7b">/api/price</text>
+
+  <!-- handler 决策 -->
+  <rect x="270" y="250" width="160" height="60" rx="28" fill="#ffffff" stroke="#1f2d3d"/>
+  <text x="350" y="276" font-size="12" text-anchor="middle" fill="#1f2d3d">handler 决策</text>
+  <text x="350" y="294" font-size="11" text-anchor="middle" fill="#5b6b7b">匹配规则?</text>
+
+  <!-- fulfill mock -->
+  <rect x="40" y="350" width="170" height="50" rx="8" fill="#c8f0d0" stroke="#2f9e44"/>
+  <text x="125" y="372" font-size="12" text-anchor="middle" fill="#1f2d3d">route.fulfill()</text>
+  <text x="125" y="390" font-size="11" text-anchor="middle" fill="#5b6b7b">返回 Mock 数据</text>
+
+  <!-- continue 真实 -->
+  <rect x="290" y="350" width="170" height="50" rx="8" fill="#ffffff" stroke="#1f2d3d"/>
+  <text x="375" y="372" font-size="12" text-anchor="middle" fill="#1f2d3d">route.continue_()</text>
+  <text x="375" y="390" font-size="11" text-anchor="middle" fill="#5b6b7b">走真实网络</text>
+
+  <!-- abort -->
+  <rect x="540" y="350" width="150" height="50" rx="8" fill="#ffd6d6" stroke="#c0392b"/>
+  <text x="615" y="372" font-size="12" text-anchor="middle" fill="#1f2d3d">route.abort()</text>
+  <text x="615" y="390" font-size="11" text-anchor="middle" fill="#5b6b7b">模拟断网/4xx</text>
+
+  <!-- 真实后端 -->
+  <rect x="540" y="160" width="120" height="50" rx="8" fill="#e7eaf0" stroke="#5b6b7b"/>
+  <text x="600" y="188" font-size="12" text-anchor="middle" fill="#1f2d3d">真实后端</text>
+
+  <!-- edges -->
+  <line x1="115" y1="120" x2="125" y2="158" stroke="#d98324" stroke-width="2" marker-end="url(#arO4)"/>
+  <line x1="210" y1="185" x2="268" y2="185" stroke="#2f6fd0" stroke-width="2" marker-end="url(#ar4)"/>
+  <line x1="350" y1="210" x2="350" y2="248" stroke="#2f6fd0" stroke-width="2" marker-end="url(#ar4)"/>
+  <line x1="280" y1="280" x2="212" y2="348" stroke="#2f9e44" stroke-width="2" marker-end="url(#ar4)"/>
+  <line x1="350" y1="310" x2="375" y2="348" stroke="#1f2d3d" stroke-width="2" marker-end="url(#ar4)"/>
+  <line x1="430" y1="280" x2="540" y2="345" stroke="#c0392b" stroke-width="2" marker-end="url(#ar4)"/>
+  <line x1="540" y1="185" x2="455" y2="280" stroke="#5b6b7b" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#ar4)"/>
+  <text x="455" y="240" font-size="10" fill="#5b6b7b">continue 时请求</text>
+
+  <text x="150" y="335" font-size="11" fill="#2f9e44">命中 Mock</text>
+  <text x="320" y="335" font-size="11" fill="#5b6b7b">未拦截</text>
+  <text x="478" y="335" font-size="11" fill="#c0392b">模拟异常</text>
+</svg>

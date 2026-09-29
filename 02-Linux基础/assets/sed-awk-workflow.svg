@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">sed vs awk：两种工作模型对比</text>
+
+  <!-- sed 工作流 -->
+  <rect x="16" y="44" width="318" height="316" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="66" font-size="14" font-weight="700" fill="#2f6fd0">sed：流编辑器（行文本替换）</text>
+  <text x="32" y="84" font-size="11" fill="#64748b">面向「改文本」，没有变量/数组概念</text>
+
+  <rect x="32" y="96" width="124" height="32" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="94" y="116" font-size="11.5" fill="#334155" text-anchor="middle">读一行到模式空间</text>
+  <line x1="156" y1="112" x2="174" y2="112" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="176" y="96" width="142" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="247" y="116" font-size="11.5" fill="#1e3a8a" text-anchor="middle">执行脚本命令 s/d/p</text>
+  <line x1="247" y1="128" x2="247" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="176" y="142" width="142" height="32" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="247" y="162" font-size="11.5" fill="#8a4b08" text-anchor="middle">默认打印模式空间</text>
+  <line x1="247" y1="174" x2="247" y2="186" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="176" y="188" width="142" height="32" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="247" y="208" font-size="11.5" fill="#334155" text-anchor="middle">清空，读下一行</text>
+  <line x1="176" y1="204" x2="156" y2="112" stroke="#475569" stroke-width="1" stroke-dasharray="3 3"/>
+
+  <text x="32" y="244" font-size="12" font-weight="700" fill="#1f2d3d">保持空间（hold space）</text>
+  <text x="32" y="262" font-size="11" fill="#475569">额外的暂存区，用 h/H/x/g/G</text>
+  <text x="32" y="278" font-size="11" fill="#475569">在模式空间与保持空间之间</text>
+  <text x="32" y="294" font-size="11" fill="#475569">交换数据，实现跨行操作</text>
+
+  <rect x="32" y="306" width="286" height="42" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="40" y="324" font-size="11" fill="#9c2b2b">-n 配 p 才只打印指定行</text>
+  <text x="40" y="340" font-size="11" fill="#9c2b2b">不加 -n 每行都会被默认打印一次</text>
+
+  <!-- awk 工作流 -->
+  <rect x="346" y="44" width="318" height="316" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="362" y="66" font-size="14" font-weight="700" fill="#d98324">awk：一门小语言（列处理与统计）</text>
+  <text x="362" y="84" font-size="11" fill="#64748b">面向「算数据」，有变量/数组/控制流</text>
+
+  <rect x="362" y="96" width="124" height="32" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="424" y="116" font-size="11.5" fill="#1b5e20" text-anchor="middle">BEGIN { 初始化 }</text>
+  <text x="424" y="127" font-size="10" fill="#1b5e20" text-anchor="middle">读第一行前执行一次</text>
+  <line x1="486" y1="112" x2="504" y2="112" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="506" y="96" width="142" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="577" y="116" font-size="11.5" fill="#1e3a8a" text-anchor="middle">设 FS / OFS / 变量</text>
+
+  <line x1="577" y1="128" x2="577" y2="142" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="506" y="144" width="142" height="44" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="577" y="162" font-size="11.5" fill="#8a4b08" text-anchor="middle">pattern { action }</text>
+  <text x="577" y="178" font-size="10.5" fill="#8a4b08" text-anchor="middle">逐行：$1 $NF NF NR</text>
+
+  <line x1="577" y1="188" x2="577" y2="200" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="506" y="202" width="142" height="32" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="577" y="222" font-size="11.5" fill="#334155" text-anchor="middle">读下一行，重复</text>
+
+  <line x1="577" y1="234" x2="577" y2="246" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="506" y="248" width="142" height="32" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="577" y="268" font-size="11.5" fill="#1b5e20" text-anchor="middle">END { 汇总输出 }</text>
+  <text x="577" y="279" font-size="10" fill="#1b5e20" text-anchor="middle">所有行处理完执行</text>
+
+  <text x="362" y="304" font-size="12" font-weight="700" fill="#1f2d3d">关联数组 = 分组统计天然结构</text>
+  <text x="362" y="322" font-size="11" fill="#475569">count[$1]++  →  END {for(k in count) print k, count[k]}</text>
+  <text x="362" y="340" font-size="11" fill="#475569">BEGIN 初始化 → 主体累加 → END 输出</text>
+
+  <!-- 底部对比 -->
+  <rect x="16" y="370" width="648" height="84" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="392" font-size="14" font-weight="700" fill="#1f2d3d">分工口诀：要改文本用 sed，要算数据用 awk</text>
+
+  <rect x="32" y="404" width="312" height="40" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="44" y="422" font-size="11.5" fill="#1e3a8a">sed 擅长：s 替换、d 删除、行区间截取</text>
+  <text x="44" y="438" font-size="11.5" fill="#1e3a8a">地址范围 + 命令，-i.bak 改文件</text>
+
+  <rect x="352" y="404" width="296" height="40" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="364" y="422" font-size="11.5" fill="#8a4b08">awk 擅长：$N 取列、数值比较、分组求和</text>
+  <text x="364" y="438" font-size="11.5" fill="#8a4b08">关联数组 + END 汇总，一行顶一个脚本</text>
+</svg>

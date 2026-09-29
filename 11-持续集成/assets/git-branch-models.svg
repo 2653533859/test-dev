@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="abm" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">两种分支模型：Git Flow vs trunk-based</text>
+
+  <!-- Git Flow -->
+  <text x="20" y="60" font-size="13.5" font-weight="700" fill="#2f6fd0">① Git Flow（长命分支，发布周期长的产品）</text>
+
+  <text x="24" y="90"  font-size="11.5" fill="#64748b">main</text>
+  <text x="24" y="126" font-size="11.5" fill="#64748b">release</text>
+  <text x="24" y="162" font-size="11.5" fill="#64748b">develop</text>
+  <text x="24" y="198" font-size="11.5" fill="#64748b">feature</text>
+
+  <line x1="80" y1="86"  x2="650" y2="86"  stroke="#1f2d3d" stroke-width="2"/>
+  <line x1="330" y1="122" x2="560" y2="122" stroke="#d98324" stroke-width="2"/>
+  <line x1="80" y1="158" x2="650" y2="158" stroke="#2f6fd0" stroke-width="2"/>
+  <line x1="140" y1="194" x2="300" y2="194" stroke="#94a3b8" stroke-width="2"/>
+
+  <circle cx="80"  cy="86"  r="5.5" fill="#1f2d3d"/>
+  <circle cx="560" cy="86"  r="5.5" fill="#1f2d3d"/>
+  <circle cx="650" cy="86"  r="5.5" fill="#1f2d3d"/>
+  <circle cx="330" cy="122" r="5.5" fill="#d98324"/>
+  <circle cx="560" cy="122" r="5.5" fill="#d98324"/>
+  <circle cx="140" cy="158" r="5.5" fill="#2f6fd0"/>
+  <circle cx="300" cy="158" r="5.5" fill="#2f6fd0"/>
+  <circle cx="330" cy="158" r="5.5" fill="#2f6fd0"/>
+  <circle cx="600" cy="158" r="5.5" fill="#2f6fd0"/>
+  <circle cx="140" cy="194" r="5.5" fill="#94a3b8"/>
+  <circle cx="300" cy="194" r="5.5" fill="#94a3b8"/>
+
+  <line x1="140" y1="158" x2="140" y2="192" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#abm)"/>
+  <line x1="300" y1="194" x2="300" y2="160" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#abm)"/>
+  <line x1="330" y1="158" x2="330" y2="124" stroke="#d98324" stroke-width="1.5" marker-end="url(#abm)"/>
+  <line x1="560" y1="122" x2="560" y2="88"  stroke="#d98324" stroke-width="1.5" marker-end="url(#abm)"/>
+  <line x1="600" y1="122" x2="600" y2="156" stroke="#d98324" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#abm)"/>
+
+  <text x="152" y="212" font-size="10.5" fill="#64748b">开分支</text>
+  <text x="258" y="212" font-size="10.5" fill="#64748b">合回 develop</text>
+  <text x="338" y="140" font-size="10.5" fill="#b5762c">拉发布分支·只修 bug</text>
+  <text x="500" y="106" font-size="10.5" fill="#b5762c">打 tag 上线</text>
+  <text x="606" y="146" font-size="10.5" fill="#b5762c">回合</text>
+
+  <!-- trunk based -->
+  <text x="20" y="262" font-size="13.5" font-weight="700" fill="#d98324">② Trunk-based（短命分支 &lt; 1 天，天然适配 CI）</text>
+
+  <text x="24" y="306" font-size="11.5" fill="#64748b">main</text>
+  <text x="24" y="352" font-size="11.5" fill="#64748b">短分支</text>
+
+  <line x1="80" y1="302" x2="650" y2="302" stroke="#1f2d3d" stroke-width="2.5"/>
+  <circle cx="80"  cy="302" r="5.5" fill="#1f2d3d"/>
+  <circle cx="220" cy="302" r="5.5" fill="#1f2d3d"/>
+  <circle cx="360" cy="302" r="5.5" fill="#1f2d3d"/>
+  <circle cx="500" cy="302" r="5.5" fill="#1f2d3d"/>
+  <circle cx="620" cy="302" r="5.5" fill="#1f2d3d"/>
+
+  <path d="M140 302 Q170 348 200 348 Q210 348 220 304" fill="none" stroke="#2f6fd0" stroke-width="2"/>
+  <path d="M280 302 Q310 348 340 348 Q350 348 360 304" fill="none" stroke="#2f6fd0" stroke-width="2"/>
+  <path d="M420 302 Q450 348 480 348 Q490 348 500 304" fill="none" stroke="#2f6fd0" stroke-width="2"/>
+  <circle cx="200" cy="348" r="5" fill="#2f6fd0"/>
+  <circle cx="340" cy="348" r="5" fill="#2f6fd0"/>
+  <circle cx="480" cy="348" r="5" fill="#2f6fd0"/>
+  <text x="200" y="372" font-size="10.5" fill="#2f6fd0" text-anchor="middle">PR + CI</text>
+  <text x="340" y="372" font-size="10.5" fill="#2f6fd0" text-anchor="middle">PR + CI</text>
+  <text x="480" y="372" font-size="10.5" fill="#2f6fd0" text-anchor="middle">PR + CI</text>
+  <text x="620" y="286" font-size="10.5" fill="#1f2d3d" text-anchor="middle">随时可发</text>
+
+  <!-- compare box -->
+  <rect x="18" y="392" width="644" height="60" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="34" y="414" font-size="11.5" fill="#475569">Git Flow：分支活得久 → 合并冲突大、CI 反馈晚；适合有版本号、需要维护多版本的客户端 / 私有化交付。</text>
+  <text x="34" y="436" font-size="11.5" fill="#475569">Trunk-based：分支活得短 → 每天合主干、CI 每次都跑全量；适合 SaaS 持续发布，靠特性开关（feature flag）藏未完成功能。</text>
+</svg>

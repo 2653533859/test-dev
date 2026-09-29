@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">权限位的组成与内核的鉴权顺序</text>
+
+  <!-- 权限串拆解 -->
+  <rect x="16" y="48" width="648" height="150" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="72" font-size="14" font-weight="700" fill="#2f6fd0">① ls -l 的权限串怎么读：1 位类型 + 3 组 rwx</text>
+
+  <rect x="40" y="86" width="46" height="38" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="63" y="112" font-size="17" font-weight="700" fill="#334155" text-anchor="middle">-</text>
+  <rect x="96" y="86" width="96" height="38" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="144" y="112" font-size="17" font-weight="700" fill="#1e3a8a" text-anchor="middle">rwx</text>
+  <rect x="202" y="86" width="96" height="38" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="250" y="112" font-size="17" font-weight="700" fill="#8a4b08" text-anchor="middle">r-x</text>
+  <rect x="308" y="86" width="96" height="38" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="356" y="112" font-size="17" font-weight="700" fill="#334155" text-anchor="middle">r--</text>
+
+  <text x="63" y="142" font-size="12" fill="#475569" text-anchor="middle">类型</text>
+  <text x="144" y="142" font-size="12" fill="#475569" text-anchor="middle">属主 u</text>
+  <text x="250" y="142" font-size="12" fill="#475569" text-anchor="middle">属组 g</text>
+  <text x="356" y="142" font-size="12" fill="#475569" text-anchor="middle">其他 o</text>
+
+  <text x="144" y="166" font-size="16" font-weight="700" fill="#2f6fd0" text-anchor="middle">7</text>
+  <text x="250" y="166" font-size="16" font-weight="700" fill="#d98324" text-anchor="middle">5</text>
+  <text x="356" y="166" font-size="16" font-weight="700" fill="#334155" text-anchor="middle">4</text>
+
+  <text x="432" y="100" font-size="12.5" fill="#1f2d3d">位权：r = 4，w = 2，x = 1</text>
+  <text x="432" y="122" font-size="12.5" fill="#1f2d3d">rwx = 4+2+1 = 7　r-x = 4+1 = 5</text>
+  <text x="432" y="144" font-size="12.5" fill="#1f2d3d">r-- = 4　　所以是 chmod 754</text>
+  <text x="432" y="166" font-size="12.5" fill="#64748b">d 目录　l 软链接　- 普通文件</text>
+
+  <!-- 鉴权顺序 -->
+  <rect x="16" y="212" width="648" height="146" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="236" font-size="14" font-weight="700" fill="#d98324">② 内核鉴权：三组只命中一组，命中即停（不会叠加）</text>
+
+  <rect x="34" y="252" width="126" height="46" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="97" y="272" font-size="12.5" fill="#334155" text-anchor="middle">进程访问文件</text>
+  <text x="97" y="290" font-size="12" fill="#64748b" text-anchor="middle">带 uid / gid</text>
+
+  <line x1="162" y1="275" x2="192" y2="275" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="196" y="252" width="134" height="46" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="263" y="272" font-size="12.5" fill="#1e3a8a" text-anchor="middle">uid == 文件属主？</text>
+  <text x="263" y="290" font-size="12" fill="#1e3a8a" text-anchor="middle">是 → 只看 u 位</text>
+
+  <line x1="332" y1="275" x2="362" y2="275" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="347" y="266" font-size="11" fill="#64748b" text-anchor="middle">否</text>
+
+  <rect x="366" y="252" width="134" height="46" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="433" y="272" font-size="12.5" fill="#8a4b08" text-anchor="middle">gid 属于属组？</text>
+  <text x="433" y="290" font-size="12" fill="#8a4b08" text-anchor="middle">是 → 只看 g 位</text>
+
+  <line x1="502" y1="275" x2="532" y2="275" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="517" y="266" font-size="11" fill="#64748b" text-anchor="middle">否</text>
+
+  <rect x="536" y="252" width="112" height="46" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="592" y="272" font-size="12.5" fill="#334155" text-anchor="middle">看 o 位</text>
+  <text x="592" y="290" font-size="12" fill="#334155" text-anchor="middle">兜底</text>
+
+  <text x="34" y="330" font-size="12" fill="#dc2626">反直觉：文件 704（u=rwx, g=---, o=rwx）时，属组成员反而读不了——命中 g 位就不再退回 o 位。</text>
+  <text x="34" y="348" font-size="12" fill="#475569">root 例外：拥有 CAP_DAC_OVERRIDE，绕过读写检查（但对文件仍需至少一个 x 位才能执行）。</text>
+
+  <!-- 目录语义 -->
+  <rect x="16" y="372" width="648" height="76" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="396" font-size="14" font-weight="700" fill="#2f6fd0">③ 目录上的 rwx 语义完全不同</text>
+  <text x="34" y="418" font-size="12.5" fill="#1f2d3d">r = 能列出里面有哪些名字（ls）　x = 能进入并访问里面的条目（cd、读文件）</text>
+  <text x="34" y="438" font-size="12.5" fill="#1f2d3d">w = 能在目录里新建/删除/改名文件（必须同时有 x 才生效）→ 删文件看的是目录权限，不是文件权限</text>
+</svg>

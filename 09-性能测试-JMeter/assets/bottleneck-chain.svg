@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arw7" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">性能瓶颈定位顺序：从压力机往被测系统里层层剥</text>
+  <text x="20" y="50" font-size="12" fill="#64748b">先自证清白（压力机 / 网络），再进应用，最后到数据库；每层都有一个「一票否决」的判据</text>
+
+  <!-- layer 1 -->
+  <rect x="24" y="68" width="180" height="62" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="114" y="90" font-size="13" font-weight="700" fill="#96560f" text-anchor="middle">① 压力机</text>
+  <text x="114" y="109" font-size="11.5" fill="#1f2d3d" text-anchor="middle">CPU &gt; 80%？端口耗尽？</text>
+  <text x="114" y="124" font-size="11.5" fill="#1f2d3d" text-anchor="middle">JMeter Full GC？</text>
+
+  <line x1="204" y1="99" x2="234" y2="99" stroke="#475569" stroke-width="1.5" marker-end="url(#arw7)"/>
+
+  <rect x="236" y="68" width="180" height="62" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="326" y="90" font-size="13" font-weight="700" fill="#96560f" text-anchor="middle">② 网络</text>
+  <text x="326" y="109" font-size="11.5" fill="#1f2d3d" text-anchor="middle">带宽打满？丢包重传？</text>
+  <text x="326" y="124" font-size="11.5" fill="#1f2d3d" text-anchor="middle">跨机房 RTT 抬高？</text>
+
+  <line x1="416" y1="99" x2="446" y2="99" stroke="#475569" stroke-width="1.5" marker-end="url(#arw7)"/>
+
+  <rect x="448" y="68" width="208" height="62" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="552" y="90" font-size="13" font-weight="700" fill="#1b4f9c" text-anchor="middle">③ 网关 / 中间件</text>
+  <text x="552" y="109" font-size="11.5" fill="#1f2d3d" text-anchor="middle">Nginx worker / 限流阈值</text>
+  <text x="552" y="124" font-size="11.5" fill="#1f2d3d" text-anchor="middle">MQ 堆积、缓存命中率</text>
+
+  <path d="M552,130 L552,150 L114,150 L114,168" fill="none" stroke="#475569" stroke-width="1.5" marker-end="url(#arw7)"/>
+
+  <rect x="24" y="170" width="180" height="62" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="114" y="192" font-size="13" font-weight="700" fill="#1b4f9c" text-anchor="middle">④ 应用服务</text>
+  <text x="114" y="211" font-size="11.5" fill="#1f2d3d" text-anchor="middle">线程池 / 连接池打满？</text>
+  <text x="114" y="226" font-size="11.5" fill="#1f2d3d" text-anchor="middle">锁竞争、同步阻塞</text>
+
+  <line x1="204" y1="201" x2="234" y2="201" stroke="#475569" stroke-width="1.5" marker-end="url(#arw7)"/>
+
+  <rect x="236" y="170" width="180" height="62" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="326" y="192" font-size="13" font-weight="700" fill="#1b4f9c" text-anchor="middle">⑤ JVM</text>
+  <text x="326" y="211" font-size="11.5" fill="#1f2d3d" text-anchor="middle">Full GC 频繁 / 停顿长</text>
+  <text x="326" y="226" font-size="11.5" fill="#1f2d3d" text-anchor="middle">老年代持续涨 → 泄漏</text>
+
+  <line x1="416" y1="201" x2="446" y2="201" stroke="#475569" stroke-width="1.5" marker-end="url(#arw7)"/>
+
+  <rect x="448" y="170" width="208" height="62" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="552" y="192" font-size="13" font-weight="700" fill="#96560f" text-anchor="middle">⑥ 数据库</text>
+  <text x="552" y="211" font-size="11.5" fill="#1f2d3d" text-anchor="middle">慢 SQL / 缺索引 / 锁等待</text>
+  <text x="552" y="226" font-size="11.5" fill="#1f2d3d" text-anchor="middle">连接数上限、主从延迟</text>
+
+  <!-- judgement table -->
+  <rect x="24" y="252" width="632" height="128" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="274" font-size="13" font-weight="700" fill="#1f2d3d">每层的「一票否决」判据</text>
+  <text x="40" y="296" font-size="11.5" fill="#334155">① 压力机：<tspan font-family="ui-monospace, Consolas, monospace">top</tspan> 看 CPU、<tspan font-family="ui-monospace, Consolas, monospace">ss -s</tspan> 看 TIME_WAIT。压力机 CPU 打满 → 本轮数据全部作废，先加机器。</text>
+  <text x="40" y="316" font-size="11.5" fill="#334155">② 网络：<tspan font-family="ui-monospace, Consolas, monospace">sar -n DEV 1</tspan> 看带宽。带宽跑满 → 响应时间涨与服务端无关。</text>
+  <text x="40" y="336" font-size="11.5" fill="#334155">③④ 应用层：服务端埋点耗时 ≪ 客户端耗时 → 瓶颈在排队（线程池/连接池），不是业务逻辑慢。</text>
+  <text x="40" y="356" font-size="11.5" fill="#334155">⑤ JVM：<tspan font-family="ui-monospace, Consolas, monospace">jstat -gcutil</tspan> 看 FGC 次数。压测中 FGC 持续增长 → 先解 GC 再谈其他。</text>
+  <text x="40" y="374" font-size="11.5" fill="#334155">⑥ 数据库：慢查询日志 + <tspan font-family="ui-monospace, Consolas, monospace">EXPLAIN</tspan>。DB CPU 打满而应用 CPU 很闲 → 瓶颈锁定在 DB。</text>
+
+  <!-- golden rule -->
+  <rect x="24" y="392" width="632" height="62" rx="8" fill="#eaf3ff" stroke="#2f6fd0"/>
+  <text x="40" y="414" font-size="12.5" font-weight="700" fill="#1b4f9c">黄金法则</text>
+  <text x="40" y="434" font-size="11.5" fill="#334155">同一时刻只有一个瓶颈。找到它、解掉它、重新压一轮，瓶颈会转移到下一层——性能调优是循环，不是一次性动作。</text>
+  <text x="40" y="450" font-size="11.5" fill="#334155">每轮只改一个变量，否则无法归因是哪项优化生效。</text>
+</svg>

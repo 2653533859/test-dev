@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#0f172a">Cookie-Session（服务端有状态）vs Token/JWT（服务端无状态）</text>
+
+  <!-- session -->
+  <text x="20" y="58" font-size="13" font-weight="700" fill="#2f6fd0">方案一：Cookie + Session</text>
+  <rect x="30" y="70" width="110" height="30" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="85" y="90" font-size="11.5" fill="#1f2d3d" text-anchor="middle">浏览器</text>
+  <rect x="290" y="70" width="110" height="30" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="345" y="90" font-size="11.5" fill="#1f2d3d" text-anchor="middle">服务端</text>
+  <rect x="540" y="70" width="110" height="30" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="595" y="90" font-size="11.5" fill="#1f2d3d" text-anchor="middle">Redis / 内存</text>
+
+  <line x1="142" y1="120" x2="286" y2="120" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="214" y="114" font-size="11" fill="#1f2d3d" text-anchor="middle">① 用户名密码</text>
+  <line x1="402" y1="120" x2="536" y2="120" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="469" y="114" font-size="11" fill="#1f2d3d" text-anchor="middle">② 存 session 数据</text>
+
+  <line x1="286" y1="148" x2="142" y2="148" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="214" y="142" font-size="11" fill="#1f2d3d" text-anchor="middle">③ Set-Cookie: SESSIONID=abc</text>
+
+  <line x1="142" y1="176" x2="286" y2="176" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="214" y="170" font-size="11" fill="#1f2d3d" text-anchor="middle">④ Cookie: SESSIONID=abc</text>
+  <line x1="402" y1="176" x2="536" y2="176" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="469" y="170" font-size="11" fill="#1f2d3d" text-anchor="middle">⑤ 查库还原身份</text>
+  <text x="30" y="200" font-size="11" fill="#64748b">SESSIONID 本身只是随机串，没有含义；用户信息全在服务端。可随时删 key 强制下线，但多实例必须共享存储。</text>
+
+  <line x1="20" y1="216" x2="660" y2="216" stroke="#cbd5e1" stroke-width="1"/>
+
+  <!-- jwt -->
+  <text x="20" y="242" font-size="13" font-weight="700" fill="#d98324">方案二：Token / JWT</text>
+  <rect x="30" y="254" width="110" height="30" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="85" y="274" font-size="11.5" fill="#1f2d3d" text-anchor="middle">客户端</text>
+  <rect x="290" y="254" width="110" height="30" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="345" y="274" font-size="11.5" fill="#1f2d3d" text-anchor="middle">任一实例</text>
+  <rect x="540" y="254" width="110" height="30" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-dasharray="4 3"/>
+  <text x="595" y="274" font-size="11.5" fill="#94a3b8" text-anchor="middle">无需存储</text>
+
+  <line x1="142" y1="302" x2="286" y2="302" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="214" y="296" font-size="11" fill="#1f2d3d" text-anchor="middle">① 用户名密码</text>
+  <line x1="286" y1="330" x2="142" y2="330" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="214" y="324" font-size="11" fill="#1f2d3d" text-anchor="middle">② 返回签名后的 JWT</text>
+  <line x1="142" y1="358" x2="286" y2="358" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="214" y="352" font-size="11" fill="#1f2d3d" text-anchor="middle">③ Authorization: Bearer eyJ...</text>
+  <text x="420" y="336" font-size="11" fill="#d98324">④ 用密钥验签即可，</text>
+  <text x="420" y="352" font-size="11" fill="#d98324">不查任何存储</text>
+
+  <!-- jwt structure -->
+  <rect x="30" y="376" width="150" height="28" rx="4" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="105" y="395" font-size="11" fill="#1f2d3d" text-anchor="middle">Header（算法）</text>
+  <text x="186" y="395" font-size="13" fill="#475569">.</text>
+  <rect x="196" y="376" width="220" height="28" rx="4" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="306" y="395" font-size="11" fill="#1f2d3d" text-anchor="middle">Payload（uid/exp，Base64 可解，非加密）</text>
+  <text x="422" y="395" font-size="13" fill="#475569">.</text>
+  <rect x="432" y="376" width="218" height="28" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="541" y="395" font-size="11" fill="#166534" text-anchor="middle">Signature（防篡改，不防偷看）</text>
+
+  <text x="20" y="428" font-size="11.5" fill="#64748b">JWT 的代价：签发后到期前无法撤销。要支持「踢下线」得再引入黑名单——那就又变成有状态了，所以通常配短期 access + 长期 refresh。</text>
+  <text x="20" y="450" font-size="11.5" fill="#64748b">测试要点：payload 里绝不能放密码/身份证；把 alg 改成 none 或把 uid 改成别人的 id 再发一次，看服务端是否真的验签、是否做了越权校验。</text>
+</svg>

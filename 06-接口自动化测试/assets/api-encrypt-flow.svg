@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="-apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <text x="24" y="34" font-size="17" font-weight="700" fill="#1f2d3d">加密 / 解密接口的请求-响应流转</text>
+  <text x="24" y="56" font-size="12" fill="#5b6b7c">客户端 AES 加密报文 → 线上密文传输 → 服务端 RSA 验签解密</text>
+
+  <rect x="24" y="90" width="190" height="320" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="44" y="116" font-size="14" font-weight="700" fill="#1f2d3d">客户端（自动化用例）</text>
+
+  <rect x="44" y="140" width="150" height="40" rx="6" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="58" y="165" font-size="12" fill="#1f2d3d">① 明文 payload</text>
+
+  <rect x="44" y="196" width="150" height="40" rx="6" fill="#ffe9d6" stroke="#d98324"/>
+  <text x="58" y="221" font-size="12" fill="#1f2d3d">② AES.encrypt(body)</text>
+
+  <rect x="44" y="252" width="150" height="40" rx="6" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="58" y="277" font-size="12" fill="#1f2d3d">③ 密钥信封（RSA 加密的对称密钥）</text>
+
+  <line x1="214" y1="160" x2="320" y2="160" stroke="#9fb3c8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="214" y1="212" x2="320" y2="212" stroke="#9fb3c8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="214" y1="272" x2="320" y2="272" stroke="#9fb3c8" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+
+  <rect x="320" y="150" width="150" height="132" rx="8" fill="#eef2f7" stroke="#9fb3c8" stroke-dasharray="5 3"/>
+  <text x="335" y="176" font-size="12" fill="#5b6b7c">④ 密文 over TLS</text>
+  <text x="335" y="200" font-size="12" fill="#5b6b7c">（抓包也只能看到乱码）</text>
+  <text x="335" y="224" font-size="12" fill="#5b6b7c">⑤ 密钥信封独立通道</text>
+  <text x="335" y="248" font-size="12" fill="#5b6b7c">送达服务端</text>
+  <text x="335" y="270" font-size="12" fill="#5b6b7c">⑥ 验签 + 解密</text>
+
+  <rect x="474" y="90" width="182" height="320" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="492" y="116" font-size="14" font-weight="700" fill="#1f2d3d">服务端（被测系统）</text>
+
+  <rect x="492" y="140" width="150" height="40" rx="6" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="506" y="165" font-size="12" fill="#1f2d3d">⑦ 收到密文 + 信封</text>
+
+  <rect x="492" y="196" width="150" height="40" rx="6" fill="#ffe9d6" stroke="#d98324"/>
+  <text x="506" y="221" font-size="12" fill="#1f2d3d">⑧ AES.decrypt → 明文</text>
+
+  <rect x="492" y="252" width="150" height="40" rx="6" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="506" y="277" font-size="12" fill="#1f2d3d">⑨ 业务处理 + 落库</text>
+
+  <line x1="492" y1="291" x2="320" y2="291" stroke="#9fb3c8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="335" y="312" font-size="12" fill="#5b6b7c">⑩ 明文响应（或再次加密响应体）回传</text>
+
+  <rect x="44" y="364" width="150" height="40" rx="6" fill="#eef2f7" stroke="#9fb3c8"/>
+  <text x="58" y="389" font-size="12" fill="#5b6b7c">⑪ 用例拿到可断言明文</text>
+
+  <rect x="492" y="364" width="150" height="40" rx="6" fill="#eef2f7" stroke="#9fb3c8"/>
+  <text x="506" y="389" font-size="12" fill="#5b6b7c">⑪ 返回同样结构的明文</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+  </defs>
+</svg>

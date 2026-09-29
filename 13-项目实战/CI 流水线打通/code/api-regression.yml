@@ -1,0 +1,92 @@
+# GitHub Actions 等价实现，放到仓库的 .github/workflows/ 下使用。
+# 与 Jenkinsfile 编排思路一致，只是语法不同：开源项目或面试演示场景更方便。
+
+name: 接口自动化回归
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 18 * * *'      # UTC 18:00 = 北京时间次日 02:00
+  workflow_dispatch:
+    inputs:
+      full_run:
+        description: 强制跑全量
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true    # 同分支新推送自动取消旧运行
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: shop_test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=5s --health-timeout=3s --health-retries=20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip            # 依赖缓存，装依赖从 2 分钟降到 15 秒
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 静态检查
+        run: ruff check .
+
+      - name: 等待服务就绪
+        run: python scripts/wait_health.py --timeout 120
+
+      - name: 执行测试
+        env:
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+          BUILD_TAG: gha-${{ github.run_id }}      # 数据隔离前缀
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            SCOPE="-m smoke"
+          elif [ "${{ github.event_name }}" = "schedule" ]; then
+            SCOPE=""
+          else
+            SCOPE="-m 'smoke or api'"
+          fi
+          pytest $SCOPE -n 4 --dist loadfile \
+            --reruns 1 --reruns-delay 2 \
+            --alluredir=allure-results \
+            --junitxml=reports/junit.xml
+
+      - name: 质量门禁
+        run: python scripts/gate.py --junit reports/junit.xml --min-pass-rate 98
+
+      - name: 上传报告
+        if: always()            # 失败时更需要报告，必须 always
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ github.run_number }}
+          path: allure-results
+          retention-days: 30
+
+      - name: 失败通知
+        if: failure()
+        env:
+          WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}
+        run: python scripts/notify.py --status FAILURE --junit reports/junit.xml

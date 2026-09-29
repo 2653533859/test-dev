@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+    <style>
+      .box { fill:#ffffff; stroke:#2f6fd0; stroke-width:1.5; rx:8; }
+      .lbl { fill:#1f2d3d; font-size:13px; }
+      .sub { fill:#5b6b7b; font-size:11px; }
+      .ttl { fill:#1f2d3d; font-size:15px; font-weight:700; }
+      .orange { fill:#ffe0c2; stroke:#d98324; stroke-width:1.5; }
+      .blue { fill:#d3e5ff; stroke:#2f6fd0; stroke-width:1.5; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+
+  <text x="24" y="30" class="ttl">缓存三大问题对比与解法</text>
+
+  <!-- 穿透 -->
+  <text x="24" y="62" class="lbl" font-weight="700">① 缓存穿透：查不存在的数据</text>
+  <rect x="24" y="74" width="200" height="86" class="orange" rx="8"/>
+  <text x="36" y="96" class="lbl">请求 → Redis 无</text>
+  <text x="36" y="116" class="lbl">→ DB 无 → 每次都打 DB</text>
+  <text x="36" y="138" class="sub">恶意/误用：key 根本不存在</text>
+  <rect x="236" y="74" width="200" height="86" class="blue" rx="8"/>
+  <text x="248" y="96" class="lbl">解法</text>
+  <text x="248" y="116" class="sub">1. 布隆过滤器拦非法 key</text>
+  <text x="248" y="138" class="sub">2. 缓存空值(null)设短过期</text>
+  <line x1="224" y1="117" x2="234" y2="117" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 击穿 -->
+  <text x="24" y="196" class="lbl" font-weight="700">② 缓存击穿：热点 key 过期瞬间</text>
+  <rect x="24" y="208" width="200" height="86" class="orange" rx="8"/>
+  <text x="36" y="230" class="lbl">热点 key 突然过期</text>
+  <text x="36" y="250" class="lbl">大量请求同时穿透</text>
+  <text x="36" y="272" class="sub">→ 同一 key 并发打 DB</text>
+  <rect x="236" y="208" width="200" height="86" class="blue" rx="8"/>
+  <text x="248" y="230" class="lbl">解法</text>
+  <text x="248" y="250" class="sub">1. 热点 key 不过期/逻辑过期</text>
+  <text x="248" y="272" class="sub">2. 互斥锁(单飞)只放一个回源</text>
+  <line x1="224" y1="251" x2="234" y2="251" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 雪崩 -->
+  <text x="24" y="330" class="lbl" font-weight="700">③ 缓存雪崩：大量 key 同时失效</text>
+  <rect x="24" y="342" width="200" height="86" class="orange" rx="8"/>
+  <text x="36" y="364" class="lbl">大量 key 同一时刻过期</text>
+  <text x="36" y="384" class="lbl">或 Redis 宕机</text>
+  <text x="36" y="406" class="sub">→ DB 瞬间被海量请求压垮</text>
+  <rect x="236" y="342" width="200" height="86" class="blue" rx="8"/>
+  <text x="248" y="364" class="lbl">解法</text>
+  <text x="248" y="384" class="sub">1. 过期时间加随机抖动</text>
+  <text x="248" y="406" class="sub">2. 多级缓存 + 高可用集群</text>
+  <line x1="224" y1="385" x2="234" y2="385" stroke="#2f6fd0" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 右侧对比表 -->
+  <rect x="470" y="74" width="190" height="354" class="box" rx="8"/>
+  <text x="482" y="98" class="lbl" font-weight="700">维度</text>
+  <text x="482" y="120" class="sub">穿透：数据不存在</text>
+  <text x="482" y="140" class="sub">击穿：单热点失效</text>
+  <text x="482" y="160" class="sub">雪崩：批量失效</text>
+  <line x1="478" y1="172" x2="652" y2="172" stroke="#c7d2dd"/>
+  <text x="482" y="194" class="lbl">核心区别</text>
+  <text x="482" y="214" class="sub">穿透-非法 key</text>
+  <text x="482" y="234" class="sub">击穿-单点并发</text>
+  <text x="482" y="254" class="sub">雪崩-规模性</text>
+  <line x1="478" y1="266" x2="652" y2="266" stroke="#c7d2dd"/>
+  <text x="482" y="288" class="lbl">测试关注点</text>
+  <text x="482" y="308" class="sub">· 非法 key 压测</text>
+  <text x="482" y="328" class="sub">· 热点 key 失效压测</text>
+  <text x="482" y="348" class="sub">· 批量过期/宕机演练</text>
+  <text x="482" y="388" class="sub">三者共同前提：</text>
+  <text x="482" y="408" class="sub">缓存未命中才回源 DB</text>
+</svg>

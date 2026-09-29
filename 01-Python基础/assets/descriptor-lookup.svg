@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 380" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="380" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">访问 obj.x 的属性查找链（含描述符）</text>
+
+  <text x="300" y="60" font-size="13" font-weight="700" fill="#1e293b">obj.x</text>
+  <line x1="340" y1="64" x2="340" y2="86" stroke="#475569" stroke-width="1.5" marker-end="url(#ar3)"/>
+
+  <!-- chain boxes -->
+  <g font-size="12.5">
+    <rect x="200" y="88" width="280" height="34" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="340" y="109" fill="#1e40af" text-anchor="middle">① 数据描述符（有 __set__）</text>
+
+    <rect x="200" y="134" width="280" height="34" rx="6" fill="#e0f2fe" stroke="#0ea5e9"/>
+    <text x="340" y="155" fill="#075985" text-anchor="middle">② 实例自身 __dict__</text>
+
+    <rect x="200" y="180" width="280" height="34" rx="6" fill="#e0f2fe" stroke="#0ea5e9"/>
+    <text x="340" y="201" fill="#075985" text-anchor="middle">③ 非数据描述符（仅 __get__）</text>
+
+    <rect x="200" y="226" width="280" height="34" rx="6" fill="#f1f5f9" stroke="#64748b"/>
+    <text x="340" y="247" fill="#334155" text-anchor="middle">④ 类变量 / 方法</text>
+
+    <rect x="200" y="272" width="280" height="34" rx="6" fill="#f1f5f9" stroke="#64748b"/>
+    <text x="340" y="293" fill="#334155" text-anchor="middle">⑤ 父类（按 MRO 顺序）</text>
+
+    <rect x="200" y="318" width="280" height="34" rx="6" fill="#fef3c7" stroke="#d97706"/>
+    <text x="340" y="339" fill="#92400e" text-anchor="middle">⑥ __getattr__ 兜底（若定义）</text>
+  </g>
+
+  <!-- arrows down -->
+  <line x1="340" y1="122" x2="340" y2="132" stroke="#475569" stroke-width="1.5" marker-end="url(#ar3)"/>
+  <line x1="340" y1="168" x2="340" y2="178" stroke="#475569" stroke-width="1.5" marker-end="url(#ar3)"/>
+  <line x1="340" y1="214" x2="340" y2="224" stroke="#475569" stroke-width="1.5" marker-end="url(#ar3)"/>
+  <line x1="340" y1="260" x2="340" y2="270" stroke="#475569" stroke-width="1.5" marker-end="url(#ar3)"/>
+  <line x1="340" y1="306" x2="340" y2="316" stroke="#475569" stroke-width="1.5" marker-end="url(#ar3)"/>
+
+  <!-- right annotations -->
+  <text x="500" y="111" font-size="11.5" fill="#2563eb">property 在此拦截</text>
+  <text x="500" y="157" font-size="11.5" fill="#0ea5e9">obj.x=v 直接写这里</text>
+  <text x="500" y="203" font-size="11.5" fill="#0ea5e9">普通方法/classmethod</text>
+  <text x="500" y="249" font-size="11.5" fill="#64748b">函数/类属性</text>
+
+  <text x="20" y="372" font-size="11.5" fill="#64748b">关键：数据描述符优先级高于实例字典（property 无法被实例属性遮盖）；非数据描述符低于实例字典（普通方法可被遮盖）。</text>
+</svg>

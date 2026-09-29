@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">JWT 鉴权：获取、携带、过期自动刷新与重试</text>
+
+  <rect x="140" y="48" width="330" height="44" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="305" y="76" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">① POST /login  {username, password}</text>
+
+  <rect x="140" y="112" width="330" height="46" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="305" y="132" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">② 拿到 access_token + refresh_token</text>
+  <text x="305" y="149" font-size="11.5" fill="#41546b" text-anchor="middle">前者短（分钟级），后者长（天级）</text>
+
+  <rect x="140" y="178" width="330" height="46" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="305" y="198" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">③ 业务请求携带 Authorization 头</text>
+  <text x="305" y="215" font-size="11.5" fill="#41546b" text-anchor="middle">Authorization: Bearer &lt;access_token&gt;</text>
+
+  <!-- diamond -->
+  <polygon points="305,240 405,282 305,324 205,282" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="305" y="278" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">④ 401 / token</text>
+  <text x="305" y="295" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">已过期？</text>
+
+  <rect x="470" y="260" width="180" height="44" rx="6" fill="#dff2e3" stroke="#3f8f5b"/>
+  <text x="560" y="279" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">正常返回业务数据</text>
+  <text x="560" y="295" font-size="11.5" fill="#41546b" text-anchor="middle">进入断言环节</text>
+
+  <rect x="140" y="342" width="330" height="44" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="305" y="370" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">⑤ POST /refresh {refresh_token} → 换新 token</text>
+
+  <rect x="140" y="400" width="330" height="44" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="305" y="419" font-size="12.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">⑥ 自动重试原请求（只重试一次）</text>
+  <text x="305" y="436" font-size="11.5" fill="#41546b" text-anchor="middle">再 401 就直接失败，避免死循环</text>
+
+  <!-- arrows -->
+  <line x1="305" y1="92" x2="305" y2="110" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="305" y1="158" x2="305" y2="176" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="305" y1="224" x2="305" y2="238" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="405" y1="282" x2="468" y2="282" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="432" y="275" font-size="11.5" font-weight="700" fill="#3f8f5b" text-anchor="middle">否</text>
+  <line x1="305" y1="324" x2="305" y2="340" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="320" y="337" font-size="11.5" font-weight="700" fill="#d98324">是</text>
+  <line x1="305" y1="386" x2="305" y2="398" stroke="#475569" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- loop back to step3 -->
+  <polyline points="140,422 90,422 90,201 138,201" fill="none" stroke="#8a9bb0" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ar)"/>
+  <text x="30" y="315" font-size="11.5" fill="#41546b">带新</text>
+  <text x="30" y="332" font-size="11.5" fill="#41546b">token</text>
+  <text x="30" y="349" font-size="11.5" fill="#41546b">重放</text>
+
+  <text x="480" y="345" font-size="11.5" fill="#41546b">落地位置：</text>
+  <text x="480" y="363" font-size="11.5" fill="#41546b">④⑤⑥ 应封装在</text>
+  <text x="480" y="381" font-size="11.5" fill="#41546b">Session 子类或</text>
+  <text x="480" y="399" font-size="11.5" fill="#41546b">requests 的 hooks</text>
+  <text x="480" y="417" font-size="11.5" fill="#41546b">里，用例层无感知。</text>
+</svg>

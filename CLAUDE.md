@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 仓库性质与常用命令
 
 - **没有构建 / 测试 / lint 流程**，不存在 `package.json`、`requirements.txt` 等工程配置。不要尝试运行 `npm run type-check` 之类的验证命令，也不要为了「让项目能跑」而添加工程脚手架。
-- 唯一的「验证」是内容自查：文件放在正确模块、frontmatter 完整、双链能解析、对应 MOC 已挂上索引。
+- 唯一的「验证」是内容自查：文件放在正确模块、frontmatter 完整、双链能解析、对应 MOC 已挂上索引。可运行 `python scripts/lint_vault.py` 进行零依赖一键自检。
 - 笔记里的可运行示例（Python 脚本、Dockerfile、Jenkinsfile、JMeter jmx 等）以代码块形式内嵌在笔记中；如需成套的示例工程，放到 `13-项目实战/` 对应子目录下。
 - Git：本仓库有远端 `origin`（GitHub `2653533859/test-dev`），提交**手动管理**。按全局规则，不要自动 `commit` / `push`。
 
@@ -36,6 +36,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 11-持续集成/           Git 工作流、Jenkins、GitHub Actions、Docker、质量门禁
 12-面试题/             按上述模块归类的高频题与答题思路
 13-项目实战/           端到端练手项目（测试平台、框架落地、完整用例集）
+14-WebSocket测试/      RFC 6455 协议、自动化测试、心跳重连、CSWSH防护、性能压测
 _附件/                图片等附件
 _模板/                笔记模板
 首页.md               知识库总入口（MOC）

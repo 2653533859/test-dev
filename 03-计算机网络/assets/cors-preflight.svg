@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#0f172a">CORS：简单请求直接发，复杂请求先发 OPTIONS 预检</text>
+
+  <rect x="45" y="42" width="130" height="28" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="110" y="61" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">浏览器</text>
+  <rect x="500" y="42" width="140" height="28" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="570" y="61" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">api.b.com</text>
+  <line x1="110" y1="70" x2="110" y2="382" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <line x1="570" y1="70" x2="570" y2="382" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+
+  <rect x="150" y="80" width="380" height="42" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="340" y="98" font-size="11.5" fill="#1f2d3d" text-anchor="middle">页面来自 https://www.a.com，要请求 https://api.b.com</text>
+  <text x="340" y="114" font-size="11.5" fill="#475569" text-anchor="middle">协议 / 域名 / 端口 任一不同 = 跨域</text>
+
+  <!-- decision -->
+  <rect x="150" y="136" width="380" height="42" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="340" y="154" font-size="11.5" fill="#1f2d3d" text-anchor="middle">是简单请求吗？GET/HEAD/POST + 仅安全头 +</text>
+  <text x="340" y="170" font-size="11.5" fill="#1f2d3d" text-anchor="middle">Content-Type ∈ {form-urlencoded, form-data, text/plain}</text>
+
+  <text x="20" y="206" font-size="12.5" font-weight="700" fill="#16a34a">是 → 直接发真实请求</text>
+  <line x1="113" y1="222" x2="566" y2="222" stroke="#16a34a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="216" font-size="11.5" fill="#1f2d3d" text-anchor="middle">GET /data，带 Origin: https://www.a.com</text>
+  <line x1="567" y1="248" x2="114" y2="248" stroke="#16a34a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="242" font-size="11.5" fill="#1f2d3d" text-anchor="middle">200 + Access-Control-Allow-Origin: https://www.a.com</text>
+  <text x="130" y="266" font-size="11" fill="#dc2626">注意：请求其实已经到达服务端并执行了，浏览器只是在拿到响应后决定「要不要给 JS 看」。</text>
+
+  <text x="20" y="298" font-size="12.5" font-weight="700" fill="#d98324">否（如 PUT / DELETE / Content-Type: application/json / 自定义头）→ 先预检</text>
+  <line x1="113" y1="320" x2="566" y2="320" stroke="#d98324" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="314" font-size="11.5" fill="#1f2d3d" text-anchor="middle">① OPTIONS /data + Access-Control-Request-Method/Headers</text>
+  <line x1="567" y1="346" x2="114" y2="346" stroke="#d98324" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="340" font-size="11.5" fill="#1f2d3d" text-anchor="middle">② 204 + Allow-Origin / Allow-Methods / Allow-Headers / Max-Age</text>
+  <line x1="113" y1="372" x2="566" y2="372" stroke="#d98324" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="340" y="366" font-size="11.5" fill="#1f2d3d" text-anchor="middle">③ 预检通过，才真正发出 PUT /data</text>
+
+  <rect x="30" y="392" width="620" height="60" rx="8" fill="#fff4e6" stroke="#d98324"/>
+  <text x="45" y="411" font-size="12" font-weight="700" fill="#1f2d3d">三条最常踩的规则</text>
+  <text x="45" y="429" font-size="11.5" fill="#475569">① 要带 Cookie 时，前端 withCredentials=true 且后端 Allow-Origin 不能是 *，还要 Allow-Credentials: true。</text>
+  <text x="45" y="446" font-size="11.5" fill="#475569">② 跨域限制只存在于浏览器；curl / requests / Postman 不受任何影响，所以「接口能通但页面报跨域」很正常。</text>
+</svg>

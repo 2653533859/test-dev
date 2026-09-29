@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="850" height="480">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2B6CB0"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2E7D32"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#C62828"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#CBD5E0" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="480" fill="#F8FAFC" rx="8"/>
+
+  <!-- Lifeline Headers -->
+  <g filter="url(#shadow)">
+    <rect x="100" y="25" width="160" height="45" rx="6" fill="#EBF8FF" stroke="#3182CE" stroke-width="2"/>
+    <text x="180" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="bold" fill="#2B6CB0" text-anchor="middle">客户端 (Client)</text>
+    
+    <rect x="590" y="25" width="160" height="45" rx="6" fill="#EBF8FF" stroke="#3182CE" stroke-width="2"/>
+    <text x="670" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="bold" fill="#2B6CB0" text-anchor="middle">服务端 (Server)</text>
+  </g>
+
+  <!-- Lifelines -->
+  <line x1="180" y1="70" x2="180" y2="445" stroke="#A0AEC0" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="670" y1="70" x2="670" y2="445" stroke="#A0AEC0" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- Phase 1: HTTP Upgrade Handshake -->
+  <rect x="230" y="90" width="390" height="85" rx="6" fill="#EDF2F7" stroke="#CBD5E0" stroke-width="1"/>
+  <text x="240" y="108" font-family="sans-serif" font-size="12" font-weight="bold" fill="#4A5568">阶段一：HTTP 协议升级握手 (Upgrade Handshake)</text>
+
+  <!-- Handshake Request -->
+  <line x1="180" y1="125" x2="660" y2="125" stroke="#2B6CB0" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="425" y="120" font-family="monospace" font-size="11" fill="#1A365D" text-anchor="middle">GET /ws HTTP/1.1 (Upgrade: websocket | Sec-WebSocket-Key: ...)</text>
+
+  <!-- Handshake Response 101 -->
+  <line x1="670" y1="155" x2="190" y2="155" stroke="#2B6CB0" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="425" y="150" font-family="monospace" font-size="11" fill="#1A365D" text-anchor="middle">HTTP/1.1 101 Switching Protocols (Sec-WebSocket-Accept: ...)</text>
+
+  <!-- Phase 2: Full-duplex Bi-directional Frames -->
+  <rect x="230" y="195" width="390" height="155" rx="6" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1"/>
+  <text x="240" y="213" font-family="sans-serif" font-size="12" font-weight="bold" fill="#166534">阶段二：双工数据帧流传输 (RFC 6455 Frame Streaming)</text>
+
+  <!-- Client Text Message (Masked) -->
+  <line x1="180" y1="235" x2="660" y2="235" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="425" y="230" font-family="monospace" font-size="11" fill="#14532D" text-anchor="middle">Opcode: 0x1 Text Frame (Masked: 4-byte 客户端掩码加密)</text>
+
+  <!-- Server Push Message (Unmasked) -->
+  <line x1="670" y1="265" x2="190" y2="265" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="425" y="260" font-family="monospace" font-size="11" fill="#14532D" text-anchor="middle">Opcode: 0x1 Text Push (服务端推流无需掩码)</text>
+
+  <!-- Heartbeat Ping/Pong -->
+  <line x1="670" y1="295" x2="190" y2="295" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+  <text x="425" y="290" font-family="monospace" font-size="11" fill="#92400E" text-anchor="middle">Opcode: 0x9 Ping 控制帧 (心跳探测)</text>
+
+  <line x1="180" y1="325" x2="660" y2="325" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+  <text x="425" y="320" font-family="monospace" font-size="11" fill="#92400E" text-anchor="middle">Opcode: 0xA Pong 控制帧 (心跳应答)</text>
+
+  <!-- Phase 3: Closing Handshake -->
+  <rect x="230" y="370" width="390" height="75" rx="6" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
+  <text x="240" y="388" font-family="sans-serif" font-size="12" font-weight="bold" fill="#991B1B">阶段三：关闭握手 (Closing Handshake)</text>
+
+  <!-- Close Frame -->
+  <line x1="180" y1="405" x2="660" y2="405" stroke="#C62828" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="425" y="400" font-family="monospace" font-size="11" fill="#7F1D1D" text-anchor="middle">Opcode: 0x8 Close Frame (状态码: 1000 正常断开)</text>
+
+  <line x1="670" y1="430" x2="190" y2="430" stroke="#C62828" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="425" y="425" font-family="monospace" font-size="11" fill="#7F1D1D" text-anchor="middle">Opcode: 0x8 Close Frame 应答 (随后释放底层 TCP 连接)</text>
+</svg>

@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">Appium Inspector：控件树检查与定位调试链路</text>
+
+  <!-- ① Inspector 工作原理 -->
+  <rect x="16" y="44" width="648" height="120" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="66" font-size="14" font-weight="700" fill="#2f6fd0">① Inspector 本质：一个图形化的 Appium client</text>
+
+  <rect x="32" y="80" width="100" height="36" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="82" y="102" font-size="11" fill="#1e3a8a" text-anchor="middle">填 capabilities</text>
+  <line x1="132" y1="98" x2="150" y2="98" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="152" y="80" width="100" height="36" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="202" y="98" font-size="11" fill="#8a4b08" text-anchor="middle">建真实 session</text>
+  <text x="202" y="110" font-size="9.5" fill="#8a4b08" text-anchor="middle">占用一个 session</text>
+  <line x1="252" y1="98" x2="270" y2="98" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="272" y="80" width="116" height="36" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="330" y="96" font-size="11" fill="#1b5e20" text-anchor="middle">GET /source</text>
+  <text x="330" y="110" font-size="10" fill="#1b5e20" text-anchor="middle">拿控件树 XML</text>
+  <line x1="388" y1="98" x2="406" y2="98" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="408" y="80" width="116" height="36" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="466" y="96" font-size="11" fill="#1b5e20" text-anchor="middle">GET /screenshot</text>
+  <text x="466" y="110" font-size="10" fill="#1b5e20" text-anchor="middle">拿屏幕截图</text>
+  <line x1="524" y1="98" x2="542" y2="98" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="544" y="80" width="104" height="36" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="596" y="102" font-size="11" fill="#1e3a8a" text-anchor="middle">叠加渲染</text>
+
+  <text x="32" y="134" font-size="11.5" fill="#dc2626">推论：Inspector 占着 session → 脚本连不上同一台设备；Inspector 看到的树 = driver.page_source</text>
+  <text x="32" y="154" font-size="11.5" fill="#475569">Remote Path：Appium 2.x 填 /，1.x 填 /wd/hub，填错报 404；newCommandTimeout 必须调大（默认 60s 看树会断）</text>
+
+  <!-- ② 核心工作流 -->
+  <rect x="16" y="172" width="392" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="194" font-size="14" font-weight="700" fill="#d98324">② 核心工作流：Refresh → Select → Search</text>
+
+  <rect x="32" y="208" width="360" height="32" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="44" y="228" font-size="11" fill="#9c2b2b">1. Refresh Source &amp; Screenshot</text>
+  <text x="280" y="228" font-size="10.5" fill="#9c2b2b">每次页面变化后必须点</text>
+
+  <rect x="32" y="246" width="360" height="32" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="44" y="266" font-size="11" fill="#1e3a8a">2. Select Elements（点截图选元素）</text>
+  <text x="280" y="266" font-size="10.5" fill="#1e3a8a">反查 XML 节点 + 属性</text>
+
+  <rect x="32" y="284" width="360" height="32" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="44" y="304" font-size="11" fill="#1b5e20">3. Search for element（精髓）</text>
+  <text x="280" y="304" font-size="10.5" fill="#1b5e20">试定位表达式</text>
+
+  <rect x="32" y="322" width="360" height="24" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="44" y="338" font-size="10.5" fill="#334155">输入 UiSelector / XPath → 看匹配到几个 → 确认唯一再写进代码</text>
+
+  <!-- ③ 推荐的定位表达式 -->
+  <rect x="424" y="172" width="240" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="440" y="194" font-size="14" font-weight="700" fill="#28a745">③ 候选表达式优先级</text>
+
+  <rect x="440" y="208" width="208" height="28" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="448" y="226" font-size="11" fill="#1b5e20">accessibility id  ← 抄这个</text>
+
+  <rect x="440" y="240" width="208" height="28" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="448" y="258" font-size="11" fill="#1e3a8a">resource-id  ← 也可抄</text>
+
+  <rect x="440" y="272" width="208" height="28" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="448" y="290" font-size="11" fill="#8a4b08">相对 XPath  ← 可用</text>
+
+  <rect x="440" y="304" width="208" height="28" rx="5" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="448" y="322" font-size="11" fill="#9c2b2b">绝对 XPath  ← 千万别抄</text>
+
+  <text x="440" y="346" font-size="10.5" fill="#64748b">策略优先级详见控件定位策略笔记</text>
+
+  <!-- ④ 替代方案 -->
+  <rect x="16" y="360" width="648" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="32" y="382" font-size="14" font-weight="700" fill="#1f2d3d">④ Inspector 连不上时的替代方案</text>
+
+  <rect x="32" y="396" width="196" height="50" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="42" y="414" font-size="11" fill="#1e3a8a">uiautomator dump</text>
+  <text x="42" y="430" font-size="10.5" fill="#1e3a8a">adb shell uiautomator dump</text>
+  <text x="42" y="442" font-size="10.5" fill="#1e3a8a">adb pull → 编辑器里看 XML</text>
+
+  <rect x="236" y="396" width="196" height="50" rx="5" fill="#d4edda" stroke="#28a745"/>
+  <text x="246" y="414" font-size="11" fill="#1b5e20">脚本里打印</text>
+  <text x="246" y="430" font-size="10.5" fill="#1b5e20">print(driver.page_source)</text>
+  <text x="246" y="442" font-size="10.5" fill="#1b5e20">teardown 时存档做对比</text>
+
+  <rect x="440" y="396" width="208" height="50" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="450" y="414" font-size="11" fill="#8a4b08">weditor（第三方）</text>
+  <text x="450" y="430" font-size="10.5" fill="#8a4b08">走 uiautomator2 库不依赖 Appium</text>
+  <text x="450" y="442" font-size="10.5" fill="#8a4b08">浏览器里开，响应比 Inspector 快</text>
+</svg>

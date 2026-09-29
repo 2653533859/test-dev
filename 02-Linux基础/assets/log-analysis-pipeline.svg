@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="24" y="34" font-size="17" font-weight="bold" fill="#1f2d3d">Nginx 日志分析流水线</text>
+  <text x="24" y="56" font-size="12" fill="#5b6b7b">从 access.log 到可读结论：过滤 → 提取 → 聚合 → Top N</text>
+
+  <!-- boxes -->
+  <rect x="24" y="92" width="120" height="56" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="84" y="116" font-size="13" font-weight="bold" fill="#1f2d3d" text-anchor="middle">原始日志</text>
+  <text x="84" y="135" font-size="11" fill="#3a4a5a" text-anchor="middle">access.log</text>
+
+  <rect x="184" y="92" width="120" height="56" rx="8" fill="#ffe0c2" stroke="#d98324" stroke-width="1.5"/>
+  <text x="244" y="113" font-size="13" font-weight="bold" fill="#1f2d3d" text-anchor="middle">过滤</text>
+  <text x="244" y="132" font-size="11" fill="#3a4a5a" text-anchor="middle">awk/grep 按状态/耗时</text>
+
+  <rect x="344" y="92" width="120" height="56" rx="8" fill="#d3e5ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="404" y="113" font-size="13" font-weight="bold" fill="#1f2d3d" text-anchor="middle">字段提取</text>
+  <text x="404" y="132" font-size="11" fill="#3a4a5a" text-anchor="middle">$remote_addr $status $request_time</text>
+
+  <rect x="504" y="92" width="152" height="56" rx="8" fill="#ffe0c2" stroke="#d98324" stroke-width="1.5"/>
+  <text x="580" y="113" font-size="13" font-weight="bold" fill="#1f2d3d" text-anchor="middle">聚合统计</text>
+  <text x="580" y="132" font-size="11" fill="#3a4a5a" text-anchor="middle">sort | uniq -c | sort -rn</text>
+
+  <!-- arrows row 1 -->
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1f2d3d"/>
+    </marker>
+  </defs>
+  <line x1="144" y1="120" x2="182" y2="120" stroke="#1f2d3d" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="304" y1="120" x2="342" y2="120" stroke="#1f2d3d" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="464" y1="120" x2="502" y2="120" stroke="#1f2d3d" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- down to results -->
+  <line x1="580" y1="148" x2="580" y2="190" stroke="#1f2d3d" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="424" y="196" width="312" height="120" rx="8" fill="#ffffff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="444" y="222" font-size="13" font-weight="bold" fill="#1f2d3d">可读结论（看板/告警依据）</text>
+  <text x="444" y="248" font-size="12" fill="#3a4a5a">• Top 10 访问 IP（攻击/爬虫识别）</text>
+  <text x="444" y="270" font-size="12" fill="#3a4a5a">• 5xx 错误码分布（服务异常）</text>
+  <text x="444" y="292" font-size="12" fill="#3a4a5a">• P95/P99 慢请求 URL（性能瓶颈）</text>
+
+  <!-- example command block -->
+  <rect x="24" y="196" width="380" height="200" rx="8" fill="#ffffff" stroke="#5b6b7b" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="40" y="220" font-size="12" font-weight="bold" fill="#1f2d3d">典型命令</text>
+  <text x="40" y="244" font-size="11" fill="#3a4a5a" xml:space="preserve">awk '$9>=500{c[$7]++} END{</text>
+  <text x="40" y="262" font-size="11" fill="#3a4a5a" xml:space="preserve">  for(u in c) print c[u],u}' access.log \</text>
+  <text x="40" y="280" font-size="11" fill="#3a4a5a" xml:space="preserve">  | sort -rn | head</text>
+  <text x="40" y="306" font-size="11" fill="#3a4a5a" xml:space="preserve"># 提取耗时最高 URL</text>
+  <text x="40" y="330" font-size="11" fill="#3a4a5a" xml:space="preserve">awk '{print $request_time,$uri}' \</text>
+  <text x="40" y="348" font-size="11" fill="#3a4a5a" xml:space="preserve">  | sort -rn | head</text>
+  <text x="40" y="374" font-size="11" fill="#3a4a5a" xml:space="preserve"># 单 IP 频次（需日志含 client）</text>
+
+  <!-- feedback loop note -->
+  <text x="24" y="430" font-size="11" fill="#5b6b7b">说明：聚合结果反推监控规则（阈值/告警），形成闭环排查。</text>
+</svg>

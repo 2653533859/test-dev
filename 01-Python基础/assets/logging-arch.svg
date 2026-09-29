@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 330" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ar17" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="330" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">logging 四件套与日志传播</text>
+
+  <!-- logger -->
+  <rect x="280" y="50" width="120" height="36" rx="6" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="340" y="73" font-size="12" fill="#1e40af" text-anchor="middle">Logger</text>
+  <text x="340" y="98" font-size="10" fill="#64748b" text-anchor="middle">判级别/产生</text>
+
+  <!-- handlers -->
+  <rect x="60" y="130" width="150" height="36" rx="6" fill="#e0f2fe" stroke="#0ea5e9"/>
+  <text x="135" y="153" font-size="12" fill="#075985" text-anchor="middle">StreamHandler</text>
+  <rect x="265" y="130" width="150" height="36" rx="6" fill="#e0f2fe" stroke="#0ea5e9"/>
+  <text x="340" y="153" font-size="12" fill="#075985" text-anchor="middle">FileHandler</text>
+  <rect x="470" y="130" width="150" height="36" rx="6" fill="#e0f2fe" stroke="#0ea5e9"/>
+  <text x="545" y="153" font-size="12" fill="#075985" text-anchor="middle">SMTPHandler</text>
+
+  <!-- formatter -->
+  <rect x="265" y="200" width="150" height="36" rx="6" fill="#fef3c7" stroke="#d97706"/>
+  <text x="340" y="223" font-size="12" fill="#92400e" text-anchor="middle">Formatter</text>
+
+  <!-- output -->
+  <rect x="265" y="262" width="150" height="36" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="340" y="285" font-size="12" fill="#166534" text-anchor="middle">控制台 / 文件 / 邮件</text>
+
+  <line x1="340" y1="86" x2="135" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#ar17)"/>
+  <line x1="340" y1="86" x2="340" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#ar17)"/>
+  <line x1="340" y1="86" x2="545" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#ar17)"/>
+  <line x1="135" y1="166" x2="305" y2="218" stroke="#475569" stroke-width="1.2" marker-end="url(#ar17)"/>
+  <line x1="340" y1="166" x2="340" y2="198" stroke="#475569" stroke-width="1.5" marker-end="url(#ar17)"/>
+  <line x1="545" y1="166" x2="375" y2="218" stroke="#475569" stroke-width="1.2" marker-end="url(#ar17)"/>
+  <line x1="340" y1="236" x2="340" y2="260" stroke="#475569" stroke-width="1.5" marker-end="url(#ar17)"/>
+
+  <text x="20" y="318" font-size="11.5" fill="#64748b">子 Logger 默认 propagate=True，把日志向上传给父 Handler；effective level 取自身与继承链最小。basicConfig 仅在 root 无 Handler 时生效一次。</text>
+</svg>

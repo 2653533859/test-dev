@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="ace" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f6fd0"/>
+    </marker>
+    <marker id="acr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#d98324"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">端到端串联：提交代码 → 接口自动化 → Allure → 钉钉</text>
+
+  <!-- row 1 -->
+  <rect x="18" y="56" width="120" height="52" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="78" y="78" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">开发 push</text>
+  <text x="78" y="95" font-size="10" fill="#b5762c" text-anchor="middle">GitLab / GitHub</text>
+
+  <line x1="138" y1="82" x2="158" y2="82" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ace)"/>
+
+  <rect x="162" y="56" width="120" height="52" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="222" y="78" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">Webhook</text>
+  <text x="222" y="95" font-size="10" fill="#b5762c" text-anchor="middle">POST 到 Jenkins</text>
+
+  <line x1="282" y1="82" x2="302" y2="82" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ace)"/>
+
+  <rect x="306" y="56" width="120" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="366" y="78" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">Jenkins 排队</text>
+  <text x="366" y="95" font-size="10" fill="#5b7ea8" text-anchor="middle">分配 agent 'api'</text>
+
+  <line x1="426" y1="82" x2="446" y2="82" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ace)"/>
+
+  <rect x="450" y="56" width="120" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="510" y="78" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">Checkout</text>
+  <text x="510" y="95" font-size="10" fill="#5b7ea8" text-anchor="middle">拉测试仓库代码</text>
+
+  <line x1="570" y1="82" x2="590" y2="82" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ace)"/>
+  <rect x="594" y="56" width="68" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="628" y="78" font-size="11.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">装依赖</text>
+  <text x="628" y="95" font-size="10" fill="#5b7ea8" text-anchor="middle">pip</text>
+
+  <!-- row 2 -->
+  <line x1="628" y1="108" x2="628" y2="132" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ace)"/>
+
+  <rect x="450" y="136" width="212" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="556" y="158" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">docker compose up 起测试环境</text>
+  <text x="556" y="175" font-size="10" fill="#5b7ea8" text-anchor="middle">被测服务 + MySQL + Redis + 健康检查</text>
+
+  <line x1="448" y1="162" x2="428" y2="162" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ace)"/>
+
+  <rect x="230" y="136" width="196" height="52" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="328" y="158" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">pytest 跑接口用例</text>
+  <text x="328" y="175" font-size="10" fill="#b5762c" text-anchor="middle">--alluredir=allure-results</text>
+
+  <line x1="228" y1="162" x2="208" y2="162" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ace)"/>
+
+  <rect x="18" y="136" width="186" height="52" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="111" y="158" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">质量门禁判定</text>
+  <text x="111" y="175" font-size="10" fill="#5b7ea8" text-anchor="middle">通过率 &lt; 阈值 → 置为 FAILED</text>
+
+  <!-- row 3: post -->
+  <line x1="111" y1="188" x2="111" y2="216" stroke="#d98324" stroke-width="1.8" marker-end="url(#acr)"/>
+  <rect x="18" y="220" width="644" height="126" rx="8" fill="#ffffff" stroke="#d98324" stroke-width="1.6"/>
+  <text x="34" y="244" font-size="13" font-weight="700" fill="#d98324">post { always } —— 成功失败都要做的三件事</text>
+
+  <rect x="34" y="258" width="196" height="60" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="132" y="280" font-size="11.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">生成 Allure 报告</text>
+  <text x="132" y="298" font-size="10" fill="#b5762c" text-anchor="middle">allure 插件读 results 目录</text>
+  <text x="132" y="312" font-size="10" fill="#b5762c" text-anchor="middle">产出可点开的历史趋势</text>
+
+  <rect x="242" y="258" width="196" height="60" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="340" y="280" font-size="11.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">docker compose down -v</text>
+  <text x="340" y="298" font-size="10" fill="#b5762c" text-anchor="middle">清容器与数据卷</text>
+  <text x="340" y="312" font-size="10" fill="#b5762c" text-anchor="middle">不清会污染下一次构建</text>
+
+  <rect x="450" y="258" width="212" height="60" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="556" y="280" font-size="11.5" font-weight="700" fill="#1f2d3d" text-anchor="middle">钉钉 / 企微机器人通知</text>
+  <text x="556" y="298" font-size="10" fill="#b5762c" text-anchor="middle">失败 @提交人，附报告链接</text>
+  <text x="556" y="312" font-size="10" fill="#b5762c" text-anchor="middle">成功只发简报，避免噪音</text>
+
+  <!-- feedback loop -->
+  <line x1="340" y1="346" x2="340" y2="374" stroke="#2f6fd0" stroke-width="1.8" marker-end="url(#ace)"/>
+  <rect x="180" y="378" width="320" height="42" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="340" y="404" font-size="12" font-weight="700" fill="#1f2d3d" text-anchor="middle">开发看到红灯 → 修 → 再 push（闭环）</text>
+
+  <text x="20" y="446" font-size="11.5" fill="#64748b">要点：链路里最容易被省掉、也最不能省的是「清环境」和「通知到人」——没人看的红灯等于没有 CI。</text>
+</svg>

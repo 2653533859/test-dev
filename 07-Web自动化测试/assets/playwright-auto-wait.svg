@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="pa" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">Playwright 自动等待：click() 前的可操作性检查链</text>
+
+  <rect x="24" y="44" width="632" height="34" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="40" y="66" font-size="12.5" fill="#1b4a91">page.get_by_role("button", name="提交").click()  ← 一行代码，内部是下面整条流水线</text>
+
+  <!-- step boxes -->
+  <rect x="24" y="94" width="300" height="42" rx="7" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="40" y="112" font-size="12.5" font-weight="700" fill="#1f2d3d">① 解析 locator（每轮重新查找）</text>
+  <text x="40" y="129" font-size="11" fill="#64748b">因此天然没有 StaleElementReference</text>
+
+  <rect x="24" y="146" width="300" height="42" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="164" font-size="12.5" font-weight="700" fill="#8a4b0f">② attached：已挂载到 DOM</text>
+  <text x="40" y="181" font-size="11" fill="#8a4b0f">未挂载 → 继续轮询等待</text>
+
+  <rect x="24" y="198" width="300" height="42" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="216" font-size="12.5" font-weight="700" fill="#8a4b0f">③ visible：有非空 bounding box</text>
+  <text x="40" y="233" font-size="11" fill="#8a4b0f">display:none / 尺寸为 0 均视为不可见</text>
+
+  <rect x="24" y="250" width="300" height="42" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="268" font-size="12.5" font-weight="700" fill="#8a4b0f">④ stable：连续两帧位置不变</text>
+  <text x="40" y="285" font-size="11" fill="#8a4b0f">解决"动画途中点空"这类经典 flaky</text>
+
+  <rect x="24" y="302" width="300" height="42" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="320" font-size="12.5" font-weight="700" fill="#8a4b0f">⑤ enabled：非 disabled 状态</text>
+  <text x="40" y="337" font-size="11" fill="#8a4b0f">表单校验中的灰按钮会等到它变亮</text>
+
+  <rect x="24" y="354" width="300" height="42" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="40" y="372" font-size="12.5" font-weight="700" fill="#8a4b0f">⑥ receives events：命中测试通过</text>
+  <text x="40" y="389" font-size="11" fill="#8a4b0f">被遮罩/Toast 盖住时判定失败，继续等</text>
+
+  <rect x="24" y="406" width="300" height="40" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="40" y="424" font-size="12.5" font-weight="700" fill="#2f5d3a">⑦ 全部通过 → 派发真实点击事件</text>
+  <text x="40" y="440" font-size="11" fill="#2f5d3a">滚动到视口内后按坐标点击</text>
+
+  <line x1="174" y1="136" x2="174" y2="144" stroke="#475569" stroke-width="1.4" marker-end="url(#pa)"/>
+  <line x1="174" y1="188" x2="174" y2="196" stroke="#475569" stroke-width="1.4" marker-end="url(#pa)"/>
+  <line x1="174" y1="240" x2="174" y2="248" stroke="#475569" stroke-width="1.4" marker-end="url(#pa)"/>
+  <line x1="174" y1="292" x2="174" y2="300" stroke="#475569" stroke-width="1.4" marker-end="url(#pa)"/>
+  <line x1="174" y1="344" x2="174" y2="352" stroke="#475569" stroke-width="1.4" marker-end="url(#pa)"/>
+  <line x1="174" y1="396" x2="174" y2="404" stroke="#475569" stroke-width="1.4" marker-end="url(#pa)"/>
+
+  <!-- retry loop -->
+  <path d="M324,375 L344,375 L344,167 L326,167" fill="none" stroke="#d98324" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#pa)"/>
+  <text x="352" y="272" font-size="11" fill="#d98324">任一项不满足</text>
+  <text x="352" y="288" font-size="11" fill="#d98324">→ 重试整条链</text>
+
+  <!-- right column -->
+  <rect x="356" y="94" width="300" height="98" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="372" y="114" font-size="12.5" font-weight="700" fill="#9c2b2b">超时（默认 30s）后的报错</text>
+  <text x="372" y="134" font-size="11" fill="#9c2b2b">TimeoutError: locator.click: Timeout 30000ms</text>
+  <text x="372" y="152" font-size="11" fill="#9c2b2b">waiting for element to be visible, enabled</text>
+  <text x="372" y="170" font-size="11" fill="#9c2b2b">and stable — 报错直接说明卡在哪一项</text>
+  <text x="372" y="186" font-size="11" fill="#9c2b2b">retrying click action, attempt #23</text>
+
+  <rect x="356" y="204" width="300" height="112" rx="7" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="372" y="224" font-size="12.5" font-weight="700" fill="#2f5d3a">expect() 断言同样带重试</text>
+  <text x="372" y="244" font-size="11" fill="#2f5d3a">expect(loc).to_have_text("已支付")</text>
+  <text x="372" y="262" font-size="11" fill="#2f5d3a">在 5s 内反复求值，成立即通过</text>
+  <text x="372" y="284" font-size="11" fill="#2f5d3a">对比：assert loc.text_content()=="已支付"</text>
+  <text x="372" y="302" font-size="11" fill="#2f5d3a">是瞬时快照，异步渲染慢一拍就假失败</text>
+
+  <rect x="356" y="328" width="300" height="118" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="372" y="348" font-size="12.5" font-weight="700" fill="#1f2d3d">自动等待覆盖不了的三类问题</text>
+  <text x="372" y="368" font-size="11" fill="#334155">1. 数据未落库 → 元素已就绪但值是旧的</text>
+  <text x="372" y="386" font-size="11" fill="#334155">2. 用例间数据串味 → 换框架也不解决</text>
+  <text x="372" y="404" font-size="11" fill="#334155">3. force=True / dispatch_event 会跳过检查</text>
+  <text x="372" y="426" font-size="11" fill="#9c2b2b">红线：用 force=True 绕过遮罩 = 手动关掉</text>
+  <text x="372" y="441" font-size="11" fill="#9c2b2b">框架最有价值的保护机制</text>
+</svg>

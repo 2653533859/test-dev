@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="nw" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="28" font-size="17" font-weight="700" fill="#1f2d3d">Native 与 WebView：两套控件树，两条通路</text>
+
+  <!-- phone screen -->
+  <rect x="24" y="44" width="200" height="240" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="40" y="64" font-size="12" font-weight="700" fill="#1f2d3d">同一块屏幕</text>
+
+  <rect x="36" y="74" width="176" height="40" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="124" y="92" font-size="11.5" fill="#1b4a91" text-anchor="middle">原生标题栏 Toolbar</text>
+  <text x="124" y="107" font-size="10.5" fill="#1b4a91" text-anchor="middle">NATIVE_APP</text>
+
+  <rect x="36" y="120" width="176" height="112" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="124" y="140" font-size="11.5" fill="#8a4b0f" text-anchor="middle">WebView 里的 H5 活动页</text>
+  <text x="124" y="158" font-size="10.5" fill="#8a4b0f" text-anchor="middle">DOM：div / button / input</text>
+  <text x="124" y="180" font-size="10.5" fill="#8a4b0f" text-anchor="middle">在 NATIVE_APP 视角下</text>
+  <text x="124" y="196" font-size="10.5" fill="#8a4b0f" text-anchor="middle">只是一个 android.webkit.WebView</text>
+  <text x="124" y="212" font-size="10.5" fill="#8a4b0f" text-anchor="middle">节点，里面一片空白</text>
+
+  <rect x="36" y="238" width="176" height="34" rx="5" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="124" y="259" font-size="11.5" fill="#1b4a91" text-anchor="middle">原生底部 TabBar</text>
+
+  <!-- two paths -->
+  <rect x="252" y="60" width="404" height="96" rx="7" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="268" y="80" font-size="12.5" font-weight="700" fill="#1b4a91">通路 A：NATIVE_APP（默认上下文）</text>
+  <text x="268" y="100" font-size="11" fill="#1b4a91">UiAutomator2 读无障碍节点树</text>
+  <text x="268" y="117" font-size="11" fill="#1b4a91">定位用 resource-id / content-desc / UiSelector</text>
+  <text x="268" y="134" font-size="11" fill="#1b4a91">page_source 是 XML（&lt;android.widget.Button …&gt;）</text>
+  <text x="268" y="150" font-size="11" fill="#1b4a91">看得见 WebView 容器，看不见容器里的 DOM</text>
+
+  <rect x="252" y="170" width="404" height="112" rx="7" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="268" y="190" font-size="12.5" font-weight="700" fill="#8a4b0f">通路 B：WEBVIEW_com.demo.app</text>
+  <text x="268" y="210" font-size="11" fill="#8a4b0f">切换后走 Chrome DevTools Protocol</text>
+  <text x="268" y="227" font-size="11" fill="#8a4b0f">Appium 自动下载匹配版本的 chromedriver 代理</text>
+  <text x="268" y="244" font-size="11" fill="#8a4b0f">定位用 CSS / XPath，就是普通 Selenium 那一套</text>
+  <text x="268" y="261" font-size="11" fill="#8a4b0f">page_source 变成 HTML；原生控件此时完全不可见</text>
+  <text x="268" y="276" font-size="11" fill="#9c2b2b">前提：App 开了 WebView.setWebContentsDebuggingEnabled(true)</text>
+
+  <!-- switch flow -->
+  <rect x="24" y="300" width="632" height="70" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="40" y="320" font-size="12.5" font-weight="700" fill="#1f2d3d">切换流程（必须显式做，Appium 不会自动跟随）</text>
+
+  <rect x="40" y="330" width="128" height="30" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="104" y="350" font-size="11" fill="#334155" text-anchor="middle">等 WebView 加载完</text>
+  <line x1="168" y1="345" x2="186" y2="345" stroke="#475569" stroke-width="1.4" marker-end="url(#nw)"/>
+
+  <rect x="188" y="330" width="140" height="30" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="258" y="350" font-size="11" fill="#334155" text-anchor="middle">driver.contexts 轮询</text>
+  <line x1="328" y1="345" x2="346" y2="345" stroke="#475569" stroke-width="1.4" marker-end="url(#nw)"/>
+
+  <rect x="348" y="330" width="150" height="30" rx="5" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="423" y="350" font-size="11" fill="#8a4b0f" text-anchor="middle">switch_to.context(WEBVIEW_x)</text>
+  <line x1="498" y1="345" x2="516" y2="345" stroke="#475569" stroke-width="1.4" marker-end="url(#nw)"/>
+
+  <rect x="518" y="330" width="122" height="30" rx="5" fill="#e8f1e8" stroke="#4b8b5a"/>
+  <text x="579" y="350" font-size="11" fill="#2f5d3a" text-anchor="middle">操作完切回 NATIVE_APP</text>
+
+  <!-- bottom pitfalls -->
+  <rect x="24" y="382" width="632" height="76" rx="7" fill="#fdecec" stroke="#c94a4a"/>
+  <text x="40" y="402" font-size="12.5" font-weight="700" fill="#9c2b2b">四个高频翻车点</text>
+  <text x="40" y="421" font-size="11" fill="#9c2b2b">1. 页面刚跳转就取 contexts → 只有 NATIVE_APP，必须轮询等到 WEBVIEW 出现</text>
+  <text x="40" y="437" font-size="11" fill="#9c2b2b">2. 一个 App 多个 WebView（如内嵌广告）→ contexts 有多项，要遍历 title/url 挑对的那个</text>
+  <text x="40" y="453" font-size="11" fill="#9c2b2b">3. chromedriver 版本与设备 WebView 版本不匹配 → 报 "no chrome binary"，用 chromedriverExecutableDir 指定；4. 忘记切回原生，后续原生元素全部找不到</text>
+</svg>

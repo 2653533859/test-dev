@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#0f172a">Allure 报告流水线：结果文件 → 静态站点</text>
+
+  <!-- pipeline -->
+  <rect x="20" y="50" width="140" height="66" rx="8" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="90" y="74" font-size="12.5" font-weight="700" fill="#1e40af" text-anchor="middle">① 执行</text>
+  <text x="90" y="94" font-size="11" fill="#1e40af" text-anchor="middle">pytest --alluredir=</text>
+  <text x="90" y="110" font-size="11" fill="#1e40af" text-anchor="middle">./allure-results</text>
+
+  <rect x="180" y="50" width="150" height="66" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="255" y="74" font-size="12.5" font-weight="700" fill="#8a4b06" text-anchor="middle">② 中间产物</text>
+  <text x="255" y="94" font-size="11" fill="#8a4b06" text-anchor="middle">*-result.json</text>
+  <text x="255" y="110" font-size="11" fill="#8a4b06" text-anchor="middle">*-attachment.png/log</text>
+
+  <rect x="350" y="50" width="150" height="66" rx="8" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="425" y="74" font-size="12.5" font-weight="700" fill="#8a4b06" text-anchor="middle">③ 生成</text>
+  <text x="425" y="94" font-size="11" fill="#8a4b06" text-anchor="middle">allure generate</text>
+  <text x="425" y="110" font-size="11" fill="#8a4b06" text-anchor="middle">--clean -o allure-report</text>
+
+  <rect x="520" y="50" width="140" height="66" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="590" y="74" font-size="12.5" font-weight="700" fill="#166534" text-anchor="middle">④ 展示</text>
+  <text x="590" y="94" font-size="11" fill="#166534" text-anchor="middle">Jenkins Allure 插件</text>
+  <text x="590" y="110" font-size="11" fill="#166534" text-anchor="middle">或 allure open</text>
+
+  <g stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="160" y1="83" x2="178" y2="83"/>
+    <line x1="330" y1="83" x2="348" y2="83"/>
+    <line x1="500" y1="83" x2="518" y2="83"/>
+  </g>
+
+  <!-- history -->
+  <rect x="350" y="132" width="310" height="40" rx="6" fill="#eff6ff" stroke="#2f6fd0"/>
+  <text x="366" y="156" font-size="11.5" fill="#1e40af">趋势图前提：把上轮 allure-report/history 拷回 allure-results/</text>
+  <line x1="590" y1="116" x2="590" y2="130" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- grouping -->
+  <text x="20" y="200" font-size="14" font-weight="700" fill="#0f172a">报告分组：三级 Behaviors + 三级 Suites</text>
+
+  <rect x="20" y="212" width="310" height="120" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="36" y="234" font-size="12.5" font-weight="700" fill="#1f2d3d">Behaviors（业务视角，推荐）</text>
+  <text x="36" y="256" font-size="11.5" fill="#2f6fd0">@allure.epic("电商平台")</text>
+  <text x="36" y="276" font-size="11.5" fill="#2f6fd0">  @allure.feature("订单模块")</text>
+  <text x="36" y="296" font-size="11.5" fill="#2f6fd0">    @allure.story("取消订单")</text>
+  <text x="36" y="320" font-size="11" fill="#64748b">给非测试同学看，按业务读得懂</text>
+
+  <rect x="350" y="212" width="310" height="120" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="366" y="234" font-size="12.5" font-weight="700" fill="#1f2d3d">用例内部结构</text>
+  <text x="366" y="256" font-size="11.5" fill="#d98324">@allure.title("密码错误登录失败")</text>
+  <text x="366" y="276" font-size="11.5" fill="#d98324">with allure.step("提交表单"):</text>
+  <text x="366" y="296" font-size="11.5" fill="#d98324">@allure.severity(BLOCKER)</text>
+  <text x="366" y="320" font-size="11" fill="#64748b">step 会在报告里展开成执行时间轴</text>
+
+  <!-- attachment -->
+  <rect x="20" y="344" width="640" height="108" rx="8" fill="#fff7ed" stroke="#d98324" stroke-width="1.2"/>
+  <text x="36" y="366" font-size="13" font-weight="700" fill="#8a4b06">失败自动挂载：截图 + 日志 + 请求响应</text>
+  <text x="36" y="388" font-size="11.5" fill="#8a4b06">conftest.py 里用 hookwrapper 拿到 report → 判断 report.when == "call" and report.failed</text>
+  <text x="36" y="408" font-size="11.5" fill="#8a4b06">→ allure.attach(driver.get_screenshot_as_png(), name="失败截图", attachment_type=AttachmentType.PNG)</text>
+  <text x="36" y="428" font-size="11.5" fill="#dc2626">坑：截图必须在 driver 销毁前完成 —— 若 driver 是 function 级 fixture，makereport 的 teardown 阶段已经关掉了</text>
+  <text x="36" y="446" font-size="11.5" fill="#dc2626">解法：把 report 结果挂到 item 上（item.rep_call = report），由 fixture 的 yield 之后读取再截图</text>
+</svg>

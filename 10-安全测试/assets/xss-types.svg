@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 470" font-family="ui-sans-serif, system-ui, 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="470" fill="#f8fafc"/>
+  <text x="20" y="30" font-size="17" font-weight="700" fill="#1f2d3d">XSS 三种类型：数据从哪来、在哪被当成脚本执行</text>
+
+  <!-- lane labels -->
+  <rect x="16" y="46" width="648" height="118" rx="10" fill="#eef4ff" stroke="#2f6fd0" stroke-width="1.5"/>
+  <text x="32" y="68" font-size="14" font-weight="700" fill="#1a4a8f">反射型 Reflected：输入随请求来，随响应回，不落库</text>
+
+  <rect x="32" y="80" width="128" height="34" rx="6" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="96" y="101" font-size="12" fill="#1f2d3d" text-anchor="middle">URL 参数携带</text>
+  <rect x="196" y="80" width="128" height="34" rx="6" fill="#d3e5ff" stroke="#2f6fd0"/>
+  <text x="260" y="101" font-size="12" fill="#1a4a8f" text-anchor="middle">服务端拼进 HTML</text>
+  <rect x="360" y="80" width="128" height="34" rx="6" fill="#ffffff" stroke="#2f6fd0"/>
+  <text x="424" y="101" font-size="12" fill="#1f2d3d" text-anchor="middle">响应直接返回</text>
+  <rect x="524" y="80" width="128" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="588" y="101" font-size="12" fill="#8a4b00" text-anchor="middle">浏览器解析执行</text>
+
+  <line x1="160" y1="97" x2="194" y2="97" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="324" y1="97" x2="358" y2="97" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="488" y1="97" x2="522" y2="97" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="32" y="140" font-size="11.5" fill="#31527a">影响面：需诱导目标点链接，一次一人；测试点＝所有把参数回显到页面的搜索框、错误提示、404 页。</text>
+  <text x="32" y="157" font-size="11.5" fill="#31527a">修复：服务端输出到 HTML 时做 HTML 实体编码。</text>
+
+  <!-- stored -->
+  <rect x="16" y="176" width="648" height="118" rx="10" fill="#fff5ec" stroke="#d98324" stroke-width="1.5"/>
+  <text x="32" y="198" font-size="14" font-weight="700" fill="#8a4b00">存储型 Stored：输入落库，任何访问者都中招（危害最大）</text>
+
+  <rect x="32" y="210" width="128" height="34" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="96" y="231" font-size="12" fill="#1f2d3d" text-anchor="middle">提交评论/昵称</text>
+  <rect x="196" y="210" width="128" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="260" y="231" font-size="12" fill="#8a4b00" text-anchor="middle">写入数据库</text>
+  <rect x="360" y="210" width="128" height="34" rx="6" fill="#ffffff" stroke="#d98324"/>
+  <text x="424" y="231" font-size="12" fill="#1f2d3d" text-anchor="middle">他人打开列表页</text>
+  <rect x="524" y="210" width="128" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="588" y="231" font-size="12" font-weight="700" fill="#8a4b00" text-anchor="middle">每个访问者都执行</text>
+
+  <line x1="160" y1="227" x2="194" y2="227" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="324" y1="227" x2="358" y2="227" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="488" y1="227" x2="522" y2="227" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="32" y="270" font-size="11.5" fill="#8a4b00">测试点：富文本、评论、个人签名、上传文件名、工单标题；也别忘了后台管理页（打管理员）。</text>
+  <text x="32" y="287" font-size="11.5" fill="#8a4b00">修复：入库保留原文 + 输出时按上下文编码；富文本用白名单净化库。</text>
+
+  <!-- DOM -->
+  <rect x="16" y="306" width="648" height="112" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="32" y="328" font-size="14" font-weight="700" fill="#1f2d3d">DOM 型：数据根本没到服务端，全程在前端 JS 里流转</text>
+
+  <rect x="32" y="340" width="150" height="34" rx="6" fill="#ffffff" stroke="#64748b"/>
+  <text x="107" y="361" font-size="12" fill="#1f2d3d" text-anchor="middle">location.hash 取值</text>
+  <rect x="216" y="340" width="180" height="34" rx="6" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="306" y="361" font-size="12" fill="#1f2d3d" text-anchor="middle">写入 innerHTML（危险 sink）</text>
+  <rect x="430" y="340" width="222" height="34" rx="6" fill="#ffe0c2" stroke="#d98324"/>
+  <text x="541" y="361" font-size="12" fill="#8a4b00" text-anchor="middle">浏览器构建 DOM 时执行脚本</text>
+
+  <line x1="182" y1="357" x2="214" y2="357" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="396" y1="357" x2="428" y2="357" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="32" y="396" font-size="11.5" fill="#475569">关键：抓包看不到 payload（# 后不发给服务端），服务端 WAF 也拦不住 → 必须审前端代码找 source→sink。</text>
+  <text x="32" y="411" font-size="11.5" fill="#475569">修复：改用 textContent / setAttribute，避开 innerHTML、eval、document.write。</text>
+
+  <text x="20" y="442" font-size="12" font-weight="700" fill="#1f2d3d">统一结论：防御做在「输出」而不是「输入」——同一份数据进 HTML、进属性、进 JS、进 URL，需要的编码方式各不相同。</text>
+  <text x="20" y="460" font-size="11.5" fill="#64748b">验证请在 DVWA / Juice Shop 靶场进行，用 alert(1) 之类的无害探针即可，不要打真实站点。</text>
+</svg>
