@@ -1,0 +1,86 @@
+name: Deploy SDET Vault to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Static Site with Quartz
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Vault
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Prepare Quartz Engine
+        run: |
+          git clone --depth 1 https://github.com/jackyzha0/quartz.git quartz-engine
+          cd quartz-engine
+          npm ci
+
+      - name: Sync Vault Content to Quartz
+        run: |
+          # 清理 Quartz 默认内容并同步当前知识库
+          rm -rf quartz-engine/content/*
+          
+          # 同步所有知识模块、实战工程与附件
+          rsync -av --exclude='quartz-engine' \
+                    --exclude='.git' \
+                    --exclude='.github' \
+                    --exclude='.obsidian' \
+                    --exclude='.claude' \
+                    --exclude='.claudian' \
+                    --exclude='.workbuddy' \
+                    --exclude='scripts' \
+                    --exclude='*.py' \
+                    ./ quartz-engine/content/
+          
+          # 将首页.md 映射为静态站首页 index.md
+          if [ -f quartz-engine/content/首页.md ]; then
+            cp quartz-engine/content/首页.md quartz-engine/content/index.md
+          fi
+
+      - name: Customize Quartz Config
+        run: |
+          cd quartz-engine
+          # 定制站点标题与基础路径
+          sed -i 's/pageTitle: ".*"/pageTitle: "SDET 测试开发技能知识库"/g' quartz.config.ts || true
+
+      - name: Build Static Site
+        run: |
+          cd quartz-engine
+          npx quartz build --output ../public
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Site to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

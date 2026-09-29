@@ -37,6 +37,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 12-面试题/             按上述模块归类的高频题与答题思路
 13-项目实战/           端到端练手项目（测试平台、框架落地、完整用例集）
 14-WebSocket测试/      RFC 6455 协议、自动化测试、心跳重连、CSWSH防护、性能压测
+15-AI与大模型测试/      大模型评测体系、RAGAS、Agent 工具调用轨迹、安全护栏
 _附件/                图片等附件
 _模板/                笔记模板
 首页.md               知识库总入口（MOC）

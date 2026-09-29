@@ -12,6 +12,19 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from collections import defaultdict
 
+# 保证在 Windows 环境或默认非 UTF-8 控制台下正常输出 emoji 和中文字符
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
+
 
 def strip_code_blocks(text: str) -> str:
     """去除围栏代码块和行内反引号，避免代码中出现的正则或示例干扰语法检测"""
