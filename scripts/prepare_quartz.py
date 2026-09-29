@@ -62,19 +62,28 @@ def sanitize_cross_links(content_root: Path) -> None:
 
 
 def configure_quartz(engine_dir: Path) -> None:
-    """修改 Quartz 配置文件以适配 GitHub Pages 子路径"""
+    """修改 Quartz 配置文件以适配 GitHub Pages 子路径，并禁用 SPA 路由避免子路径丢失"""
     site_title = 'pageTitle: "SDET 测试开发技能知识库"'
     site_base = "baseUrl: 2653533859.github.io/test-dev"
     site_locale = "locale: zh-CN"
 
-    # 处理 YAML 配置文件
-    for cfg in engine_dir.glob("quartz.config*.yaml"):
-        txt = cfg.read_text(encoding="utf-8")
+    # 处理 YAML 配置文件（Quartz 5）
+    default_cfg = engine_dir / "quartz.config.default.yaml"
+    target_cfg = engine_dir / "quartz.config.yaml"
+
+    src_cfg = target_cfg if target_cfg.exists() else default_cfg
+    if src_cfg.exists():
+        txt = src_cfg.read_text(encoding="utf-8")
         txt = re.sub(r"baseUrl:\s*.*", site_base, txt)
         txt = re.sub(r"pageTitle:\s*.*", site_title, txt)
         txt = re.sub(r"locale:\s*.*", site_locale, txt)
-        cfg.write_text(txt, encoding="utf-8")
-        print(f"✓ 已更新 YAML 配置: {cfg.name}")
+        # 核心：必须禁用 SPA 路由！GitHub Pages 子路径下 SPA 路由器会把子路径吞掉导致 404
+        txt = re.sub(r"enableSPA:\s*.*", "enableSPA: false", txt)
+
+        # 同时写入 default 和 target，确保优先读取与回退均生效
+        target_cfg.write_text(txt, encoding="utf-8")
+        default_cfg.write_text(txt, encoding="utf-8")
+        print("✓ 已更新 Quartz YAML 配置并禁用 enableSPA (防止丢子路径)")
 
     # 处理 TS 配置文件（兼容 Quartz 4）
     ts_cfg = engine_dir / "quartz.config.ts"
@@ -85,8 +94,10 @@ def configure_quartz(engine_dir: Path) -> None:
         txt = re.sub(r'baseUrl:\s*".*?"', ts_base, txt)
         txt = re.sub(r'pageTitle:\s*".*?"', site_title, txt)
         txt = re.sub(r'locale:\s*".*?"', ts_locale, txt)
+        txt = re.sub(r"enableSPA:\s*true", "enableSPA: false", txt)
         ts_cfg.write_text(txt, encoding="utf-8")
         print("✓ 已更新 TS 配置: quartz.config.ts")
+
 
 
 def setup_public_fallbacks(public_dir: Path) -> None:
