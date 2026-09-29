@@ -83,10 +83,12 @@ def run_quartz_preview(vault_root: Path) -> None:
         elif item.is_file() and item.suffix == ".md":
             shutil.copy2(item, dest)
 
-    # 映射首页.md 到 index.md
-    index_source = content_dir / "首页.md"
-    if index_source.exists():
-        shutil.copy2(index_source, content_dir / "index.md")
+    # 映射首页.md 到 index.md 与各模块目录 index.md
+    if str(vault_root / "scripts") not in sys.path:
+        sys.path.insert(0, str(vault_root / "scripts"))
+    from prepare_quartz import setup_indexes
+
+    setup_indexes(content_dir)
 
     print("\n==================================================")
     print("🎉 静态站点服务启动中！")
@@ -113,7 +115,7 @@ def main() -> None:
             run_quartz_preview(vault_root)
         except KeyboardInterrupt:
             print("\n👋 静态网站预览已停止。")
-        except Exception as err:
+        except (subprocess.CalledProcessError, FileNotFoundError, OSError) as err:
             print(f"⚠️ 静态站构建提示: {err}")
             print("💡 您也可直接将代码推送到 GitHub，由 GitHub Actions 自动在线部署到 GitHub Pages。")
     else:

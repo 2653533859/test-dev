@@ -1,8 +1,8 @@
 name: Deploy SDET Vault to GitHub Pages
 
-on:
+"on":
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 jobs:
@@ -29,18 +29,21 @@ jobs:
         with:
           node-version: 22
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Prepare Quartz Engine
         run: |
-          git clone --depth 1 https://github.com/jackyzha0/quartz.git quartz-engine
+          REPO_URL="https://github.com/jackyzha0/quartz.git"
+          git clone --depth 1 "$REPO_URL" quartz-engine
           cd quartz-engine
           npm ci
 
-      - name: Sync Vault Content to Quartz
+      - name: Sync Vault Content
         run: |
-          # 清理 Quartz 默认内容并同步当前知识库
           rm -rf quartz-engine/content/*
-          
-          # 同步所有知识模块、实战工程与附件
           rsync -av --exclude='quartz-engine' \
                     --exclude='.git' \
                     --exclude='.github' \
@@ -51,22 +54,16 @@ jobs:
                     --exclude='scripts' \
                     --exclude='*.py' \
                     ./ quartz-engine/content/
-          
-          # 将首页.md 映射为静态站首页 index.md
-          if [ -f quartz-engine/content/首页.md ]; then
-            cp quartz-engine/content/首页.md quartz-engine/content/index.md
-          fi
 
-      - name: Customize Quartz Config
+      - name: Configure Indexes and Subpath
         run: |
-          cd quartz-engine
-          # 定制站点标题与基础路径
-          sed -i 's/pageTitle: ".*"/pageTitle: "SDET 测试开发技能知识库"/g' quartz.config.ts || true
+          python3 scripts/prepare_quartz.py
 
       - name: Build Static Site
         run: |
           cd quartz-engine
           npx quartz build --output ../public
+          touch ../public/.nojekyll
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
